@@ -22,11 +22,9 @@
 
 
 <div class="container">
-  <div class="row"><h3 align="center">Spectral Energy Distribution (SED) for ARP 220:</h3>
-  <div id="my-graph"></div></div>
 
   <div class="row">
-    <div class="col-sm-6"><h3 align="center">3D Spectral Energy Distribution (SED) for ARP 220:</h3>
+    <div class="col-sm-6"><h3 align="center">3D Galaxy Environment for ARP 220:</h3>
     <div id="my-graph3" style="height: 500px;"></div></div>
 
   <div class="col-sm-6"><h3 align="center">Environment search directed towards: ARP 220</h3>
@@ -35,7 +33,7 @@
 
 
   <div class="row">
-    <div class="col-sm-6"><h3 align="center">3D Spectral Energy Distribution (SED) for ARP 220:</h3>
+    <div class="col-sm-6"><h3 align="center">Galaxy Environment for ARP 220:</h3>
     <div id="my-graph4" style="height: 600px; width: 600px;"></div></div>
 
   <div class="col-sm-6"><h3 align="center">Environment search directed towards: ARP 220</h3>
@@ -48,106 +46,6 @@
 
 </div>
 
-
-
-<script>
-//pulls in the CSV file
-Plotly.d3.csv('arp_220.csv', function(err, dataCSV){
-
-  var x = [], y = [], t = [], s = [], type = [], number = [], symbol;
-
-  dataCSV.forEach(function(p) {
-          x.push(p['Frequency']);
-          y.push(p['NED Photometry Measurement']);
-          t.push(p['Comments']);
-          s.push(p['Photometry Measurement']);
-          type.push(p['Frequency Mode']);
-          number.push(p['No.']);
-
-      });
-
-var arrayLength = type.length;
-var i;
-var out;
-
-for(i = 0; i < arrayLength; i++)
-{
-  if (
-    type[i] != ' Broad-band measurement'
-    &&
-    type[i] != ' Broad-band measurement; broad-band flux derived by integration over spectrum; synthetic band'){
-
-    delete x[i];
-    delete y[i];
-  }
-  else{
-    out = true;
-  }
-}
-
-var data = [
-      {mode: 'markers',
-      type: "scatter",
-      name: 'this',
-      text: number,
-      // marker: {symbol: 'circle-open'},
-      x: x,
-      y: y}
-  ];
-
-//Graph axis related things
-var layout = {
-  xaxis: {
-    title: 'log v (Hz)',
-    type:'log',
-    autorange: true,
-    linecolor: 'black',
-    linewidth: 2,
-    mirror: true,
-    ticks: 'inside',
-    ticklen: 10,
-    tickwidth: 2,
-    },
-  yaxis: {
-    title: 'log f<sub>v</sub> (Jy)',
-    type:'log',
-    autorange: true,
-    linecolor: 'black',
-    linewidth: 2,
-    mirror: true,
-    ticks: 'inside',
-    ticklen: 10,
-    tickwidth: 2,
-    },
-  margin: {t: 20},
-  hovermode: 'closest'
-};
-
-var toImage2 = {
-  name: 'Download plot as a Postscript',
-  icon: Plotly.Icons.camera,
-  click: function(gd) {
-    Plotly.downloadImage(gd, {format: 'ps'})
-  }
-
-};
-
-//Edits made to the toolbar
-var toolbar = {
-	scrollZoom: true, // lets us scroll to zoom in and out - works
-	showLink: false, // removes the link to edit on plotly - works
-	modeBarButtonsToRemove: ['select2d', 'lasso2d', 'sendDataToCloud'],
-  displaylogo: false,
-  modeBarButtonsToAdd: [toImage2]
-};
-
-
-//Calls the plot into HTML
-Plotly.plot('my-graph', data, layout, toolbar);
-
-});
-
-</script>
 
 
 
