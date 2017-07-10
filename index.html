@@ -64,6 +64,14 @@
     <div class="col-sm-6">
       <div id="my-graph" style="height: 550px; width: 600px;"></div>
       <button type="button" class="btn btn-primary" id="update-graph">Update Graph</button>
+      <form>
+        <span>Choose Graph: </span>
+        <select id ="ddl" class="btn-primary btn-lg" name="ddl" onmousedown="this.value='';" onchange="jsFunction(this.value);">
+          <option value="1">3D Galaxy Environment</option>
+          <option value="2">2D Galaxy Environment</option>
+        </select>
+        <br />
+      </form>
   </div>
 
   <div class="col-sm-6"><h3 align="center">Environment search directed towards: ARP 220</h3>
@@ -1576,6 +1584,152 @@ var button3 = document.getElementById("update-graph").onclick = function() {
   };
     Plotly.update('my-graph', data_update, layout_update);
 };
+
+
+//---------------------Change the Graph Dropdown----------------------//
+var xaxis_update = jsFunction = function(value)
+{
+  if(value == 1){
+
+      var data_update = {
+        mode: 'markers',
+        type: "scatter3d",
+        name: 'this',
+        opacity: 0.3,
+      };
+      var layout_update = {
+        xaxis: {
+          title: 'RA<sub>(sec)</sub>',
+          autorange: true,
+          linecolor: 'black',
+          linewidth: 2,
+          mirror: true,
+          ticks: 'inside',
+          ticklen: 10,
+          tickwidth: 2,},
+        yaxis: {
+          title: 'Dec<sub>(arcsec)</sub>',
+          autorange: true,
+          linecolor: 'black',
+          linewidth: 2,
+          mirror: true,
+          ticks: 'inside',
+          ticklen: 10,
+          tickwidth: 2,},
+        margin: {l: 0, r: 0, b: 0, t: 0},
+        hovermode: 'closest',
+      };
+        Plotly.update('my-graph', data_update, layout_update);
+  }
+  else{
+
+      var data_update = {
+        mode: 'markers',
+        type: "scatter",
+        name: 'this',
+        opacity: 1,
+      };
+      var layout_update = {
+        xaxis: {
+          title: 'RA<sub>(sec)</sub>',
+          autorange: true,
+          linecolor: 'black',
+          linewidth: 2,
+          mirror: true,
+          ticks: 'inside',
+          ticklen: 10,
+          tickwidth: 2,
+          // rangeslider:{},
+        },
+        yaxis: {
+          title: 'Dec<sub>(arcsec)</sub>',
+          autorange: true,
+          linecolor: 'black',
+          linewidth: 2,
+          mirror: true,
+          ticks: 'inside',
+          ticklen: 10,
+          tickwidth: 2,},
+        margin: {t: 20},
+        hovermode: 'closest',
+        shapes: [
+
+          // Unfilled Circle
+
+          {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            // fillcolor: 'rgba(50, 171, 96, 0.7)',
+            x0: xleft,
+            y0: ytop,
+            x1: xright,
+            y1: ybottom,
+            line: {
+              color: 'rgba(0, 0, 0, .2)'
+            }
+          },
+          {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            // fillcolor: 'rgba(50, 171, 96, 0.7)',
+            x0: xleft1,
+            y0: ytop1,
+            x1: xright1,
+            y1: ybottom1,
+            line: {
+              color: 'rgba(0, 0, 0, .2)'
+            }
+          },
+          {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            // fillcolor: 'rgba(50, 171, 96, 0.7)',
+            x0: xleft2,
+            y0: ytop2,
+            x1: xright2,
+            y1: ybottom2,
+            line: {
+              color: 'rgba(0, 0, 0, .2)'
+            }
+          },
+          {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            // fillcolor: 'rgba(50, 171, 96, 0.7)',
+            x0: xleft3,
+            y0: ytop3,
+            x1: xright3,
+            y1: ybottom3,
+            line: {
+              color: 'rgba(0, 0, 0, .2)'
+            }
+          },
+          {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            // fillcolor: 'rgba(50, 171, 96, 0.7)',
+            x0: xleft4,
+            y0: ytop4,
+            x1: xright4,
+            y1: ybottom4,
+            line: {
+              color: 'rgba(0, 0, 0, .2)'
+            }
+          },
+        ],
+      };
+        Plotly.update('my-graph', data_update, layout_update);
+  }
+
+}
+//---------------------END of X-Axis----------------------//
+
+
 
 
 
