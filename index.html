@@ -81,6 +81,8 @@
   </div>
 </div>
 </div>
+
+
 <div class="row">
   <h3 class="text-center">Combined Development</h3>
   <hr />
@@ -105,7 +107,8 @@
     </div>
   </div>
   <div class="col-sm-4">
-    <div id="my-graph6" style="height: 1000px; width: 500px;"></div>
+    <div id="my-graph9" style="height: 1000px; width: 500px;"></div>
+    <div id="slider4"></div>
   </div>
 </div>
 
@@ -1064,7 +1067,7 @@ var button1 = document.getElementById("read-button1").onclick = function() {
 
 
 //teathered to the slider
-slider1.noUiSlider.on('set', function(){
+slider1.noUiSlider.on('update', function(){
   var sliderValues = slider1.noUiSlider.get();
   var xslider = x.slice(0);
   var yslider = y.slice(0);
@@ -1582,7 +1585,254 @@ var button3 = document.getElementById("update-graph").onclick = function() {
 
 </script>
 
+<script>
+//pulls in the CSV file
+// Plotly.d3.csv('e_search_arp_220.csv', function(err, dataCSV){
+//
+//   var x = [], y = [], t = [], s = [];
+//
+//   dataCSV.forEach(function(p) {
+//           x.push(p['RA (J2000)']);
+//           y.push(p['Dec (J2000)']);
+//           t.push(p['Comments']);
+//           s.push(p['Photometry Measurement']);
+//
+//       });
 
+
+
+
+
+
+
+
+
+// Converter RA(right acension) to seconds
+// 00h00m00s to 00sec
+
+//Plotly gets every line and pushes into hms array
+Plotly.d3.csv('e_search_arp_220.csv', function(err, dataCSV){
+var hms = [];
+var y = [];
+var pn = [];
+  dataCSV.forEach(function(p) {
+          hms.push(p['RA (J2000)']);
+          y.push(p['Δcz [km/s]']);
+          pn.push(p['Δcz [km/s]']);
+     });
+     var arrayLength = hms.length;
+     var x;
+     var seconds = [];
+     var i;
+
+     //filters out the strings and makes time into three section array
+      for(x = 0; x < arrayLength; x++)
+      {
+         hms[x] = hms[x].replace("s",""); //removes s
+         hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
+      }
+
+     //Pulls array and calculates the seconds
+     for(x = 0; x < arrayLength; x++){
+         var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
+         seconds.push(-secCalc);//flip xaxis
+       secCalc = 0;
+     }
+
+
+     x = seconds;
+
+     //parse the delta data so it is useable
+     for(i = 0; i < y.length; i++){
+         y[i] = parseInt(y[i]);
+     }
+
+     //--------------------manually sort numbers--------------------//
+     //--------------------In acending order------------------------//
+     var temp = 0;
+     var temp1 = 0;
+     var temp2 = 0;
+             for (var i = 0; i < y.length - 1; i++) {
+                 for (var j = i + 1; j < y.length; j++) {
+                     if (y[i] > y[j]) {
+                         temp = y[j];
+                         temp1 = x[j];
+                         temp2 = pn[j];
+
+                         y[j] = y[i];
+                         x[j] = x[i];
+                         pn[j] = pn[i];
+
+                         y[i] = temp;
+                         x[i] = temp1;
+                         pn[i] = temp2;
+                     }
+                 }
+             }
+
+//-----------------------percentage math-----------------------//
+//--------------------In acending order------------------------//
+
+var xmax = Math.max.apply(Math, x);
+var xmin = Math.min.apply(Math, x);
+var xcenter = (xmax + xmin)/2;
+
+
+
+
+
+
+
+
+
+
+
+
+var arrayLength = pn.length;
+     //changes the color of the points to red and blue depending on positive or negative
+
+     for(i = 0; i < arrayLength; i++)
+     {
+       if (pn[i] > 0){
+         pn[i] = 'rgb(178,34,34)';
+       }
+       else{
+       pn[i] = 'rgb(0,0,139)';
+       }
+     }
+
+
+var data = [
+      {mode: 'markers',
+      type: "scatter",
+      name: 'this',
+      marker: {color: pn},
+      x: x,
+      y: y}
+  ];
+
+//Graph axis related things
+var layout = {
+  xaxis: {
+    title: 'RA<sub>(sec)</sub>',
+    autorange: true,
+    linecolor: 'black',
+    linewidth: 2,
+    mirror: true,
+    ticks: 'inside',
+    ticklen: 10,
+    tickwidth: 2,
+    // rangeslider:{},
+  },
+  yaxis: {
+    title: 'Δ<sub>cz</sub> [km/s]',
+    autorange: true,
+    linecolor: 'black',
+    linewidth: 2,
+    mirror: true,
+    ticks: 'inside',
+    ticklen: 10,
+    tickwidth: 2,},
+  margin: {t: 20},
+  hovermode: 'closest',
+};
+
+//Edits made to the toolbar
+var toolbar = {
+	scrollZoom: true, // lets us scroll to zoom in and out - works
+	showLink: false, // removes the link to edit on plotly - works
+	modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+  displaylogo: false
+};
+
+
+//Calls the plot into HTML
+Plotly.plot('my-graph9', data, layout, toolbar);
+
+
+
+
+// -----------------Slider to adjust graph angles---------------------//
+// -------------------------------------------------------------------//
+
+var slider4 = document.getElementById('slider4');
+
+noUiSlider.create(slider4, {
+	start: [xmax],
+	connect: true,
+	range: {
+		'min': xcenter,
+		'max': xmax
+	},
+  pips: { // Show a scale with the slider
+      mode: 'steps',
+      stepped: true,
+      density: 4
+    },
+    tooltips: true,
+  	format: wNumb({
+  		decimals: 0
+  	}),
+    // step: 1000,
+});
+
+
+//teathered to the slider
+slider4.noUiSlider.on('set', function(){
+  var sliderValues = slider4.noUiSlider.get();
+  var xslider = x.slice(0);
+
+
+  var relSliderValue = parseInt(sliderValues) - xcenter;
+  var relxmax = xmax - xcenter;
+
+  var xpercentage = relxmax - relSliderValue;
+  xpercentage = (xpercentage/relxmax);
+
+for(i = 0; i < x.length; i++)
+{
+  if(xslider[i] > xcenter){
+    xslider[i] = xslider[i] - xcenter;
+  }else{
+    xslider[i] = xslider[i] - xcenter;
+  }
+}
+
+
+  var percentDist = xpercentage/x.length;
+  var percentConst = xpercentage/x.length;
+  for(i = x.length; i >= 0; i--)
+  {
+    if(xslider[i] > xcenter){
+      xslider[i] = -(percentDist * xslider[i]) + xslider[i];
+    }else{
+      xslider[i] = (percentDist * xslider[i]) + xslider[i];
+    }
+    percentDist = percentDist + percentConst;
+  }
+
+
+  var data_update = {
+    x: [xslider],
+    y: [y]
+  };
+
+    Plotly.restyle('my-graph9', data_update);
+
+
+});
+
+
+
+
+
+
+
+});
+
+
+
+</script>
 
 
 
