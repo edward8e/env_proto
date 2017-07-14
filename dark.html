@@ -1394,19 +1394,40 @@ var Graph1Cases = function(){
               number[i] = i;
             }
 
-            //Finding the center point for anotation
-            // var cmax = Math.max.apply(Math, color2);
-            // var cmin = Math.min.apply(Math, color2);
-            // var ccenter = (cmax + cmin)/2;
 
-            // for(i = 0; i <= arrayLength; i++)
-            // {
-            //   if(color2 < xcenter){
-            //     pn[i] = 'rgb(178,34,34)';
-            //   }else{
-            //     pn[i] = 'rgb(0,0,139)';
-            //   }
-            // }
+
+
+
+
+
+            var arcseconds = [];
+            var colorvar = [];
+            //filters out the strings and makes time into three section array
+             for(i = 0; i < arrayLength; i++)
+             {
+                color2[i] = color2[i].replace("s",""); //removes s
+                color2[i] = color2[i].replace("+",""); //removes s
+                color2[i] = color2[i].split(/[dm]/); //separates based off "h" and "m"
+             }
+            //Pulls array and calculates the seconds
+            for(i = 0; i < arrayLength; i++){
+                var secCalc = (+color2[i][0]) * 60 * 60 + (+color2[i][1]) * 60 + (+color2[i][2]);
+                arcseconds.push(secCalc);
+              secCalc = 0;
+            }
+
+            // Finding the center point for anotation
+            var cmax = Math.max.apply(Math, arcseconds);
+            var cmin = Math.min.apply(Math, arcseconds);
+            var ccenter = (cmax + cmin)/2;
+            for(i = 0; i <= arrayLength; i++)
+            {
+              if(arcseconds[i] < ccenter){
+                colorval[i] = '#601DC7';
+              }else{
+                colorval[i] = '#FD5F00';
+              }
+            }
 
 
         var data = [
