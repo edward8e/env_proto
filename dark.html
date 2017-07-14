@@ -22,7 +22,12 @@
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <!-- Draggabilly JS -->
     <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
-
+    <!-- In <head> -->
+    <link href="css/nouislider.min.css" rel="stylesheet">
+    <!-- In <head> -->
+    <link href="css/slider.css" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css"> -->
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -51,44 +56,12 @@
          <div class="blue-title text-center setting-title"><h4>SETTINGS</h4></div>
 
          <div class="setting-inner">
-           <h4>SED Options:</h4>
+           <h4>Galaxy Environment Options:</h4>
            <hr />
-           <h5>Error Bars:</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-              <label class="onoffswitch-label" for="myonoffswitch">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
           <h5>Hover on and off</h5>
           <div class="onoffswitch">
               <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1">
               <label class="onoffswitch-label" for="myonoffswitch1">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
-          <h5>Show Spectral Lines</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox" id="myonoffswitch2">
-              <label class="onoffswitch-label" for="myonoffswitch2">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
-          <h5>Enable UI drag</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch3" class="onoffswitch-checkbox" id="myonoffswitch3">
-              <label class="onoffswitch-label" for="myonoffswitch3">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
-          <h5>Big Picture Mode</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch4" class="onoffswitch-checkbox" id="myonoffswitch4">
-              <label class="onoffswitch-label" for="myonoffswitch4">
                   <span class="onoffswitch-inner"></span>
                   <span class="onoffswitch-switch"></span>
               </label>
@@ -109,23 +82,33 @@
                   <span class="onoffswitch-switch"></span>
               </label>
           </div>
-          <form>
-            <span>X-Axis: </span>
-            <select id ="ddl" class="selectpicker"  data-width="auto"  name="ddl" onmousedown="this.value='';" onchange="jsFunction(this.value);">
-              <option value="1">log(<em>v</em> [Hz])</option>
-              <option value="2">log(λ [μm])</option>
-            </select>
-            <br />
-            <br />
-            <span>Y-Axis: </span>
-            <select id ="ddl2" class="selectpicker" data-width="auto"  name="ddl2" onmousedown="this.value='';" onchange="jsFunction1(this.value);">
-              <option value="1">log(F<sub><em>v</em></sub> [Jy])</option>
-              <option value="2">log(F<sub><em>v</em></sub> [W m<sup>-2</sup> Hz<sup>-1</sup>])</option>
-              <option value="3">log(<em>v</em>F<sub><em>v</em></sub> [Jy-Hz])</option>
-              <option value="4">log(<em>v</em>F<sub><em>v</em></sub> [W m<sup>-2</sup>])</option>
-            </select>
-
-          </form>
+          <br />
+          <h4>Toggle Graphs ON/OFF:</h4>
+          <hr />
+          <h5>3D Galaxy Environment</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch7" class="onoffswitch-checkbox" id="myonoffswitch7" checked>
+              <label class="onoffswitch-label" for="myonoffswitch7">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Dec vs. RA</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch8" class="onoffswitch-checkbox" id="myonoffswitch8" checked>
+              <label class="onoffswitch-label" for="myonoffswitch8">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Δcz vs. RA</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch9" class="onoffswitch-checkbox" id="myonoffswitch9" checked>
+              <label class="onoffswitch-label" for="myonoffswitch9">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
           <br />
           <button id="button-download" class="btn btn-default">Download Graph</button>
         </div>
@@ -157,50 +140,62 @@
 
       <div class="grid">
 
-      <div class="grid-item grid-item--width--graph1">
+      <div class="grid-item grid-item--width--graph1" id="togglegraph1">
         <div id="my-graph"></div>
       </div>
 
-      <div class="grid-item grid-item--width--graph2">
+      <div class="grid-item grid-item--width--graph2" id="togglegraph2">
         <div id="my-graph1"></div>
       </div>
 
-      <div class="grid-item grid-item--width--graph3 grid-item--height2">
+      <div class="grid-item grid-item--width--graph3 grid-item--height2" id="togglegraph3">
         <div id="my-graph2"></div>
       </div>
 
-
-
-
-
-      <div class="grid-item grid-item--height2 grid-item--width--data" id="data-window">
-        <div class="row ">
-          <div class="col-sm-12" id="data-right">
-
-          <div class="light-dark data-box"><h4 class="info-highlight">Select point to populate information:</h4>
-          <h3>Data point No. <span id="hoverinfonum"></span></h3>
-          <hr>
-          <h4>Published Units:</h4>
-          <ul >
-            <li>Observed Passband: <span class="data-out" id="hoverinfoopassband"></span></li>
-            <li>Measurement: <span class="data-out" id ="hoverinfomeasurement"></span></li>
-            <li>Uncertainty: <span class="data-out" id="hoverinfouncertainty"></span></li>
-            <li>Units: <span class="data-out" id="hoverinfounits"></span></li>
-          </ul>
-          <h4>Homogenized Units [Frequency, Flux Density]</h4>
-          <ul>
-            <li>Freq (Hz): <span class="data-out" id="hoverinfofrequency"></span></li>
-            <li>Measurement: <span class="data-out" id="hoverinfomeasurement2"></span></li>
-            <li>Uncertainty: <span class="data-out" id="hoverinfouncertainty2"></span></li>
-            <li>Units: <span class="data-out" id="hoverinfounits2"></span></li>
-            <li>Mode: <span class="data-out" id="hoverinfomode"></span></li>
-            <li>Aperture/Qualifiers: <span class="data-out" id="hoverinfoaperture"></span></li>
-            <li>Reference Code: <span class="data-out" id="hoverinforcode"></span></li>
-
-          </ul></div>
+      <div class="grid-item grid-item--height--data grid-item--width--data" id="data-window">
+            <div class="row ">
+              <div class="col-sm-12" id="data-right">
+              <div class="light-dark data-box"><h4 class="info-highlight">Select point to populate information:</h4>
+                <h3>Data point No. <span id="hoverinfonum"></span></h3>
+                <hr>
+                <h4>Name: <span id="hoverinfoname"></h4>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <ul >
+                      <li>RA (J2000): <span class="data-out" id="hoverinfora"></span></li>
+                      <li>Dec (J2000): <span class="data-out" id ="hoverinfodec"></span></li>
+                      <li>Object Type: <span class="data-out" id="hoverinfootype"></span></li>
+                      <li>cz [km/s]: <span class="data-out" id="hoverinfocz"></span></li>
+                      <li>z-flag: <span class="data-out" id="hoverinfozflag"></span></li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-6">
+                    <ul >
+                      <li>Redshift Reference: <span class="data-out" id="hoverinforshift"></span></li>
+                      <li>PA [deg]: <span class="data-out" id="hoverinfopa"></span></li>
+                      <li>Sep. [Mpc]: <span class="data-out" id="hoverinfosep"></span></li>
+                      <li>Δcz [km/s]: <span class="data-out" id="hoverinfodeltacz"></span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
           </div>
+
+
+      <div class="grid-item grid-item--width--graphSettings">
+        <div>
+          <h5 class="text-center">Set slider Δcz [km/s] range</h5>
+          <div id="slider"></div>
         </div>
       </div>
+
+
+
+
+
+
 
 
       <div class="grid-item grid-item--width--table">
@@ -210,24 +205,16 @@
     							<table class="table-info table referece-table ">
     								<thead class="title-font">
     									<tr class="table-center bg-primary ">
-    										<th></th>
-    										<th colspan="4" align="center">Published Units</th>
-    										<th colspan="8">Homogenized Units [Frequency, Flux Density]</th>
-    									</tr>
-
-    									<tr class="table-center bg-primary">
-    										<th>No.</th>
-    										<th>Observed Passband</th>
-    										<th>Measurement</th>
-    										<th>Uncertainty</th>
-    										<th>Units</th>
-    										<th>Freq (Hz)</th>
-    										<th>Measurement</th>
-    										<th>Uncertainty</th>
-    										<th>Units</th>
-    										<th>Mode</th>
-    										<th>Aperture/Qualifiers</th>
-    										<th>Reference Code</th>
+    										<th>Name</th>
+                        <th>RA (J2000)</th>
+                        <th>Dec (J2000)</th>
+                        <th>Object Type</th>
+                        <th>cz [km/s]</th>
+                        <th>z-flag</th>
+                        <th>Redshift Reference</th>
+                        <th>PA [deg]</th>
+                        <th>Sep. [Mpc]</th>
+                        <th>Δcz [km/s]</th>
     									</tr>
     								</thead>
     							</table>
@@ -269,9 +256,14 @@
     //	$("table").addClass('be-still');
 
     	</script>
+      <script>
+      var charts = [1,1,1];
+
+      </script>
+
+<script>
 
 
-    <script>
 
     // Converter RA(right acension) to seconds
     // 00h00m00s to 00sec
@@ -282,11 +274,24 @@
     var hmsa = [];   // your input string
     var pn = [];
     var z = [];
+    var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
       dataCSV.forEach(function(p) {
               hms.push(p['RA (J2000)']);
               hmsa.push(p['Dec (J2000)']);
               pn.push(p['Δcz [km/s]']);
               z.push(p['Δcz [km/s]']);
+
+              //Table Data
+              name.push(p['Name']);
+              Ra.push(p['RA (J2000)']);
+              Dec.push(p['Dec (J2000)']);
+              OType.push(p['Object Type']);
+              cz.push(p['cz [km/s]']);
+              zFlag.push(p['z-flag']);
+              RShift.push(p['Redshift Reference']);
+              Pa.push(p['PA [deg]']);
+              Sep.push(p['Sep. [Mpc]']);
+              deltaCZ.push(p['Δcz [km/s]']);
          });
 
 
@@ -346,6 +351,17 @@
       }
     }
 
+
+// Gives number to every point
+
+ var number = [];
+    for(i = 0; i <= arrayLength; i++)
+    {
+      number[i] = i;
+    }
+
+
+
     x = seconds;
     y = arcseconds;
     // console.log(x);
@@ -358,6 +374,7 @@
     var data = [
           {mode: 'markers',
           type: "scatter3d",
+          text: number,
           marker: {
             color: pn,
             symbol: 'circle',
@@ -414,7 +431,7 @@
       }
     },
       margin: {l: 0, r: 0, b: 0, t: 0},
-      hovermode: 'closest',
+      hovermode: false,
       gridcolor: 'rgba(200, 200, 200, 1)',
       plot_bgcolor: '#151515',
       paper_bgcolor: '#151515',
@@ -465,13 +482,28 @@
         hovermode: 'closest'
       };
       Plotly.relayout('my-graph', layout_update);
+      Plotly.relayout('my-graph1', layout_update);
+      Plotly.relayout('my-graph2', layout_update);
     };
     var checkboxDataOFF = function(){
       var layout_update = {
         hovermode: false
       };
       Plotly.relayout('my-graph', layout_update);
+      Plotly.relayout('my-graph1', layout_update);
+      Plotly.relayout('my-graph2', layout_update);
     };
+
+
+    document.querySelector("input[name=onoffswitch1]").onchange = function() {
+    if(this.checked) {
+      //When switch is on
+        checkboxDataON();
+      } else {
+        //when switch is off
+        checkboxDataOFF();
+      }
+    }
 
 
 
@@ -484,10 +516,14 @@
     // topItem = topItem.replace("px","");
     var topItem1 = $("#settings-right").css("height");
     topItem1 = topItem1.replace("px","");
+
+
+
     var finalTopHeight = 0;
 
     var topItem2 = $("#data-right").css("height");
     topItem2 = topItem2.replace("px","");
+
 
     if(topHeight < topItem2){
       finalTopHeight = topItem2;
@@ -496,15 +532,77 @@
     }
 
 
-
-    $(".grid-item--width--main").css("height", finalTopHeight);
     // $(".grid-item").css({"height":finalTopHeight});
     $(".bottom-table").css({"height":tableHeight});
     // $(".grid-item--width--settings").css("height", topItem1);
     $(".grid-item--width--data").css("height", topItem2);
     $grid.packery('layout');
 
+    //---------------------Resizing graph1----------------------//
+    var topItemWidth1 = $("#my-graph").css("width");
+    topItemWidth1 = topItemWidth1.replace("px","");
+    topItemWidth1 = parseInt(topItemWidth1);
+    topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+    $(".grid-item--width--graph1").css("height", topItemWidth1);
+    $grid.packery('layout');
 
+    window.addEventListener('resize', function() {
+      var topItemWidth1 = $("#my-graph").css("width");
+      topItemWidth1 = topItemWidth1.replace("px","");
+      topItemWidth1 = parseInt(topItemWidth1);
+      topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+      $(".grid-item--width--graph1").css("height", topItemWidth1);
+      $grid.packery('layout');
+    });
+
+    //---------------------Resizing graph2----------------------//
+    var topItemWidth = $("#my-graph1").css("width");
+    topItemWidth = topItemWidth.replace("px","");
+    topItemWidth = parseInt(topItemWidth);
+    topItemWidth = topItemWidth - topItemWidth * 0.18;
+    $(".grid-item--width--graph2").css("height", topItemWidth);
+    $grid.packery('layout');
+
+    window.addEventListener('resize', function() {
+      var topItemWidth = $("#my-graph1").css("width");
+      topItemWidth = topItemWidth.replace("px","");
+      topItemWidth = parseInt(topItemWidth);
+      topItemWidth = topItemWidth - topItemWidth * 0.18;
+      $(".grid-item--width--graph2").css("height", topItemWidth);
+      $grid.packery('layout');
+    });
+
+    //---------------------Resizing graph3----------------------//
+    var topItemWidth2 = $("#my-graph2").css("width");
+    topItemWidth2 = topItemWidth2.replace("px","");
+    topItemWidth2 = parseInt(topItemWidth2);
+    topItemWidth2 = topItemWidth2 - topItemWidth2 * 0.18;
+    $(".grid-item--height2").css("height", topItemWidth2);
+    $grid.packery('layout');
+
+    window.addEventListener('resize', function() {
+      var topItemWidth2 = $("#my-graph2").css("width");
+      topItemWidth2 = topItemWidth2.replace("px","");
+      topItemWidth2 = parseInt(topItemWidth2);
+      topItemWidth2 = topItemWidth2 - topItemWidth2 * 0.18;
+      $(".grid-item--height2").css("height", topItemWidth2);
+      $grid.packery('layout');
+    });
+
+    //---------------------Resizing data-box----------------------//
+    var topItemHeight = $("#data-right").css("height");
+    topItemHeight = topItemHeight.replace("px","");
+    topItemHeight = parseInt(topItemHeight);
+    $(".grid-item--height--data").css("height", topItemHeight);
+    $grid.packery('layout');
+
+    window.addEventListener('resize', function() {
+      var topItemHeight = $("#data-right").css("height");
+      topItemHeight = topItemHeight.replace("px","");
+      topItemHeight = parseInt(topItemHeight);
+      $(".grid-item--height--data").css("height", topItemHeight);
+      $grid.packery('layout');
+    });
 
 
   //---------------------On and off Data----------------------//
@@ -527,14 +625,151 @@
         $grid.packery('layout');
       }
     }
+    document.querySelector("input[name=onoffswitch5]").addEventListener('change', function(){
+      Plotly.Plots.resize(gd);
+      $grid.packery('layout');
+    });
+
+
       $( "#data-window" ).toggle();
       // $(".grid-item--width--main").css({"width": "31.3333%"});
       Plotly.Plots.resize(gd);
       $grid.packery('layout');
       //---------------------END of controls----------------------//
 
+var Graph1Cases = function(){
+  if(document.querySelector("input[name=onoffswitch8]").checked == false && document.querySelector("input[name=onoffswitch9]").checked == true){
+    $(".grid-item--width--graph1").css({"width": "70%"});
+    var topItemWidth1 = $("#my-graph").css("width");
+    topItemWidth1 = topItemWidth1.replace("px","");
+    topItemWidth1 = parseInt(topItemWidth1);
+    topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+    $(".grid-item--width--graph1").css("height", topItemWidth1);
+    $grid.packery('layout');
+    Plotly.Plots.resize(gd);
+  }else if(document.querySelector("input[name=onoffswitch8]").checked == false && document.querySelector("input[name=onoffswitch9]").checked == false){
+    $(".grid-item--width--graph1").css({"width": "98%"});
+    var topItemWidth1 = $("#my-graph").css("width");
+    topItemWidth1 = topItemWidth1.replace("px","");
+    topItemWidth1 = parseInt(topItemWidth1);
+    topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+    $(".grid-item--width--graph1").css("height", topItemWidth1);
+    $grid.packery('layout');
+    Plotly.Plots.resize(gd);
+  }else if(document.querySelector("input[name=onoffswitch8]").checked == true && document.querySelector("input[name=onoffswitch9]").checked == true){
+    $(".grid-item--width--graph1").css({"width": "34%"});
+    var topItemWidth1 = $("#my-graph").css("width");
+    topItemWidth1 = topItemWidth1.replace("px","");
+    topItemWidth1 = parseInt(topItemWidth1);
+    topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+    $(".grid-item--width--graph1").css("height", topItemWidth1);
+    $grid.packery('layout');
+    Plotly.Plots.resize(gd);
+  }else if(document.querySelector("input[name=onoffswitch8]").checked == true && document.querySelector("input[name=onoffswitch9]").checked == false){
+    $(".grid-item--width--graph1").css({"width": "48%"});
+    var topItemWidth1 = $("#my-graph").css("width");
+    topItemWidth1 = topItemWidth1.replace("px","");
+    topItemWidth1 = parseInt(topItemWidth1);
+    topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+    $(".grid-item--width--graph1").css("height", topItemWidth1);
+    $grid.packery('layout');
+    Plotly.Plots.resize(gd);
+  }
+};
+
+      //---------------------On and off 3D Graph----------------------//
+        document.querySelector("input[name=onoffswitch7]").onchange = function() {
+        if(this.checked) {
+          //When switch is on
+          $( "#togglegraph1" ).toggle();
+          Graph1Cases();
+          $grid.packery('layout');
+          } else {
+            //when switch is off
+            $( "#togglegraph1" ).toggle();
+            $grid.packery('layout');
+          }
+        }
+        document.querySelector("input[name=onoffswitch8]").addEventListener('change', function(){
+          Graph1Cases();
+        });
+        document.querySelector("input[name=onoffswitch9]").addEventListener('change', function(){
+          Graph1Cases();
+        });
+
+          //---------------------END of controls----------------------//
+
+
     //Calls the plot into HTML
     Plotly.plot(gd, data, layout, toolbar);
+
+    //---------------------Pulls information into table----------------------//
+    //Event handler in plotly when it comes to hovering
+    var myPlot = document.getElementById('my-graph');
+    var hoverInfoNum = document.getElementById('hoverinfonum');
+    var hoverInfoName = document.getElementById('hoverinfoname');
+    var hoverInfoRa = document.getElementById('hoverinfora');
+    var hoverInfoDec = document.getElementById('hoverinfodec');
+    var hoverInfoOType = document.getElementById('hoverinfootype');
+    var hoverInfoCz = document.getElementById('hoverinfocz');
+    var hoverInfoZFlag = document.getElementById('hoverinfozflag');
+    var hoverInfoRShift = document.getElementById('hoverinforshift');
+    var hoverInfoPa = document.getElementById('hoverinfopa');
+    var hoverInfoSep = document.getElementById('hoverinfosep');
+    var hoverInfoDeltaCZ = document.getElementById('hoverinfodeltacz');
+
+    myPlot.on('plotly_click', function(data){
+    //displays point number and acts as a counter for arrays
+       var pts = '';
+          for(var i=0; i < data.points.length; i++){
+              pts = data.points[i].text;
+          }
+          var pCounter = pts;
+          console.log(pCounter);
+
+      //Display the Point number
+       var numbertext = data.points.map(function(d){return (pts);});
+       hoverInfoNum.innerHTML = numbertext.join('');
+      //Display the Point number
+       var nametext = data.points.map(function(d){return (name[pCounter]);});
+       hoverInfoName.innerHTML = nametext.join('');
+      //Display the Point number
+       var ratext = data.points.map(function(d){return (Ra[pCounter]);});
+       hoverInfoRa.innerHTML = ratext.join('');
+      //Display the Point number
+       var dectext = data.points.map(function(d){return (Dec[pCounter]);});
+       hoverInfoDec.innerHTML = dectext.join('');
+      //Display the Point number
+       var otypetext = data.points.map(function(d){return (OType[pCounter]);});
+       hoverInfoOType.innerHTML = otypetext.join('');
+      //Display the Point number
+       var cztext = data.points.map(function(d){return (cz[pCounter]);});
+       hoverInfoCz.innerHTML = cztext.join('');
+      //Display the Point number
+       var zflagtext = data.points.map(function(d){return (zFlag[pCounter]);});
+       hoverInfoZFlag.innerHTML = zflagtext.join('');
+      //Display the Point number
+       var rshifttext = data.points.map(function(d){return (RShift[pCounter]);});
+       hoverInfoRShift.innerHTML = rshifttext.join('');
+      //Display the Point number
+       var patext = data.points.map(function(d){return (Pa[pCounter]);});
+       hoverInfoPa.innerHTML = patext.join('');
+      //Display the Point number
+       var septext = data.points.map(function(d){return (Sep[pCounter]);});
+       hoverInfoSep.innerHTML = septext.join('');
+      //Display the Point number
+       var deltacztext = data.points.map(function(d){return (deltaCZ[pCounter]);});
+       hoverInfoDeltaCZ.innerHTML = deltacztext.join('');
+
+
+
+    //---------------------END OF TABLE----------------------//
+
+
+
+
+
+
     });
 
 
@@ -542,7 +777,7 @@
 
 
 
-
+    });
 
 
 
@@ -566,14 +801,28 @@
             var hmsa = [];   // your input string
             var pn = [];
             var pShape = [];
+            var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
+
               dataCSV.forEach(function(p) {
                       hms.push(p['RA (J2000)']);
                       hmsa.push(p['Dec (J2000)']);
                       pn.push(p['Δcz [km/s]']);
                       pShape.push(p['Object Type']);
 
-                 });
+                      //Table Data
+                      name.push(p['Name']);
+                      Ra.push(p['RA (J2000)']);
+                      Dec.push(p['Dec (J2000)']);
+                      OType.push(p['Object Type']);
+                      cz.push(p['cz [km/s]']);
+                      zFlag.push(p['z-flag']);
+                      RShift.push(p['Redshift Reference']);
+                      Pa.push(p['PA [deg]']);
+                      Sep.push(p['Sep. [Mpc]']);
+                      deltaCZ.push(p['Δcz [km/s]']);
 
+                 });
+            var delta = pn.slice(0);
             var arrayLength = hms.length;
             var x;
             var seconds = [];
@@ -627,6 +876,14 @@
               pn[i] = 'rgb(0,0,139)';
               }
             }
+
+            // Gives number to every point
+
+             var number = [];
+                for(i = 0; i <= arrayLength; i++)
+                {
+                  number[i] = i;
+                }
 
 
 
@@ -704,6 +961,7 @@
             var data = [
                   {mode: 'markers',
                   type: "scatter",
+                  text: number,
                   name: 'this',
                   marker: {
                     color: pn,
@@ -739,7 +997,7 @@
                 color: 'rgb(200, 200, 200)',
               },
               margin: {t: 20},
-              hovermode: 'closest',
+              hovermode: false,
               plot_bgcolor: '#151515',
               paper_bgcolor: '#151515',
               // plot_bgcolor: 'rgba(0,0,0,0)',
@@ -842,9 +1100,211 @@
 
             //Calls the plot into HTML
             Plotly.plot(gd1, data, layout, toolbar);
+
+            // -----------------Slider to update multiple graphes-----------------//
+            // -------------------------------------------------------------------//
+            //parse the delta data so it is useable
+            for(i = 0; i < delta.length; i++){
+                delta[i] = parseInt(delta[i]);
+            }
+            var deltaMax = Math.max.apply(Math, delta);
+            var deltaMin = Math.min.apply(Math, delta);
+
+
+
+            var slider = document.getElementById('slider');
+
+            noUiSlider.create(slider, {
+            	start: [deltaMin, deltaMax],
+            	connect: true,
+            	range: {
+            		'min': deltaMin,
+            		'max': deltaMax
+            	},
+              pips: { // Show a scale with the slider
+                  mode: 'steps',
+                  stepped: true,
+                  density: 4
+                },
+                tooltips: true,
+              	format: wNumb({
+              		decimals: 0
+              	}),
+                // step: 1000,
             });
 
 
+            //teathered to the slider
+            slider.noUiSlider.on('set', function(){
+              var sliderValues = slider.noUiSlider.get();
+              var xslider = x.slice(0);
+              var yslider = y.slice(0);
+              var yLongSlider = delta.slice(0);
+
+              for(i = 0; i < xslider.length; i++){
+                if (delta[i] <= sliderValues[1] && delta[i] >= sliderValues[0]){
+                }else{
+                  delete xslider[i];
+                  delete yslider[i];
+                  delete yLongSlider[i];
+                }
+              }
+              var data_update = {
+                x: [xslider],
+                y: [yslider]
+              };
+              var data_update1 = {
+                x: [x],
+                y: [yLongSlider]
+              };
+
+                Plotly.restyle('my-graph', data_update);
+                Plotly.restyle('my-graph1', data_update);
+                Plotly.restyle('my-graph2', data_update1);
+
+            });
+
+            var Graph2Cases = function(){
+              if(document.querySelector("input[name=onoffswitch7]").checked == false && document.querySelector("input[name=onoffswitch9]").checked == true){
+                $(".grid-item--width--graph2").css({"width": "70%"});
+                var topItemWidth1 = $("#my-graph1").css("width");
+                topItemWidth1 = topItemWidth1.replace("px","");
+                topItemWidth1 = parseInt(topItemWidth1);
+                topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+                $(".grid-item--width--graph2").css("height", topItemWidth1);
+                $grid.packery('layout');
+                Plotly.Plots.resize(gd1);
+              }else if(document.querySelector("input[name=onoffswitch7]").checked == false && document.querySelector("input[name=onoffswitch9]").checked == false){
+                $(".grid-item--width--graph2").css({"width": "98%"});
+                var topItemWidth1 = $("#my-graph1").css("width");
+                topItemWidth1 = topItemWidth1.replace("px","");
+                topItemWidth1 = parseInt(topItemWidth1);
+                topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+                $(".grid-item--width--graph2").css("height", topItemWidth1);
+                $grid.packery('layout');
+                Plotly.Plots.resize(gd1);
+              }else if(document.querySelector("input[name=onoffswitch7]").checked == true && document.querySelector("input[name=onoffswitch9]").checked == true){
+                $(".grid-item--width--graph2").css({"width": "34%"});
+                var topItemWidth1 = $("#my-graph1").css("width");
+                topItemWidth1 = topItemWidth1.replace("px","");
+                topItemWidth1 = parseInt(topItemWidth1);
+                topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+                $(".grid-item--width--graph2").css("height", topItemWidth1);
+                $grid.packery('layout');
+                Plotly.Plots.resize(gd1);
+              }else if(document.querySelector("input[name=onoffswitch7]").checked == true && document.querySelector("input[name=onoffswitch9]").checked == false){
+                $(".grid-item--width--graph2").css({"width": "48%"});
+                var topItemWidth1 = $("#my-graph1").css("width");
+                topItemWidth1 = topItemWidth1.replace("px","");
+                topItemWidth1 = parseInt(topItemWidth1);
+                topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
+                $(".grid-item--width--graph2").css("height", topItemWidth1);
+                $grid.packery('layout');
+                Plotly.Plots.resize(gd1);
+              }
+            };
+
+
+
+
+            //---------------------On and off 3D Graph----------------------//
+              document.querySelector("input[name=onoffswitch8]").onchange = function() {
+              if(this.checked) {
+                //When switch is on
+                $( "#togglegraph2" ).toggle();
+                Graph2Cases();
+                $grid.packery('layout');
+                } else {
+                  //when switch is off
+                  $( "#togglegraph2" ).toggle();
+                  Graph2Cases();
+                  $grid.packery('layout');
+                }
+              }
+                //---------------------END of controls----------------------//
+
+                document.querySelector("input[name=onoffswitch7]").addEventListener('change', function(){
+                  Graph2Cases();
+                });
+                document.querySelector("input[name=onoffswitch9]").addEventListener('change', function(){
+                  Graph2Cases();
+                });
+
+                  //---------------------END of controls----------------------//
+
+
+
+
+
+
+
+
+            //---------------------Pulls information into table----------------------//
+            //Event handler in plotly when it comes to hovering
+            var myPlot = document.getElementById('my-graph1');
+            var hoverInfoNum = document.getElementById('hoverinfonum');
+            var hoverInfoName = document.getElementById('hoverinfoname');
+            var hoverInfoRa = document.getElementById('hoverinfora');
+            var hoverInfoDec = document.getElementById('hoverinfodec');
+            var hoverInfoOType = document.getElementById('hoverinfootype');
+            var hoverInfoCz = document.getElementById('hoverinfocz');
+            var hoverInfoZFlag = document.getElementById('hoverinfozflag');
+            var hoverInfoRShift = document.getElementById('hoverinforshift');
+            var hoverInfoPa = document.getElementById('hoverinfopa');
+            var hoverInfoSep = document.getElementById('hoverinfosep');
+            var hoverInfoDeltaCZ = document.getElementById('hoverinfodeltacz');
+
+            myPlot.on('plotly_click', function(data){
+            //displays point number and acts as a counter for arrays
+               var pts = '';
+                  for(var i=0; i < data.points.length; i++){
+                      pts = data.points[i].text;
+                  }
+                  var pCounter = pts;
+                  console.log(pCounter);
+
+              //Display the Point number
+               var numbertext = data.points.map(function(d){return (pts);});
+               hoverInfoNum.innerHTML = numbertext.join('');
+              //Display the Point number
+               var nametext = data.points.map(function(d){return (name[pCounter]);});
+               hoverInfoName.innerHTML = nametext.join('');
+              //Display the Point number
+               var ratext = data.points.map(function(d){return (Ra[pCounter]);});
+               hoverInfoRa.innerHTML = ratext.join('');
+              //Display the Point number
+               var dectext = data.points.map(function(d){return (Dec[pCounter]);});
+               hoverInfoDec.innerHTML = dectext.join('');
+              //Display the Point number
+               var otypetext = data.points.map(function(d){return (OType[pCounter]);});
+               hoverInfoOType.innerHTML = otypetext.join('');
+              //Display the Point number
+               var cztext = data.points.map(function(d){return (cz[pCounter]);});
+               hoverInfoCz.innerHTML = cztext.join('');
+              //Display the Point number
+               var zflagtext = data.points.map(function(d){return (zFlag[pCounter]);});
+               hoverInfoZFlag.innerHTML = zflagtext.join('');
+              //Display the Point number
+               var rshifttext = data.points.map(function(d){return (RShift[pCounter]);});
+               hoverInfoRShift.innerHTML = rshifttext.join('');
+              //Display the Point number
+               var patext = data.points.map(function(d){return (Pa[pCounter]);});
+               hoverInfoPa.innerHTML = patext.join('');
+              //Display the Point number
+               var septext = data.points.map(function(d){return (Sep[pCounter]);});
+               hoverInfoSep.innerHTML = septext.join('');
+              //Display the Point number
+               var deltacztext = data.points.map(function(d){return (deltaCZ[pCounter]);});
+               hoverInfoDeltaCZ.innerHTML = deltacztext.join('');
+
+
+
+            //---------------------END OF TABLE----------------------//
+
+
+            });
+
+            });
 
 
 
@@ -872,10 +1332,24 @@
         var hms = [];
         var y = [];
         var pn = [];
+        var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
+
           dataCSV.forEach(function(p) {
                   hms.push(p['RA (J2000)']);
                   y.push(p['Δcz [km/s]']);
                   pn.push(p['Δcz [km/s]']);
+
+                  //Table Data
+                  name.push(p['Name']);
+                  Ra.push(p['RA (J2000)']);
+                  Dec.push(p['Dec (J2000)']);
+                  OType.push(p['Object Type']);
+                  cz.push(p['cz [km/s]']);
+                  zFlag.push(p['z-flag']);
+                  RShift.push(p['Redshift Reference']);
+                  Pa.push(p['PA [deg]']);
+                  Sep.push(p['Sep. [Mpc]']);
+                  deltaCZ.push(p['Δcz [km/s]']);
              });
              var arrayLength = hms.length;
              var x;
@@ -910,9 +1384,20 @@
              }
         x = seconds;
 
+        // Gives number to every point
+
+         var number = [];
+            for(i = 0; i <= arrayLength; i++)
+            {
+              number[i] = i;
+            }
+
+
+
         var data = [
               {mode: 'markers',
               type: "scatter",
+              text: number,
               name: 'this',
               marker: {color: pn},
               x: x,
@@ -944,8 +1429,11 @@
             tickwidth: 2,
             color: 'rgb(200, 200, 200)',
           },
-          margin: {t: 20},
-          hovermode: 'closest',
+          margin: {
+            t: 20,
+            // r: 20,
+          },
+          hovermode: false,
           plot_bgcolor: '#151515',
           paper_bgcolor: '#151515',
         };
@@ -972,27 +1460,183 @@
         //-----------------END Responsive code-------------------//
 
 
-        var topItem3 = $("#my-graph2").css("width");
-        topItem3 = topItem3.replace("px","");
-        topItem3 = topItem3 * 2.4;
-        var scalescreenSize = $(window).height();
-        var bigHight = scalescreenSize - scalescreenSize*0.09;
-
-
-        $(".grid-item--height2").css("height", bigHight);
+        //---------------------Resizing graph1----------------------//
+        var topItemWidth2 = $("#my-graph2").css("width");
+        topItemWidth2 = topItemWidth2.replace("px","");
+        topItemWidth2 = parseInt(topItemWidth2);
+        topItemWidth2 = topItemWidth2 * 2.4;
+        $(".grid-item--height2").css("height", topItemWidth2);
         $grid.packery('layout');
 
+        window.addEventListener('resize', function() {
+          var topItemWidth2 = $("#my-graph2").css("width");
+          topItemWidth2 = topItemWidth2.replace("px","");
+          topItemWidth2 = parseInt(topItemWidth2);
+          topItemWidth2 = topItemWidth2 * 2.4;
+          $(".grid-item--height2").css("height", topItemWidth2);
+          $grid.packery('layout');
+        });
 
 
 
+        var Graph3Cases = function(){
+          if(document.querySelector("input[name=onoffswitch7]").checked == false && document.querySelector("input[name=onoffswitch8]").checked == true){
+            $(".grid-item--width--graph3").css({"width": "25%"});
+            var topItemWidth1 = $("#my-graph2").css("width");
+            topItemWidth1 = topItemWidth1.replace("px","");
+            topItemWidth1 = parseInt(topItemWidth1);
+            topItemWidth1 = topItemWidth1 * 2.4;
+            $(".grid-item--width--graph3").css("height", topItemWidth1);
+            $(".grid-item--width--table").css("width", "69%");
+            $(".grid-item--width--graphSettings").css("width", "69%");
+            $grid.packery('layout');
+            Plotly.Plots.resize(gd2);
+          }else if(document.querySelector("input[name=onoffswitch7]").checked == false && document.querySelector("input[name=onoffswitch8]").checked == false){
+            $(".grid-item--width--graph3").css({"width": "48%"});
+            var topItemWidth1 = $("#my-graph2").css("width");
+            topItemWidth1 = topItemWidth1.replace("px","");
+            topItemWidth1 = parseInt(topItemWidth1);
+            topItemWidth1 = topItemWidth1 * 2.4;
+            $(".grid-item--width--graph3").css("height", topItemWidth1);
+            $(".grid-item--width--table").css("width", "48%");
+            $(".grid-item--width--graphSettings").css("width", "48%");
 
+            var scalescreenSize = $(window).height();
+            var topHeight = scalescreenSize - scalescreenSize*0.04;
+            $(".grid-item--width--graph3").css("height", topHeight);
+
+            $grid.packery('layout');
+            Plotly.Plots.resize(gd2);
+          }else if(document.querySelector("input[name=onoffswitch7]").checked == true && document.querySelector("input[name=onoffswitch8]").checked == true){
+            $(".grid-item--width--graph3").css({"width": "25%"});
+            var topItemWidth1 = $("#my-graph2").css("width");
+            topItemWidth1 = topItemWidth1.replace("px","");
+            topItemWidth1 = parseInt(topItemWidth1);
+            topItemWidth1 = topItemWidth1 * 2.4;
+            $(".grid-item--width--graph3").css("height", topItemWidth1);
+            $(".grid-item--width--table").css("width", "69%");
+            $(".grid-item--width--graphSettings").css("width", "69%");
+            $grid.packery('layout');
+            Plotly.Plots.resize(gd2);
+          }else if(document.querySelector("input[name=onoffswitch7]").checked == true && document.querySelector("input[name=onoffswitch8]").checked == false){
+            $(".grid-item--width--graph3").css({"width": "25%"});
+            var topItemWidth1 = $("#my-graph2").css("width");
+            topItemWidth1 = topItemWidth1.replace("px","");
+            topItemWidth1 = parseInt(topItemWidth1);
+            topItemWidth1 = topItemWidth1 * 2.4;
+
+            $(".grid-item--width--graph3").css("height", topItemWidth1);
+            $(".grid-item--width--table").css("width", "69%");
+            $(".grid-item--width--graphSettings").css("width", "69%");
+            $grid.packery('layout');
+            Plotly.Plots.resize(gd2);
+          }
+        };
+
+
+
+        //---------------------On and off 3D Graph----------------------//
+          document.querySelector("input[name=onoffswitch9]").onchange = function() {
+          if(this.checked) {
+            //When switch is on
+            $( "#togglegraph3" ).toggle();
+            Graph3Cases();
+            $grid.packery('layout');
+            } else {
+              //when switch is off
+              $( "#togglegraph3" ).toggle();
+              $grid.packery('layout');
+            }
+          }
+            //---------------------END of controls----------------------//
+
+            document.querySelector("input[name=onoffswitch7]").addEventListener('change', function(){
+              Graph3Cases();
+            });
+            document.querySelector("input[name=onoffswitch8]").addEventListener('change', function(){
+              Graph3Cases();
+            });
 
         //Calls the plot into HTML
         Plotly.plot(gd2, data, layout, toolbar);
 
+
+
+
+
+        //---------------------Pulls information into table----------------------//
+        //Event handler in plotly when it comes to hovering
+        var myPlot = document.getElementById('my-graph2');
+        var hoverInfoNum = document.getElementById('hoverinfonum');
+        var hoverInfoName = document.getElementById('hoverinfoname');
+        var hoverInfoRa = document.getElementById('hoverinfora');
+        var hoverInfoDec = document.getElementById('hoverinfodec');
+        var hoverInfoOType = document.getElementById('hoverinfootype');
+        var hoverInfoCz = document.getElementById('hoverinfocz');
+        var hoverInfoZFlag = document.getElementById('hoverinfozflag');
+        var hoverInfoRShift = document.getElementById('hoverinforshift');
+        var hoverInfoPa = document.getElementById('hoverinfopa');
+        var hoverInfoSep = document.getElementById('hoverinfosep');
+        var hoverInfoDeltaCZ = document.getElementById('hoverinfodeltacz');
+
+        myPlot.on('plotly_click', function(data){
+        //displays point number and acts as a counter for arrays
+           var pts = '';
+              for(var i=0; i < data.points.length; i++){
+                  pts = data.points[i].text;
+              }
+              var pCounter = pts;
+              console.log(pCounter);
+
+          //Display the Point number
+           var numbertext = data.points.map(function(d){return (pts);});
+           hoverInfoNum.innerHTML = numbertext.join('');
+          //Display the Point number
+           var nametext = data.points.map(function(d){return (name[pCounter]);});
+           hoverInfoName.innerHTML = nametext.join('');
+          //Display the Point number
+           var ratext = data.points.map(function(d){return (Ra[pCounter]);});
+           hoverInfoRa.innerHTML = ratext.join('');
+          //Display the Point number
+           var dectext = data.points.map(function(d){return (Dec[pCounter]);});
+           hoverInfoDec.innerHTML = dectext.join('');
+          //Display the Point number
+           var otypetext = data.points.map(function(d){return (OType[pCounter]);});
+           hoverInfoOType.innerHTML = otypetext.join('');
+          //Display the Point number
+           var cztext = data.points.map(function(d){return (cz[pCounter]);});
+           hoverInfoCz.innerHTML = cztext.join('');
+          //Display the Point number
+           var zflagtext = data.points.map(function(d){return (zFlag[pCounter]);});
+           hoverInfoZFlag.innerHTML = zflagtext.join('');
+          //Display the Point number
+           var rshifttext = data.points.map(function(d){return (RShift[pCounter]);});
+           hoverInfoRShift.innerHTML = rshifttext.join('');
+          //Display the Point number
+           var patext = data.points.map(function(d){return (Pa[pCounter]);});
+           hoverInfoPa.innerHTML = patext.join('');
+          //Display the Point number
+           var septext = data.points.map(function(d){return (Sep[pCounter]);});
+           hoverInfoSep.innerHTML = septext.join('');
+          //Display the Point number
+           var deltacztext = data.points.map(function(d){return (deltaCZ[pCounter]);});
+           hoverInfoDeltaCZ.innerHTML = deltacztext.join('');
+
+
+
+        //---------------------END OF TABLE----------------------//
+
+
+
+
+
+
+
+
+
         });
 
-
+        });
 
 
 
@@ -1026,26 +1670,14 @@
 
 
 
-    //---------------------Draggable----------------------//
-    document.querySelector("input[name=onoffswitch3]").onchange = function() {
-    if(this.checked) {
-      //When switch is on
-      // make all items draggable
-      var $items = $grid.find('.grid-item').draggable();
-      // bind drag events to Packery
-      $grid.packery( 'bindUIDraggableEvents', $items );
-        alert("on");
-      } else {
-        //when switch is off
-        // make all items draggable
-        var $items = $grid.find('.grid-item').draggable( "destroy" );
-        // bind drag events to Packery
-        $grid.packery( 'bindUIDraggableEvents', $items );
-          alert("off");
-      }
-    }
+
 
     </script>
-
+    <!-- In <body> -->
+    <script src="js/nouislider.min.js"></script>
+    <!-- In <body> -->
+    <script src="js/wNumb.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
   </body>
 </html>
