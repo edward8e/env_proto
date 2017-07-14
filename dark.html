@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NED SED</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,600,700" rel="stylesheet">
+
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
+    <!-- Masonry JS -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <!-- Draggabilly JS -->
+    <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/packery@2/dist/packery.pkgd.min.js"></script>
+    <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cyborg/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
+
+
+    <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <link rel="stylesheet" type="text/css" href="css/dark.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+  </head>
+  <body>
+    <div class="container-fluid main-body">
+
+        <div class="row ">
+
+
+        <div class="col-sm-2 text-left" id="settings-right">
+         <div class="light-dark right-large">
+         <div class="blue-title text-center setting-title"><h4>SETTINGS</h4></div>
+
+         <div class="setting-inner">
+           <h4>SED Options:</h4>
+           <hr />
+           <h5>Error Bars:</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+              <label class="onoffswitch-label" for="myonoffswitch">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Hover on and off</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1">
+              <label class="onoffswitch-label" for="myonoffswitch1">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Show Spectral Lines</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox" id="myonoffswitch2">
+              <label class="onoffswitch-label" for="myonoffswitch2">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Enable UI drag</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch3" class="onoffswitch-checkbox" id="myonoffswitch3">
+              <label class="onoffswitch-label" for="myonoffswitch3">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Big Picture Mode</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch4" class="onoffswitch-checkbox" id="myonoffswitch4">
+              <label class="onoffswitch-label" for="myonoffswitch4">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Data Points</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch5" class="onoffswitch-checkbox" id="myonoffswitch5" >
+              <label class="onoffswitch-label" for="myonoffswitch5">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <h5>Plot Controls</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch6" class="onoffswitch-checkbox" id="myonoffswitch6" >
+              <label class="onoffswitch-label" for="myonoffswitch6">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+          <form>
+            <span>X-Axis: </span>
+            <select id ="ddl" class="selectpicker"  data-width="auto"  name="ddl" onmousedown="this.value='';" onchange="jsFunction(this.value);">
+              <option value="1">log(<em>v</em> [Hz])</option>
+              <option value="2">log(λ [μm])</option>
+            </select>
+            <br />
+            <br />
+            <span>Y-Axis: </span>
+            <select id ="ddl2" class="selectpicker" data-width="auto"  name="ddl2" onmousedown="this.value='';" onchange="jsFunction1(this.value);">
+              <option value="1">log(F<sub><em>v</em></sub> [Jy])</option>
+              <option value="2">log(F<sub><em>v</em></sub> [W m<sup>-2</sup> Hz<sup>-1</sup>])</option>
+              <option value="3">log(<em>v</em>F<sub><em>v</em></sub> [Jy-Hz])</option>
+              <option value="4">log(<em>v</em>F<sub><em>v</em></sub> [W m<sup>-2</sup>])</option>
+            </select>
+
+          </form>
+          <br />
+          <button id="button-download" class="btn btn-default">Download Graph</button>
+        </div>
+          </div>
+          </div>
+
+
+
+
+
+
+      <div class="col-sm-10">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#defaultNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+              <a class="navbar-brand" href="index.html">NED</a>
+              </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="defaultNavbar1">
+              <ul class="nav navbar-nav">
+                <li><a href="dark.html">Dark Theme<span class="sr-only">(current)</span></a></li>
+                <li><a href="light.html">Light Theme<span class="sr-only">(current)</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      <div class="grid">
+
+      <div class="grid-item grid-item--width--graph1">
+        <div id="my-graph"></div>
+      </div>
+
+      <div class="grid-item grid-item--width--graph2">
+        <div id="my-graph1"></div>
+      </div>
+
+      <div class="grid-item grid-item--width--graph3 grid-item--height2">
+        <div id="my-graph2"></div>
+      </div>
+
+
+
+
+
+      <div class="grid-item grid-item--height2 grid-item--width--data" id="data-window">
+        <div class="row ">
+          <div class="col-sm-12" id="data-right">
+
+          <div class="light-dark data-box"><h4 class="info-highlight">Select point to populate information:</h4>
+          <h3>Data point No. <span id="hoverinfonum"></span></h3>
+          <hr>
+          <h4>Published Units:</h4>
+          <ul >
+            <li>Observed Passband: <span class="data-out" id="hoverinfoopassband"></span></li>
+            <li>Measurement: <span class="data-out" id ="hoverinfomeasurement"></span></li>
+            <li>Uncertainty: <span class="data-out" id="hoverinfouncertainty"></span></li>
+            <li>Units: <span class="data-out" id="hoverinfounits"></span></li>
+          </ul>
+          <h4>Homogenized Units [Frequency, Flux Density]</h4>
+          <ul>
+            <li>Freq (Hz): <span class="data-out" id="hoverinfofrequency"></span></li>
+            <li>Measurement: <span class="data-out" id="hoverinfomeasurement2"></span></li>
+            <li>Uncertainty: <span class="data-out" id="hoverinfouncertainty2"></span></li>
+            <li>Units: <span class="data-out" id="hoverinfounits2"></span></li>
+            <li>Mode: <span class="data-out" id="hoverinfomode"></span></li>
+            <li>Aperture/Qualifiers: <span class="data-out" id="hoverinfoaperture"></span></li>
+            <li>Reference Code: <span class="data-out" id="hoverinforcode"></span></li>
+
+          </ul></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="grid-item grid-item--width--table">
+            <div class="row table-responsive " >
+    					<div class="col-sm-12 bottom-table" >
+    						<div class="light-dark ">
+    							<table class="table-info table referece-table ">
+    								<thead class="title-font">
+    									<tr class="table-center bg-primary ">
+    										<th></th>
+    										<th colspan="4" align="center">Published Units</th>
+    										<th colspan="8">Homogenized Units [Frequency, Flux Density]</th>
+    									</tr>
+
+    									<tr class="table-center bg-primary">
+    										<th>No.</th>
+    										<th>Observed Passband</th>
+    										<th>Measurement</th>
+    										<th>Uncertainty</th>
+    										<th>Units</th>
+    										<th>Freq (Hz)</th>
+    										<th>Measurement</th>
+    										<th>Uncertainty</th>
+    										<th>Units</th>
+    										<th>Mode</th>
+    										<th>Aperture/Qualifiers</th>
+    										<th>Reference Code</th>
+    									</tr>
+    								</thead>
+    							</table>
+    						<div class="bottom-table-format">
+    							<table id="test" class="table table-responsive table-hover"></table>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+      </div>
+    </div>
+    <!-- End of grid -->
+    </div>
+    </div>
+
+
+
+
+    </div>
+
+
+    <script>
+                d3.text("https://edward8e.github.io/env_proto/e_search_arp_220.csv", function(data) {
+                    var parsedCSV = d3.csvParseRows(data);
+
+                    var container = d3.select("#test")
+    //                    .append("table")
+
+                        .selectAll("tr")
+                            .data(parsedCSV).enter()
+                            .append("tr")
+
+                        .selectAll("td")
+                            .data(function(d) { return d; }).enter()
+                            .append("td")
+                            .text(function(d) { return d; });
+                });
+
+    //	$("table").addClass('be-still');
+
+    	</script>
+
+
+    <script>
+
+    // Converter RA(right acension) to seconds
+    // 00h00m00s to 00sec
+
+    //Plotly gets every line and pushes into hms array
+    Plotly.d3.csv('https://edward8e.github.io/env_proto/e_search_arp_220.csv', function(err, dataCSV){
+    var hms = [];   // your input string
+    var hmsa = [];   // your input string
+    var pn = [];
+    var z = [];
+      dataCSV.forEach(function(p) {
+              hms.push(p['RA (J2000)']);
+              hmsa.push(p['Dec (J2000)']);
+              pn.push(p['Δcz [km/s]']);
+              z.push(p['Δcz [km/s]']);
+         });
+
+
+    //-----------------------------------------------------------
+    var arrayLength = hms.length;
+    var x;
+    var seconds = [];
+    var i;
+
+    //filters out the strings and makes time into three section array
+     for(x = 0; x < arrayLength; x++)
+     {
+        hms[x] = hms[x].replace("s",""); //removes s
+        hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
+     }
+
+    //Pulls array and calculates the seconds
+    for(x = 0; x < arrayLength; x++){
+        var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
+        seconds.push(-secCalc);//flip xaxis
+      secCalc = 0;
+    }
+
+    //-----------------------------------------------------------
+    // Converter Dec(right acension) to seconds
+    // 00d00m00s to 00sec
+    var arrayLength = hmsa.length;
+    var arcseconds = [];
+
+
+    //filters out the strings and makes time into three section array
+     for(x = 0; x < arrayLength; x++)
+     {
+        hmsa[x] = hmsa[x].replace("s",""); //removes s
+        hmsa[x] = hmsa[x].replace("+",""); //removes s
+        hmsa[x] = hmsa[x].split(/[dm]/); //separates based off "h" and "m"
+     }
+
+    //Pulls array and calculates the seconds
+    for(x = 0; x < arrayLength; x++){
+        var secCalc = (+hmsa[x][0]) * 60 * 60 + (+hmsa[x][1]) * 60 + (+hmsa[x][2]);
+        arcseconds.push(secCalc);
+      secCalc = 0;
+    }
+    //
+    //-----------------------------------------------------------
+
+    //changes the color of the points to red and blue depending on positive or negative
+
+    for(i = 0; i < arrayLength; i++)
+    {
+      if (pn[i] > 0){
+        pn[i] = 'rgb(178,34,34)';
+      }
+      else{
+      pn[i] = 'rgb(0,0,139)';
+      }
+    }
+
+    x = seconds;
+    y = arcseconds;
+    // console.log(x);
+    d = [1,2,3,4,5];
+    var xmax = Math.max(d);
+
+    // console.log(xmax);
+
+
+    var data = [
+          {mode: 'markers',
+          type: "scatter3d",
+          marker: {
+            color: pn,
+            symbol: 'circle',
+            // line: {
+          	// 	color: 'rgb(204, 204, 204)',
+          	// 	width: 1},
+            size: 5,
+          },
+          opacity: 0.3,
+          x: x,
+          y: y,
+          z: z}
+      ];
+
+    //Graph axis related things
+    var layout = {
+      scene: {
+        xaxis: {
+        title: 'RA<sub>(sec)</sub>',
+        autorange: true,
+        linecolor: 'rgba(200, 200, 200, 1)',
+        linewidth: 2,
+        mirror: true,
+        ticks: 'inside',
+        ticklen: 10,
+        tickwidth: 2,
+        color: 'rgba(200, 200, 200, 1)',
+      },
+      yaxis: {
+        title: 'Dec<sub>(arcsec)</sub>',
+        autorange: true,
+        gridcolor: 'rgba(200, 200, 200, 1)',
+        backgroundcolor: 'rgba(200, 200, 200, 1)',
+        zerolinecolor: 'rgba(200, 200, 200, 1)',
+        linewidth: 2,
+        mirror: true,
+        ticks: 'inside',
+        ticklen: 10,
+        tickwidth: 2,
+        color: 'rgba(200, 200, 200, 1)',
+      },
+      zaxis: {
+        title: 'Δ<sub>cz</sub> [km/s]',
+        autorange: true,
+        gridcolor: 'rgb(255, 255, 255)',
+        backgroundcolor: 'rgba(200, 200, 200, 1)',
+        zerolinecolor: 'rgba(200, 200, 200, 1)',
+        linewidth: 2,
+        mirror: true,
+        ticks: 'inside',
+        ticklen: 10,
+        tickwidth: 2,
+        color: 'rgba(200, 200, 200, 1)',
+      }
+    },
+      margin: {l: 0, r: 0, b: 0, t: 0},
+      hovermode: 'closest',
+      gridcolor: 'rgba(200, 200, 200, 1)',
+      plot_bgcolor: '#151515',
+      paper_bgcolor: '#151515',
+    };
+
+    //Edits made to the toolbar
+    var toolbar = {
+    	scrollZoom: true, // lets us scroll to zoom in and out - works
+    	showLink: false, // removes the link to edit on plotly - works
+    	modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+      displaylogo: false
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //----------------Edits the CSS in the div---------------//
+    var WIDTH_IN_PERCENT_OF_PARENT = 100,
+        HEIGHT_IN_PERCENT_OF_PARENT = 100;
+
+    Plotly.d3.select('#my-graph')
+        .style({
+            width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+            height: HEIGHT_IN_PERCENT_OF_PARENT + '%',
+        });
+    var gd = Plotly.d3.select('#my-graph').node();
+
+    // window.onresize = function() {
+    //     Plotly.Plots.resize(gd);
+    // };
+    window.addEventListener('resize', function() { Plotly.Plots.resize(gd); });
+    //-----------------END Responsive code-------------------//
+    //---------------------Hover on and off----------------------//
+    var checkboxDataON = function(){
+      var layout_update = {
+        hovermode: 'closest'
+      };
+      Plotly.relayout('my-graph', layout_update);
+    };
+    var checkboxDataOFF = function(){
+      var layout_update = {
+        hovermode: false
+      };
+      Plotly.relayout('my-graph', layout_update);
+    };
+
+
+
+    var scalescreenSize = $(window).height();
+    var topHeight = scalescreenSize - scalescreenSize*0.4;
+
+    var tableHeight = scalescreenSize*0.4;
+
+    // var topItem = $(".data-box").css("height");
+    // topItem = topItem.replace("px","");
+    var topItem1 = $("#settings-right").css("height");
+    topItem1 = topItem1.replace("px","");
+    var finalTopHeight = 0;
+
+    var topItem2 = $("#data-right").css("height");
+    topItem2 = topItem2.replace("px","");
+
+    if(topHeight < topItem2){
+      finalTopHeight = topItem2;
+    }else{
+      finalTopHeight = topHeight;
+    }
+
+
+
+    $(".grid-item--width--main").css("height", finalTopHeight);
+    // $(".grid-item").css({"height":finalTopHeight});
+    $(".bottom-table").css({"height":tableHeight});
+    // $(".grid-item--width--settings").css("height", topItem1);
+    $(".grid-item--width--data").css("height", topItem2);
+    $grid.packery('layout');
+
+
+
+
+  //---------------------On and off Data----------------------//
+    document.querySelector("input[name=onoffswitch5]").onchange = function() {
+    if(this.checked) {
+      //When switch is on
+      $( "#data-window" ).toggle();
+      $(".grid-item--width--main").css({"width": "73%"});
+      $("#myonoffswitch1").prop("checked", true);
+      checkboxDataON();
+      Plotly.Plots.resize(gd);
+      $grid.packery('layout');
+      } else {
+        //when switch is off
+        $( "#data-window" ).toggle();
+        $(".grid-item--width--main").css({"width": "31.3333%"});
+        // $("#myonoffswitch1").prop("checked", false);
+        // checkboxDataOFF();
+        Plotly.Plots.resize(gd);
+        $grid.packery('layout');
+      }
+    }
+      $( "#data-window" ).toggle();
+      // $(".grid-item--width--main").css({"width": "31.3333%"});
+      Plotly.Plots.resize(gd);
+      $grid.packery('layout');
+      //---------------------END of controls----------------------//
+
+    //Calls the plot into HTML
+    Plotly.plot(gd, data, layout, toolbar);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+    <script>
+
+
+            // Converter RA(right acension) to seconds
+            // 00h00m00s to 00sec
+
+            //Plotly gets every line and pushes into hms array
+            Plotly.d3.csv('https://edward8e.github.io/env_proto/e_search_arp_220.csv', function(err, dataCSV){
+            var hms = [];   // your input string
+            var hmsa = [];   // your input string
+            var pn = [];
+            var pShape = [];
+              dataCSV.forEach(function(p) {
+                      hms.push(p['RA (J2000)']);
+                      hmsa.push(p['Dec (J2000)']);
+                      pn.push(p['Δcz [km/s]']);
+                      pShape.push(p['Object Type']);
+
+                 });
+
+            var arrayLength = hms.length;
+            var x;
+            var seconds = [];
+            var i;
+
+            //filters out the strings and makes time into three section array
+             for(x = 0; x < arrayLength; x++)
+             {
+                hms[x] = hms[x].replace("s",""); //removes s
+                hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
+             }
+
+            //Pulls array and calculates the seconds
+            for(x = 0; x < arrayLength; x++){
+                var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
+                seconds.push(-secCalc);// flipped the x-asix because of oritenation
+              secCalc = 0;
+            }
+
+
+            // Converter Dec(right acension) to seconds
+            // 00d00m00s to 00sec
+            var arrayLength = hmsa.length;
+            var arcseconds = [];
+
+
+            //filters out the strings and makes time into three section array
+             for(x = 0; x < arrayLength; x++)
+             {
+                hmsa[x] = hmsa[x].replace("s",""); //removes s
+                hmsa[x] = hmsa[x].replace("+",""); //removes s
+                hmsa[x] = hmsa[x].split(/[dm]/); //separates based off "h" and "m"
+             }
+
+            //Pulls array and calculates the seconds
+            for(x = 0; x < arrayLength; x++){
+                var secCalc = (+hmsa[x][0]) * 60 * 60 + (+hmsa[x][1]) * 60 + (+hmsa[x][2]);
+                arcseconds.push(secCalc);
+              secCalc = 0;
+            }
+
+
+            //changes the color of the points to red and blue depending on positive or negative
+
+            for(i = 0; i < arrayLength; i++)
+            {
+              if (pn[i] > 0){
+                pn[i] = 'rgb(178,34,34)';
+              }
+              else{
+              pn[i] = 'rgb(0,0,139)';
+              }
+            }
+
+
+
+
+            x = seconds;
+            y = arcseconds;
+
+            //Finding the center point for anotation
+            var xmax = Math.max.apply(Math, seconds);
+            var xmin = Math.min.apply(Math, seconds);
+            var xcenter = (xmax + xmin)/2;
+
+            var ymax = Math.max.apply(Math, arcseconds);
+            var ymin = Math.min.apply(Math, arcseconds);
+            var ycenter = (ymax + ymin)/2;
+
+            var ylength = ymax - ymin;
+            var xlength = xmax - xmin;
+            // console.log(ylength);
+            // console.log(xlength);
+
+
+            // var xleft = xcenter + -500;
+            // var xright = xcenter + 500;
+            // var ybottom = ycenter + -50000;
+            // var ytop = ycenter + 50000;
+
+
+            //Outer circle 10pc
+            var xleft = xcenter + xlength/2;
+            var xright = xcenter - xlength/2;
+            var ybottom = ycenter + ylength/2;
+            var ytop = ycenter - ylength/2;
+
+            //5pc
+            var xleft1 = xcenter + xlength/4;
+            var xright1 = xcenter - xlength/4;
+            var ybottom1 = ycenter + ylength/4;
+            var ytop1 = ycenter - ylength/4;
+
+            //2.5pc
+            var xleft2 = xcenter + xlength/8;
+            var xright2 = xcenter - xlength/8;
+            var ybottom2 = ycenter + ylength/8;
+            var ytop2 = ycenter - ylength/8;
+
+            //1.25pc
+            var xleft3 = xcenter + xlength/16;
+            var xright3 = xcenter - xlength/16;
+            var ybottom3 = ycenter + ylength/16;
+            var ytop3 = ycenter - ylength/16;
+
+            //1.25pc
+            var xleft4 = xcenter - xlength/32;
+            var xright4 = xcenter + xlength/32;
+            var ybottom4 = ycenter - ylength/32;
+            var ytop4 = ycenter + ylength/32;
+
+            //adds shape to the ponts
+            for(i = 0; i < arrayLength; i++){
+              if (pShape[i] === "G") {
+                pShape[i] = "circle-open";
+              }
+              else if(pShape[i] === "GGroup"){
+                pShape[i] = "square-open";
+              }
+              else {
+                pShape[i] = "circle";
+              }
+            }
+
+
+
+
+            var data = [
+                  {mode: 'markers',
+                  type: "scatter",
+                  name: 'this',
+                  marker: {
+                    color: pn,
+                    symbol: pShape,
+                  },
+                  x: x,
+                  y: y}
+              ];
+
+            //Graph axis related things
+            var layout = {
+              xaxis: {
+                title: 'RA<sub>(sec)</sub>',
+                autorange: true,
+                linecolor: 'rgb(200, 200, 200)',
+                linewidth: 2,
+                mirror: true,
+                ticks: 'inside',
+                ticklen: 10,
+                tickwidth: 2,
+                color: 'rgb(200, 200, 200)',
+                // rangeslider:{},
+              },
+              yaxis: {
+                title: 'Dec<sub>(arcsec)</sub>',
+                autorange: true,
+                linecolor: 'rgb(200, 200, 200)',
+                linewidth: 2,
+                mirror: true,
+                ticks: 'inside',
+                ticklen: 10,
+                tickwidth: 2,
+                color: 'rgb(200, 200, 200)',
+              },
+              margin: {t: 20},
+              hovermode: 'closest',
+              plot_bgcolor: '#151515',
+              paper_bgcolor: '#151515',
+              // plot_bgcolor: 'rgba(0,0,0,0)',
+              shapes: [
+
+                // Unfilled Circle
+
+                {
+                  type: 'circle',
+                  xref: 'x',
+                  yref: 'y',
+                  // fillcolor: 'rgba(50, 171, 96, 0.7)',
+                  x0: xleft,
+                  y0: ytop,
+                  x1: xright,
+                  y1: ybottom,
+                  line: {
+                    color: 'rgba(200, 200, 200, 0.3)'
+                  }
+                },
+                {
+                  type: 'circle',
+                  xref: 'x',
+                  yref: 'y',
+                  // fillcolor: 'rgba(50, 171, 96, 0.7)',
+                  x0: xleft1,
+                  y0: ytop1,
+                  x1: xright1,
+                  y1: ybottom1,
+                  line: {
+                    color: 'rgba(200, 200, 200, 0.3)'
+                  }
+                },
+                {
+                  type: 'circle',
+                  xref: 'x',
+                  yref: 'y',
+                  // fillcolor: 'rgba(50, 171, 96, 0.7)',
+                  x0: xleft2,
+                  y0: ytop2,
+                  x1: xright2,
+                  y1: ybottom2,
+                  line: {
+                    color: 'rgba(200, 200, 200, 0.3)'
+                  }
+                },
+                {
+                  type: 'circle',
+                  xref: 'x',
+                  yref: 'y',
+                  // fillcolor: 'rgba(50, 171, 96, 0.7)',
+                  x0: xleft3,
+                  y0: ytop3,
+                  x1: xright3,
+                  y1: ybottom3,
+                  line: {
+                    color: 'rgba(200, 200, 200, 0.3)'
+                  }
+                },
+                {
+                  type: 'circle',
+                  xref: 'x',
+                  yref: 'y',
+                  // fillcolor: 'rgba(50, 171, 96, 0.7)',
+                  x0: xleft4,
+                  y0: ytop4,
+                  x1: xright4,
+                  y1: ybottom4,
+                  line: {
+                    color: 'rgba(200, 200, 200, 0.3)'
+                  }
+                },
+              ]
+            };
+
+            //Edits made to the toolbar
+            var toolbar = {
+            	scrollZoom: true, // lets us scroll to zoom in and out - works
+            	showLink: false, // removes the link to edit on plotly - works
+            	modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+              displaylogo: false
+            };
+            //----------------Edits the CSS in the div---------------//
+            var WIDTH_IN_PERCENT_OF_PARENT = 100,
+                HEIGHT_IN_PERCENT_OF_PARENT = 100;
+
+            Plotly.d3.select('#my-graph1')
+                .style({
+                    width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+                    height: HEIGHT_IN_PERCENT_OF_PARENT + '%',
+                });
+            var gd1 = Plotly.d3.select('#my-graph1').node();
+
+            // window.onresize = function() {
+            //     Plotly.Plots.resize(gd1);
+            // };
+
+            window.addEventListener('resize', function() { Plotly.Plots.resize(gd1); });
+            //-----------------END Responsive code-------------------//
+
+            //Calls the plot into HTML
+            Plotly.plot(gd1, data, layout, toolbar);
+            });
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+        // Converter RA(right acension) to seconds
+        // 00h00m00s to 00sec
+
+        //Plotly gets every line and pushes into hms array
+        Plotly.d3.csv('https://edward8e.github.io/env_proto/e_search_arp_220.csv', function(err, dataCSV){
+        var hms = [];
+        var y = [];
+        var pn = [];
+          dataCSV.forEach(function(p) {
+                  hms.push(p['RA (J2000)']);
+                  y.push(p['Δcz [km/s]']);
+                  pn.push(p['Δcz [km/s]']);
+             });
+             var arrayLength = hms.length;
+             var x;
+             var seconds = [];
+             var i;
+
+             //filters out the strings and makes time into three section array
+              for(x = 0; x < arrayLength; x++)
+              {
+                 hms[x] = hms[x].replace("s",""); //removes s
+                 hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
+              }
+
+             //Pulls array and calculates the seconds
+             for(x = 0; x < arrayLength; x++){
+                 var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
+                 seconds.push(-secCalc);//flip xaxis
+               secCalc = 0;
+             }
+
+        var arrayLength = pn.length;
+             //changes the color of the points to red and blue depending on positive or negative
+
+             for(i = 0; i < arrayLength; i++)
+             {
+               if (pn[i] > 0){
+                 pn[i] = 'rgb(178,34,34)';
+               }
+               else{
+               pn[i] = 'rgb(0,0,139)';
+               }
+             }
+        x = seconds;
+
+        var data = [
+              {mode: 'markers',
+              type: "scatter",
+              name: 'this',
+              marker: {color: pn},
+              x: x,
+              y: y}
+          ];
+
+        //Graph axis related things
+        var layout = {
+          xaxis: {
+            title: 'RA<sub>(sec)</sub>',
+            autorange: true,
+            linecolor: 'rgb(200, 200, 200)',
+            linewidth: 2,
+            mirror: true,
+            ticks: 'inside',
+            ticklen: 10,
+            tickwidth: 2,
+            color: 'rgb(200, 200, 200)',
+            // rangeslider:{},
+          },
+          yaxis: {
+            title: 'Δ<sub>cz</sub> [km/s]',
+            autorange: true,
+            linecolor: 'rgb(200, 200, 200)',
+            linewidth: 2,
+            mirror: true,
+            ticks: 'inside',
+            ticklen: 10,
+            tickwidth: 2,
+            color: 'rgb(200, 200, 200)',
+          },
+          margin: {t: 20},
+          hovermode: 'closest',
+          plot_bgcolor: '#151515',
+          paper_bgcolor: '#151515',
+        };
+
+        //Edits made to the toolbar
+        var toolbar = {
+        	scrollZoom: true, // lets us scroll to zoom in and out - works
+        	showLink: false, // removes the link to edit on plotly - works
+        	modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+          displaylogo: false
+        };
+        //----------------Edits the CSS in the div---------------//
+        var WIDTH_IN_PERCENT_OF_PARENT = 100,
+            HEIGHT_IN_PERCENT_OF_PARENT = 100;
+
+        Plotly.d3.select('#my-graph2')
+            .style({
+                width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+                height: HEIGHT_IN_PERCENT_OF_PARENT + '%',
+            });
+        var gd2 = Plotly.d3.select('#my-graph2').node();
+
+      window.addEventListener('resize', function() { Plotly.Plots.resize(gd2); });
+        //-----------------END Responsive code-------------------//
+
+
+        var topItem3 = $("#my-graph2").css("width");
+        topItem3 = topItem3.replace("px","");
+        topItem3 = topItem3 * 2.4;
+        var scalescreenSize = $(window).height();
+        var bigHight = scalescreenSize - scalescreenSize*0.09;
+
+
+        $(".grid-item--height2").css("height", bigHight);
+        $grid.packery('layout');
+
+
+
+
+
+
+        //Calls the plot into HTML
+        Plotly.plot(gd2, data, layout, toolbar);
+
+        });
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+    // external js: packery.pkgd.js, draggabilly.pkgd.js
+
+    var $grid = $('.grid').packery({
+      itemSelector: '.grid-item',
+      columnWidth: 1,
+      // set positions with percent values
+    percentPosition: true,
+    fitWidth: true
+    });
+
+
+    // external js: packery.pkgd.js, jquery-ui-draggable.js
+
+
+
+    //---------------------Draggable----------------------//
+    document.querySelector("input[name=onoffswitch3]").onchange = function() {
+    if(this.checked) {
+      //When switch is on
+      // make all items draggable
+      var $items = $grid.find('.grid-item').draggable();
+      // bind drag events to Packery
+      $grid.packery( 'bindUIDraggableEvents', $items );
+        alert("on");
+      } else {
+        //when switch is off
+        // make all items draggable
+        var $items = $grid.find('.grid-item').draggable( "destroy" );
+        // bind drag events to Packery
+        $grid.packery( 'bindUIDraggableEvents', $items );
+          alert("off");
+      }
+    }
+
+    </script>
+
+  </body>
+</html>

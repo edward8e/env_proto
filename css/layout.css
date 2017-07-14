@@ -1,0 +1,70 @@
+
+/* ---- grid ---- */
+
+.grid {
+  /*background: #DDD;*/
+  max-width: 100%;
+}
+
+/* clear fix */
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-item {
+  float: left;
+  width: 300px;
+  height: 500px;
+  /*background: #C09;*/
+  /*border: 2px solid hsla(0, 0%, 0%, 0.5);*/
+  margin: 7px 0.9%;;
+}
+
+.grid-item--width2 { width: 500px; }
+
+.grid-item--width--settings { width: 40%;; }
+.grid-item--width--main { width: 40%;; height: 200px;}
+.grid-item--width--data { width: 31.3333%;; }
+
+
+.grid-item--width--graph1 { width: 34%; }
+.grid-item--width--graph2 { width: 34%; }
+.grid-item--width--graph3 { width: 25%; }
+
+
+.grid-item--height2 { height: 200px; }
+
+
+
+
+
+
+
+/*.grid-item--height--table { height: 300px;}*/
+.grid-item--width--table { width: 69%; }
+
+
+
+/*.grid-item:hover {
+  border-color: hsla(0, 0%, 100%, 0.5);
+  cursor: move;
+}*/
+
+.grid-item.is-dragging,
+.grid-item.is-positioning-post-drag,
+.grid-item.ui-draggable-dragging {
+  background: #C90;
+  z-index: 2;
+  border-color: white;
+}
+
+.packery-drop-placeholder {
+  outline: 3px dashed hsla(0, 0%, 0%, 0.5);
+  outline-offset: -6px;
+  -webkit-transition: -webkit-transform 0.2s;
+          transition: transform 0.2s;
+}
