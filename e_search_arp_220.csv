@@ -1,4 +1,4 @@
-Name,RA (J2000),Dec (J2000),Object Type,cz [km/s],z-flag,Redshift Reference,PA [deg],Sep. [Mpc],ëÓcz [km/s]
+Name,RA (J2000),Dec (J2000),Object Type,cz [km/s],z-flag,Redshift Reference,PA [deg],Sep. [Mpc],Î”cz [km/s]
 ARP 220,15h34m57.25s,+23d30m11.3s,G,5434,,1991RC3.9.C...0000d,0,0,0
 2MASX J15355358+2334556,15h35m53.56s,+23d34m55.8s,G,5337,,2007SDSS6.C...0000:,69.8,0.2913,-97
 LDCE 1130,15h34m15.00s,+23d11m28.0s,GTrpl,5350,,2008ApJ...685.1320C,-152.6,0.4468,-84
