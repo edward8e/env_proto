@@ -1332,12 +1332,14 @@ var Graph1Cases = function(){
         var hms = [];
         var y = [];
         var pn = [];
+        var color2 = [];
         var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
 
           dataCSV.forEach(function(p) {
                   hms.push(p['RA (J2000)']);
                   y.push(p['Δcz [km/s]']);
                   pn.push(p['Δcz [km/s]']);
+                  color2.push(p['Dec (J2000)']);
 
                   //Table Data
                   name.push(p['Name']);
@@ -1392,6 +1394,19 @@ var Graph1Cases = function(){
               number[i] = i;
             }
 
+            //Finding the center point for anotation
+            // var cmax = Math.max.apply(Math, color2);
+            // var cmin = Math.min.apply(Math, color2);
+            // var ccenter = (cmax + cmin)/2;
+
+            // for(i = 0; i <= arrayLength; i++)
+            // {
+            //   if(color2 < xcenter){
+            //     pn[i] = 'rgb(178,34,34)';
+            //   }else{
+            //     pn[i] = 'rgb(0,0,139)';
+            //   }
+            // }
 
 
         var data = [
