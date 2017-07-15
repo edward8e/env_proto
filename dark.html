@@ -82,6 +82,14 @@
                   <span class="onoffswitch-switch"></span>
               </label>
           </div>
+          <h5>Change color mode</h5>
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch10" class="onoffswitch-checkbox" id="myonoffswitch10" >
+              <label class="onoffswitch-label" for="myonoffswitch10">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
           <br />
           <h4>Toggle Graphs ON/OFF:</h4>
           <hr />
@@ -1402,6 +1410,7 @@ var Graph1Cases = function(){
 
             var arcseconds = [];
             var colorvar = [];
+            var hold;
             //filters out the strings and makes time into three section array
              for(i = 0; i < arrayLength; i++)
              {
@@ -1423,9 +1432,11 @@ var Graph1Cases = function(){
             for(i = 0; i <= arrayLength; i++)
             {
               if(arcseconds[i] < ccenter){
-                colorval[i] = '#601DC7';
+                hold = '#601DC7';
+                colorvar.push(hold);
               }else{
-                colorval[i] = '#FD5F00';
+                hold = '#FD5F00';
+                colorvar.push(hold);
               }
             }
 
@@ -1592,6 +1603,34 @@ var Graph1Cases = function(){
             document.querySelector("input[name=onoffswitch8]").addEventListener('change', function(){
               Graph3Cases();
             });
+
+            //---------------------On and off 3D Graph----------------------//
+              document.querySelector("input[name=onoffswitch10]").onchange = function() {
+              if(this.checked) {
+                //When switch is on
+                var data_update = {
+                  marker: {
+                    color: colorvar
+                  }
+                };
+                  Plotly.restyle('my-graph', data_update);
+                  Plotly.restyle('my-graph1', data_update);
+                  Plotly.restyle('my-graph2', data_update);
+                } else {
+                  //when switch is off
+                  var data_update = {
+                    marker: {
+                      color: pn
+                    }
+                  };
+                    Plotly.restyle('my-graph', data_update);
+                    Plotly.restyle('my-graph1', data_update);
+                    Plotly.restyle('my-graph2', data_update);
+                }
+              }
+                //---------------------END of controls----------------------//
+
+
 
         //Calls the plot into HTML
         Plotly.plot(gd2, data, layout, toolbar);
