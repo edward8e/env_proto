@@ -284,11 +284,6 @@
     var z = [];
     var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
       dataCSV.forEach(function(p) {
-              hms.push(p['RA (J2000)']);
-              hmsa.push(p['Dec (J2000)']);
-              pn.push(p['Δcz [km/s]']);
-              z.push(p['Δcz [km/s]']);
-
               //Table Data
               name.push(p['Name']);
               Ra.push(p['RA (J2000)']);
@@ -301,6 +296,10 @@
               Sep.push(p['Sep. [Mpc]']);
               deltaCZ.push(p['Δcz [km/s]']);
          });
+  hms = Ra.slice();
+  hmsa = Dec.slice();
+  pn = deltaCZ.slice();
+  z = deltaCZ.slice();
 
 
     //-----------------------------------------------------------
@@ -318,8 +317,8 @@
 
     //Pulls array and calculates the seconds
     for(x = 0; x < arrayLength; x++){
-        var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
-        seconds.push(-secCalc);//flip xaxis
+        var secCalc = 15 * ((+hms[x][0]) + (+hms[x][1]) / 60 + (+hms[x][2]) / 3600);
+        seconds.push(secCalc);//flip xaxis
       secCalc = 0;
     }
 
@@ -340,7 +339,7 @@
 
     //Pulls array and calculates the seconds
     for(x = 0; x < arrayLength; x++){
-        var secCalc = (+hmsa[x][0]) * 60 * 60 + (+hmsa[x][1]) * 60 + (+hmsa[x][2]);
+        var secCalc = (+hmsa[x][0]) + (+hmsa[x][1]) / 60 + (+hmsa[x][2]) / 3600;
         arcseconds.push(secCalc);
       secCalc = 0;
     }
@@ -376,7 +375,51 @@
     d = [1,2,3,4,5];
     var xmax = Math.max(d);
 
-    // console.log(xmax);
+    var gl = [], gb = [];
+    var sgx = [], sgy = [], sgz = [];
+    for(var i = 0; i < x.length; i++){
+      astrojs.ready(function(e){
+      var coord = astrojs.coords.equatorial2galactic(x[i],y[i]);
+      gl[i] = coord.l;
+      gb[i] = coord.b;
+      });
+    }
+console.log(gl[1]);
+console.log(gb[1]);
+
+function SuperGalactic(ra,dec){
+  var radeg = 180.0/Math.PI;
+
+  var rapol = 283.18940711/15.0;
+  var decpol = 15.64407736;
+  var dlon =  26.73153707;
+
+  var sdp = sin(decpol/radeg);
+  var cdp = sqrt(Math.pow(1,0)-sdp*sdp);
+  var radhrs=radeg/Math.pow(15,0);
+
+  // if(!degree ){
+  //   ras = ra*15.0;
+  // }else{
+  //   ras =ra;
+  // }
+  var ras =ra;
+  var decs = dec;
+
+  tmp = precess(ras,decs,year,2000)
+  ras = tmp$ra
+  decs = tmp$dec
+
+}
+
+var test1 
+astrojs.ready(function(e){
+var coord = astrojs.coords.equatorial2galactic(x[i],y[i]);
+gl[i] = coord.l;
+gb[i] = coord.b;
+});
+
+
 
 
     var data = [
@@ -845,8 +888,8 @@ var Graph1Cases = function(){
 
             //Pulls array and calculates the seconds
             for(x = 0; x < arrayLength; x++){
-                var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
-                seconds.push(-secCalc);// flipped the x-asix because of oritenation
+              var secCalc = 15 * ((+hms[x][0]) + (+hms[x][1]) / 60 + (+hms[x][2]) / 3600);
+                seconds.push(secCalc);// flipped the x-asix because of oritenation
               secCalc = 0;
             }
 
@@ -867,8 +910,8 @@ var Graph1Cases = function(){
 
             //Pulls array and calculates the seconds
             for(x = 0; x < arrayLength; x++){
-                var secCalc = (+hmsa[x][0]) * 60 * 60 + (+hmsa[x][1]) * 60 + (+hmsa[x][2]);
-                arcseconds.push(secCalc);
+              var secCalc = (+hmsa[x][0]) + (+hmsa[x][1]) / 60 + (+hmsa[x][2]) / 3600;
+                arcseconds.push(-secCalc);
               secCalc = 0;
             }
 
@@ -1375,7 +1418,7 @@ var Graph1Cases = function(){
 
              //Pulls array and calculates the seconds
              for(x = 0; x < arrayLength; x++){
-                 var secCalc = (+hms[x][0]) * 60 * 60 + (+hms[x][1]) * 60 + (+hms[x][2]);
+               var secCalc = 15 * ((+hms[x][0]) + (+hms[x][1]) / 60 + (+hms[x][2]) / 3600);
                  seconds.push(-secCalc);//flip xaxis
                secCalc = 0;
              }
@@ -1420,7 +1463,7 @@ var Graph1Cases = function(){
              }
             //Pulls array and calculates the seconds
             for(i = 0; i < arrayLength; i++){
-                var secCalc = (+color2[i][0]) * 60 * 60 + (+color2[i][1]) * 60 + (+color2[i][2]);
+              var secCalc = (+color2[i][0]) + (+color2[i][1]) / 60 + (+color2[i][2]) / 3600;
                 arcseconds.push(secCalc);
               secCalc = 0;
             }
@@ -1752,6 +1795,14 @@ var Graph1Cases = function(){
     <script src="js/nouislider.min.js"></script>
     <!-- In <body> -->
     <script src="js/wNumb.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.coords.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.constants.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.dates.js"></script>
     <!-- Compiled and minified JavaScript -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
   </body>
