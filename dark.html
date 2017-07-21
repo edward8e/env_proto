@@ -384,8 +384,8 @@ var HO = 73.8;
       gb[i] = coord.b;
       });
     }
-console.log(gl[1]);
-console.log(gb[1]);
+// console.log(gl[1]);
+// console.log(gb[1]);
 // SuperGalactic(205.55000000,8.38805556);
 
 var SuperGalactic = function(ra,dec){
@@ -430,17 +430,26 @@ for(var i = 0; i < x.length; i++){
   sgb.push(sgc[0]);
   sgl.push(sgc[1]);
 }
+for(var i = 0; i < x.length; i++){
+  sgb[i] = sgb[i] * Math.PI/180;
+  sgl[i] = sgl[i] * Math.PI/180;
+}
 console.log(sgb);
 console.log(sgl);
+console.log(cz);
 
 
 var SuperGalacticXYZ = function(sgl,sgb,cz){
+
   var r = cz / HO;
   var sgx = r*Math.cos(sgl)*Math.cos(sgb);
   var sgy = r*Math.sin(sgl)*Math.cos(sgb);
   var sgz = r*Math.sin(sgb);
   return [sgx, sgy, sgz]
 };
+
+
+
 
 
 var sgX = [];
