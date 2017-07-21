@@ -300,7 +300,7 @@
   hmsa = Dec.slice();
   pn = deltaCZ.slice();
   z = deltaCZ.slice();
-
+var HO = 73.8;
 
     //-----------------------------------------------------------
     var arrayLength = hms.length;
@@ -386,33 +386,98 @@
     }
 console.log(gl[1]);
 console.log(gb[1]);
+// SuperGalactic(205.55000000,8.38805556);
 
-function SuperGalactic(ra,dec){
+var SuperGalactic = function(ra,dec){
   var radeg = 180.0/Math.PI;
 
   var rapol = 283.18940711/15.0;
   var decpol = 15.64407736;
   var dlon =  26.73153707;
 
-  var sdp = sin(decpol/radeg);
-  var cdp = sqrt(Math.pow(1,0)-sdp*sdp);
-  var radhrs=radeg/Math.pow(15,0);
+  var sdp = Math.sin(decpol/radeg);
+  var cdp = Math.sqrt(1-sdp*sdp);
+  var radhrs=radeg/15;
 
-  // if(!degree ){
-  //   ras = ra*15.0;
-  // }else{
-  //   ras =ra;
-  // }
-  var ras =ra;
+  var ras = ra;
   var decs = dec;
 
-  tmp = precess(ras,decs,year,2000)
-  ras = tmp$ra
-  decs = tmp$dec
+  // bprecess(ras,decs);
+  // var ras = 204.9271;
+  // var decs = 8.639863;
+
+  ras = ras/radeg - rapol/radhrs;
+  var sdec = Math.sin(decs/radeg);
+  var cdec = Math.sqrt(1*Math.pow(10,0)-sdec*sdec);
+  var sgb = sdec*sdp + cdec*cdp*Math.cos(ras);
+  var gb = radeg * Math.asin(sgb);
+  var cgb = Math.sqrt(1*Math.pow(10,0)-sgb*sgb);
+  var sine = cdec * Math.sin(ras) / cgb;
+  var cose = (sdec-sdp*sgb) / (cdp*cgb);
+  var gl = dlon - radeg*Math.atan2(sine,cose);
+  var ltzero = (gl < 0);
+  if(ltzero == true){
+    gl =gl + 360;
+  }
+ return [gb, gl];
+};
+
+var sgb = [];
+var sgl = [];
+
+for(var i = 0; i < x.length; i++){
+  var sgc = SuperGalactic(x[i],y[i]);
+  sgb.push(sgc[0]);
+  sgl.push(sgc[1]);
+}
+console.log(sgb);
+console.log(sgl);
+
+
+var SuperGalacticXYZ = function(sgl,sgb,cz){
+  var r = cz / HO;
+  var sgx = r*Math.cos(sgl)*Math.cos(sgb);
+  var sgy = r*Math.sin(sgl)*Math.cos(sgb);
+  var sgz = r*Math.sin(sgb);
+  return [sgx, sgy, sgz]
+};
+
+
+var sgX = [];
+var sgY = [];
+var sgZ = [];
+for(var i = 0; i < x.length; i++){
+var sgxyz = SuperGalacticXYZ(sgl[i],sgb[i],cz[i])
+sgX.push(sgxyz[0]);
+sgY.push(sgxyz[1]);
+sgZ.push(sgxyz[2]);
+}
+console.log(sgX);
+console.log(sgY);
+console.log(sgZ);
+
+
+
+function bprecess(ra,dec){
+    var radeg = 180.0/Math.PI;
+    var sec_to_radian = 1/radeg/3600;
+    var m;
+    //in arc seconds per century
+    var  ra_rad = ra/radeg;
+    var  dec_rad = dec/radeg;
+    var  cosra =  Math.cos( ra_rad );
+    var  sinra = Math.sin( ra_rad );
+    var  cosdec = Math.cos( dec_rad );
+    var  sindec = Math.sin( dec_rad );
+    var  dec_1950 = dec*0.
+    var  ra_1950 = ra*0.
+
 
 }
 
-var test1 
+
+
+var test1
 astrojs.ready(function(e){
 var coord = astrojs.coords.equatorial2galactic(x[i],y[i]);
 gl[i] = coord.l;
@@ -435,9 +500,9 @@ gb[i] = coord.b;
             size: 5,
           },
           opacity: 0.3,
-          x: x,
-          y: y,
-          z: z}
+          x: sgX,
+          y: sgY,
+          z: sgZ}
       ];
 
     //Graph axis related things
