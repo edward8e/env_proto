@@ -309,15 +309,15 @@ var HO = 73.8;
     var i;
 
     //filters out the strings and makes time into three section array
-     for(x = 0; x < arrayLength; x++)
+     for(i = 0; i < arrayLength; i++)
      {
-        hms[x] = hms[x].replace("s",""); //removes s
-        hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
+        hms[i] = hms[i].replace("s",""); //removes s
+        hms[i] = hms[i].split(/[hm]/); //separates based off "h" and "m"
      }
 
     //Pulls array and calculates the seconds
-    for(x = 0; x < arrayLength; x++){
-        var secCalc = 15 * ((+hms[x][0]) + (+hms[x][1]) / 60 + (+hms[x][2]) / 3600);
+    for(i = 0; i < arrayLength; i++){
+        var secCalc = 15 * ((+hms[i][0]) + (+hms[i][1]) / 60 + (+hms[i][2]) / 3600);
         seconds.push(secCalc);//flip xaxis
       secCalc = 0;
     }
@@ -330,16 +330,16 @@ var HO = 73.8;
 
 
     //filters out the strings and makes time into three section array
-     for(x = 0; x < arrayLength; x++)
+     for(i = 0; i < arrayLength; i++)
      {
-        hmsa[x] = hmsa[x].replace("s",""); //removes s
-        hmsa[x] = hmsa[x].replace("+",""); //removes s
-        hmsa[x] = hmsa[x].split(/[dm]/); //separates based off "h" and "m"
+        hmsa[i] = hmsa[i].replace("s",""); //removes s
+        hmsa[i] = hmsa[i].replace("+",""); //removes s
+        hmsa[i] = hmsa[i].split(/[dm]/); //separates based off "h" and "m"
      }
 
     //Pulls array and calculates the seconds
-    for(x = 0; x < arrayLength; x++){
-        var secCalc = (+hmsa[x][0]) + (+hmsa[x][1]) / 60 + (+hmsa[x][2]) / 3600;
+    for(i = 0; i < arrayLength; i++){
+        var secCalc = (+hmsa[i][0]) + (+hmsa[i][1]) / 60 + (+hmsa[i][2]) / 3600;
         arcseconds.push(secCalc);
       secCalc = 0;
     }
@@ -434,9 +434,9 @@ for(var i = 0; i < x.length; i++){
   sgb[i] = sgb[i] * Math.PI/180;
   sgl[i] = sgl[i] * Math.PI/180;
 }
-console.log(sgb);
-console.log(sgl);
-console.log(cz);
+// console.log(sgb);
+// console.log(sgl);
+// console.log(cz);
 
 
 var SuperGalacticXYZ = function(sgl,sgb,cz){
@@ -461,9 +461,9 @@ sgX.push(sgxyz[0]);
 sgY.push(sgxyz[1]);
 sgZ.push(sgxyz[2]);
 }
-console.log(sgX);
-console.log(sgY);
-console.log(sgZ);
+// console.log(sgX);
+// console.log(sgY);
+// console.log(sgZ);
 
 
 
@@ -518,7 +518,7 @@ gb[i] = coord.b;
     var layout = {
       scene: {
         xaxis: {
-        title: 'RA<sub>(sec)</sub>',
+        title: 'sgX',
         autorange: true,
         linecolor: 'rgba(200, 200, 200, 1)',
         linewidth: 2,
@@ -529,7 +529,7 @@ gb[i] = coord.b;
         color: 'rgba(200, 200, 200, 1)',
       },
       yaxis: {
-        title: 'Dec<sub>(arcsec)</sub>',
+        title: 'sgY',
         autorange: true,
         gridcolor: 'rgba(200, 200, 200, 1)',
         backgroundcolor: 'rgba(200, 200, 200, 1)',
@@ -542,7 +542,7 @@ gb[i] = coord.b;
         color: 'rgba(200, 200, 200, 1)',
       },
       zaxis: {
-        title: 'Δ<sub>cz</sub> [km/s]',
+        title: 'sgZ',
         autorange: true,
         gridcolor: 'rgb(255, 255, 255)',
         backgroundcolor: 'rgba(200, 200, 200, 1)',
@@ -1458,6 +1458,8 @@ var Graph1Cases = function(){
         var y = [];
         var pn = [];
         var color2 = [];
+        var hmsa = [];
+        var HO = 73.8;
         var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
 
           dataCSV.forEach(function(p) {
@@ -1465,6 +1467,7 @@ var Graph1Cases = function(){
                   y.push(p['Δcz [km/s]']);
                   pn.push(p['Δcz [km/s]']);
                   color2.push(p['Dec (J2000)']);
+                  hmsa.push(p['Dec (J2000)']);
 
                   //Table Data
                   name.push(p['Name']);
@@ -1484,18 +1487,41 @@ var Graph1Cases = function(){
              var i;
 
              //filters out the strings and makes time into three section array
-              for(x = 0; x < arrayLength; x++)
+              for(var i = 0; i < arrayLength; i++)
               {
-                 hms[x] = hms[x].replace("s",""); //removes s
-                 hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
+                 hms[i] = hms[i].replace("s",""); //removes s
+                 hms[i] = hms[i].split(/[hm]/); //separates based off "h" and "m"
               }
 
              //Pulls array and calculates the seconds
-             for(x = 0; x < arrayLength; x++){
-               var secCalc = 15 * ((+hms[x][0]) + (+hms[x][1]) / 60 + (+hms[x][2]) / 3600);
+             for(var i = 0; i < arrayLength; i++){
+               var secCalc = 15 * ((+hms[i][0]) + (+hms[i][1]) / 60 + (+hms[i][2]) / 3600);
                  seconds.push(-secCalc);//flip xaxis
                secCalc = 0;
              }
+
+             // Converter Dec(right acension) to seconds
+             // 00d00m00s to 00sec
+             var arrayLength = hmsa.length;
+             var arcseconds = [];
+
+
+             //filters out the strings and makes time into three section array
+              for(i = 0; i < arrayLength; i++)
+              {
+                 hmsa[i] = hmsa[i].replace("s",""); //removes s
+                 hmsa[i] = hmsa[i].replace("+",""); //removes s
+                 hmsa[i] = hmsa[i].split(/[dm]/); //separates based off "h" and "m"
+              }
+
+             //Pulls array and calculates the seconds
+             for(i = 0; i < arrayLength; i++){
+               var secCalc = (+hmsa[i][0]) + (+hmsa[i][1]) / 60 + (+hmsa[i][2]) / 3600;
+                 arcseconds.push(-secCalc);
+               secCalc = 0;
+             }
+
+
 
         var arrayLength = pn.length;
              //changes the color of the points to red and blue depending on positive or negative
@@ -1519,11 +1545,26 @@ var Graph1Cases = function(){
               number[i] = i;
             }
 
+            var xCoor = [];
+            var yCoor = [];
+            var zCoor = [];
+            var RaToPolar = function(ra,dec,cz){
+              // ra = ra * Math.PI/180;
+              // dec = dec * Math.PI/180;
+              var r = cz / HO;
+              var sgx = r*Math.cos(ra)*Math.cos(dec);
+              var sgy = r*Math.sin(dec)*Math.cos(ra);
+              var sgz = r*Math.sin(ra);
+              return [sgx,sgz,sgy]
+            };
 
+            for(i = 0; i < arrayLength; i++){
 
-
-
-
+              var sgc = RaToPolar(-seconds[i],arcseconds[i],cz[i]);
+              xCoor.push(sgc[0]);
+              yCoor.push(sgc[1]);
+              zCoor.push(sgc[2]);
+            }
 
             var arcseconds = [];
             var colorvar = [];
@@ -1564,7 +1605,7 @@ var Graph1Cases = function(){
               text: number,
               name: 'this',
               marker: {color: pn},
-              x: x,
+              x: xCoor,
               y: y}
           ];
 
@@ -1727,20 +1768,37 @@ var Graph1Cases = function(){
                 //When switch is on
                 var data_update = {
                   marker: {
+                    color: colorvar,
+                    symbol: 'circle',
+                    size: 5,
+                  },
+                  opacity: 0.3,
+                };
+                  Plotly.restyle('my-graph', data_update);
+                  var data_update = {
+                  marker: {
                     color: colorvar
                   }
                 };
-                  Plotly.restyle('my-graph', data_update);
+
                   Plotly.restyle('my-graph1', data_update);
                   Plotly.restyle('my-graph2', data_update);
                 } else {
                   //when switch is off
                   var data_update = {
                     marker: {
+                      color: pn,
+                      symbol: 'circle',
+                      size: 5,
+                    },
+                    opacity: 0.3,
+                  };
+                  Plotly.restyle('my-graph', data_update);
+                  var data_update = {
+                    marker: {
                       color: pn
                     }
                   };
-                    Plotly.restyle('my-graph', data_update);
                     Plotly.restyle('my-graph1', data_update);
                     Plotly.restyle('my-graph2', data_update);
                 }
