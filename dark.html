@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Dosis:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet">
 
 
 
@@ -37,8 +38,6 @@
       integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
       crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cyborg/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
 
 
     <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
@@ -142,6 +141,21 @@
                 <li><a href="dark.html">Dark Theme<span class="sr-only">(current)</span></a></li>
                 <li><a href="light.html">Light Theme<span class="sr-only">(current)</span></a></li>
               </ul>
+
+              <div class="row pull-right">
+                <div class="col-xs-6">
+                  <h6>Activate Dark Mode: </h6>
+                </div>
+                <div class="col-xs-6" style="padding: 10px 0px;">
+                  <div class="onoffswitch" >
+                    <input type="checkbox" name="onoffswitch12" class="onoffswitch-checkbox" id="myonoffswitch12">
+                    <label class="onoffswitch-label" for="myonoffswitch12">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
@@ -273,45 +287,100 @@
 var GsgX = [];
 var GsgY = [];
 var GsgZ = [];
+var names = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
+var hms = [];   // your input string
+var hmsa = [];   // your input string
+var pn = [];
+var z = [];
+var seconds = [];
+var arcseconds = [];
+var pShape = [];
+ var number = [];
+ var HO = 73.8;
+ var color2 = [];
+ var xCoorFinal = [];
+
+$.ajax({
+  type: "GET",
+  url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'https%3A%2F%2Fedward8e.github.io%2Fenv_proto%2Farp220XML.xml'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",
+  dataType: "xml",
+  success: xmlParser,
+});
 
 
-    // Converter RA(right acension) to seconds
-    // 00h00m00s to 00sec
-
-    //Plotly gets every line and pushes into hms array
-    Plotly.d3.csv('https://edward8e.github.io/env_proto/e_search_arp_220.csv', function(err, dataCSV){
-    var hms = [];   // your input string
-    var hmsa = [];   // your input string
-    var pn = [];
-    var z = [];
-    var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
-      dataCSV.forEach(function(p) {
-              //Table Data
-              name.push(p['Name']);
-              Ra.push(p['RA (J2000)']);
-              Dec.push(p['Dec (J2000)']);
-              OType.push(p['Object Type']);
-              cz.push(p['cz [km/s]']);
-              zFlag.push(p['z-flag']);
-              RShift.push(p['Redshift Reference']);
-              Pa.push(p['PA [deg]']);
-              Sep.push(p['Sep. [Mpc]']);
-              deltaCZ.push(p['Δcz [km/s]']);
-         });
+function xmlParser(xml){
+  var data = [];
+    $(xml).find("row").each(function(idx, v) {
+        data[idx] = [];
+        $(v).find("FIELD1").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD2").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD3").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD4").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD5").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD6").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD7").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD8").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD9").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+        $(v).find("FIELD10").each(function( i , vi) {
+            data[idx].push( $(vi).text() );
+        });
+    });
+    for(var i = 1; i < data.length; i++){
+      //Table Data
+      names.push(data[i][0]);
+      Ra.push(data[i][1]);
+      Dec.push(data[i][2]);
+      OType.push(data[i][3]);
+      cz.push(data[i][4]);
+      zFlag.push(data[i][5]);
+      RShift.push(data[i][6]);
+      Pa.push(data[i][7]);
+      Sep.push(data[i][8]);
+      deltaCZ.push(data[i][9]);
+    }
+    loadArrays();
+    AddPlot1();
+    AddPlot2();
+    AddPlot3();
+    CheckDarkMode();
+}
+function loadArrays(){
   hms = Ra.slice();
   hmsa = Dec.slice();
   pn = deltaCZ.slice();
   z = deltaCZ.slice();
-var HO = 73.8;
+  pShape = OType.slice();
+  color2 = Dec.slice();
+}
 
+
+
+function AddPlot1(){
+
+    var HO = 73.8;
     //-----------------------------------------------------------
     var arrayLength = hms.length;
-    var x;
-    var seconds = [];
-    var i;
 
     //filters out the strings and makes time into three section array
-     for(i = 0; i < arrayLength; i++)
+     for(var i = 0; i < hms.length; i++)
      {
         hms[i] = hms[i].replace("s",""); //removes s
         hms[i] = hms[i].split(/[hm]/); //separates based off "h" and "m"
@@ -328,11 +397,10 @@ var HO = 73.8;
     // Converter Dec(right acension) to seconds
     // 00d00m00s to 00sec
     var arrayLength = hmsa.length;
-    var arcseconds = [];
 
 
     //filters out the strings and makes time into three section array
-     for(i = 0; i < arrayLength; i++)
+     for(var i = 0; i < arrayLength; i++)
      {
         hmsa[i] = hmsa[i].replace("s",""); //removes s
         hmsa[i] = hmsa[i].replace("+",""); //removes s
@@ -340,7 +408,7 @@ var HO = 73.8;
      }
 
     //Pulls array and calculates the seconds
-    for(i = 0; i < arrayLength; i++){
+    for(var i = 0; i < arrayLength; i++){
         var secCalc = (+hmsa[i][0]) + (+hmsa[i][1]) / 60 + (+hmsa[i][2]) / 3600;
         arcseconds.push(secCalc);
       secCalc = 0;
@@ -350,20 +418,19 @@ var HO = 73.8;
 
     //changes the color of the points to red and blue depending on positive or negative
 
-    for(i = 0; i < arrayLength; i++)
+    for(var i = 0; i < arrayLength; i++)
     {
       if (pn[i] > 0){
         pn[i] = 'rgb(178,34,34)';
       }
       else{
-      pn[i] = 'rgb(0,0,139)';
+      pn[i] = 'rgb(10, 97, 194)';
       }
     }
 
 
 // Gives number to every point
 
- var number = [];
     for(i = 0; i <= arrayLength; i++)
     {
       number[i] = i;
@@ -523,7 +590,7 @@ gb[i] = coord.b;
     var layout = {
       scene: {
         xaxis: {
-        title: 'sgX',
+        title: 'sgX Mpc',
         autorange: true,
         linecolor: 'rgba(200, 200, 200, 1)',
         linewidth: 2,
@@ -534,7 +601,7 @@ gb[i] = coord.b;
         color: 'rgba(200, 200, 200, 1)',
       },
       yaxis: {
-        title: 'sgY',
+        title: 'sgY Mpc',
         autorange: true,
         gridcolor: 'rgba(200, 200, 200, 1)',
         backgroundcolor: 'rgba(200, 200, 200, 1)',
@@ -547,7 +614,7 @@ gb[i] = coord.b;
         color: 'rgba(200, 200, 200, 1)',
       },
       zaxis: {
-        title: 'sgZ',
+        title: 'sgZ Mpc',
         autorange: true,
         gridcolor: 'rgb(255, 255, 255)',
         backgroundcolor: 'rgba(200, 200, 200, 1)',
@@ -855,13 +922,12 @@ var Graph1Cases = function(){
               pts = data.points[i].text;
           }
           var pCounter = pts;
-          console.log(pCounter);
 
       //Display the Point number
        var numbertext = data.points.map(function(d){return (pts);});
        hoverInfoNum.innerHTML = numbertext.join('');
       //Display the Point number
-       var nametext = data.points.map(function(d){return (name[pCounter]);});
+       var nametext = data.points.map(function(d){return (names[pCounter]);});
        hoverInfoName.innerHTML = nametext.join('');
       //Display the Point number
        var ratext = data.points.map(function(d){return (Ra[pCounter]);});
@@ -907,115 +973,21 @@ var Graph1Cases = function(){
 
 
 
-    });
+}
 
 
 
+function AddPlot2(){
 
 
-    </script>
-
-
-
-
-
-    <script>
-
-
-            // Converter RA(right acension) to seconds
-            // 00h00m00s to 00sec
-
-            //Plotly gets every line and pushes into hms array
-            Plotly.d3.csv('https://edward8e.github.io/env_proto/e_search_arp_220.csv', function(err, dataCSV){
-            var hms = [];   // your input string
-            var hmsa = [];   // your input string
-            var pn = [];
-            var pShape = [];
-            var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
-
-              dataCSV.forEach(function(p) {
-                      hms.push(p['RA (J2000)']);
-                      hmsa.push(p['Dec (J2000)']);
-                      pn.push(p['Δcz [km/s]']);
-                      pShape.push(p['Object Type']);
-
-                      //Table Data
-                      name.push(p['Name']);
-                      Ra.push(p['RA (J2000)']);
-                      Dec.push(p['Dec (J2000)']);
-                      OType.push(p['Object Type']);
-                      cz.push(p['cz [km/s]']);
-                      zFlag.push(p['z-flag']);
-                      RShift.push(p['Redshift Reference']);
-                      Pa.push(p['PA [deg]']);
-                      Sep.push(p['Sep. [Mpc]']);
-                      deltaCZ.push(p['Δcz [km/s]']);
-
-                 });
-            var delta = pn.slice(0);
+            var delta = deltaCZ.slice(0);
             var arrayLength = hms.length;
-            var x;
-            var seconds = [];
-            var i;
+            //flips x axis
 
-            //filters out the strings and makes time into three section array
-             for(x = 0; x < arrayLength; x++)
-             {
-                hms[x] = hms[x].replace("s",""); //removes s
-                hms[x] = hms[x].split(/[hm]/); //separates based off "h" and "m"
-             }
-
-            //Pulls array and calculates the seconds
-            for(x = 0; x < arrayLength; x++){
-              var secCalc = 15 * ((+hms[x][0]) + (+hms[x][1]) / 60 + (+hms[x][2]) / 3600);
-                seconds.push(secCalc);// flipped the x-asix because of oritenation
-              secCalc = 0;
-            }
-
-
-            // Converter Dec(right acension) to seconds
-            // 00d00m00s to 00sec
-            var arrayLength = hmsa.length;
-            var arcseconds = [];
-
-
-            //filters out the strings and makes time into three section array
-             for(x = 0; x < arrayLength; x++)
-             {
-                hmsa[x] = hmsa[x].replace("s",""); //removes s
-                hmsa[x] = hmsa[x].replace("+",""); //removes s
-                hmsa[x] = hmsa[x].split(/[dm]/); //separates based off "h" and "m"
-             }
-
-            //Pulls array and calculates the seconds
-            for(x = 0; x < arrayLength; x++){
-              var secCalc = (+hmsa[x][0]) + (+hmsa[x][1]) / 60 + (+hmsa[x][2]) / 3600;
-                arcseconds.push(-secCalc);
-              secCalc = 0;
-            }
-
-
-            //changes the color of the points to red and blue depending on positive or negative
-
-            for(i = 0; i < arrayLength; i++)
+            for(var i = 0; i < seconds.length; i++)
             {
-              if (pn[i] > 0){
-                pn[i] = 'rgb(178,34,34)';
-              }
-              else{
-              pn[i] = 'rgb(0,0,139)';
-              }
+              seconds[i] = -seconds[i];
             }
-
-            // Gives number to every point
-
-             var number = [];
-                for(i = 0; i <= arrayLength; i++)
-                {
-                  number[i] = i;
-                }
-
-
 
 
             x = seconds;
@@ -1080,6 +1052,12 @@ var Graph1Cases = function(){
               else if(pShape[i] === "GGroup"){
                 pShape[i] = "square-open";
               }
+              else if(pShape[i] === "GTrpl"){
+                pShape[i] = "triangle-up-open";
+              }
+              else if(pShape[i] === "Gclstr"){
+                pShape[i] = "diamond-cross-open";
+              }
               else {
                 pShape[i] = "circle";
               }
@@ -1113,7 +1091,6 @@ var Graph1Cases = function(){
                 ticklen: 10,
                 tickwidth: 2,
                 color: 'rgb(200, 200, 200)',
-                // rangeslider:{},
               },
               yaxis: {
                 title: 'Dec<sub>(arcsec)</sub>',
@@ -1145,7 +1122,7 @@ var Graph1Cases = function(){
                   x1: xright,
                   y1: ybottom,
                   line: {
-                    color: 'rgba(200, 200, 200, 0.3)'
+                    color: 'rgba(100, 100, 100, 0.5)'
                   }
                 },
                 {
@@ -1158,7 +1135,7 @@ var Graph1Cases = function(){
                   x1: xright1,
                   y1: ybottom1,
                   line: {
-                    color: 'rgba(200, 200, 200, 0.3)'
+                    color: 'rgba(100, 100, 100, 0.5)'
                   }
                 },
                 {
@@ -1171,7 +1148,7 @@ var Graph1Cases = function(){
                   x1: xright2,
                   y1: ybottom2,
                   line: {
-                    color: 'rgba(200, 200, 200, 0.3)'
+                    color: 'rgba(100, 100, 100, 0.5)'
                   }
                 },
                 {
@@ -1184,7 +1161,7 @@ var Graph1Cases = function(){
                   x1: xright3,
                   y1: ybottom3,
                   line: {
-                    color: 'rgba(200, 200, 200, 0.3)'
+                    color: 'rgba(100, 100, 100, 0.5)'
                   }
                 },
                 {
@@ -1197,7 +1174,7 @@ var Graph1Cases = function(){
                   x1: xright4,
                   y1: ybottom4,
                   line: {
-                    color: 'rgba(200, 200, 200, 0.3)'
+                    color: 'rgba(100, 100, 100, 0.5)'
                   }
                 },
               ]
@@ -1269,12 +1246,12 @@ var Graph1Cases = function(){
               var sgxTemp = GsgX.slice(0);
               var sgyTemp = GsgY.slice(0);
               var sgzTemp = GsgZ.slice(0);
-              var xCoorTemp = GxCoor.slice(0);
+              var xCoorTemp = xCoorFinal.slice(0);
 
               var sliderValues = slider.noUiSlider.get();
               var xslider = x.slice(0);
               var yslider = y.slice(0);
-              var yLongSlider = delta.slice(0);
+              var yLongSlider = deltaCZ.slice(0);
 
               for(i = 0; i < xslider.length; i++){
                 if (delta[i] <= sliderValues[1] && delta[i] >= sliderValues[0]){
@@ -1305,7 +1282,6 @@ var Graph1Cases = function(){
                 Plotly.restyle('my-graph', data_update);
                 Plotly.restyle('my-graph1', data_update1);
                 Plotly.restyle('my-graph2', data_update2);
-                console.log(sgxTemp);
 
             });
 
@@ -1406,7 +1382,6 @@ var Graph1Cases = function(){
                       pts = data.points[i].text;
                   }
                   var pCounter = pts;
-                  console.log(pCounter);
 
               //Display the Point number
                var numbertext = data.points.map(function(d){return (pts);});
@@ -1449,128 +1424,26 @@ var Graph1Cases = function(){
 
             });
 
-            });
 
 
 
+}
 
 
-    </script>
+function AddPlot3(){
 
 
-
-
-
-
-<script>
-
-
-
-var GxCoor = [];
-
-
-        // Converter RA(right acension) to seconds
-        // 00h00m00s to 00sec
-
-        //Plotly gets every line and pushes into hms array
-        Plotly.d3.csv('https://edward8e.github.io/env_proto/e_search_arp_220.csv', function(err, dataCSV){
-        var hms = [];
-        var y = [];
-        var pn = [];
-        var color2 = [];
-        var hmsa = [];
-        var HO = 73.8;
-        var name = [], Ra = [], Dec = [], OType = [], cz = [], zFlag = [], RShift = [], Pa = [], Sep = [], deltaCZ = [];
-
-          dataCSV.forEach(function(p) {
-                  hms.push(p['RA (J2000)']);
-                  y.push(p['Δcz [km/s]']);
-                  pn.push(p['Δcz [km/s]']);
-                  color2.push(p['Dec (J2000)']);
-                  hmsa.push(p['Dec (J2000)']);
-
-                  //Table Data
-                  name.push(p['Name']);
-                  Ra.push(p['RA (J2000)']);
-                  Dec.push(p['Dec (J2000)']);
-                  OType.push(p['Object Type']);
-                  cz.push(p['cz [km/s]']);
-                  zFlag.push(p['z-flag']);
-                  RShift.push(p['Redshift Reference']);
-                  Pa.push(p['PA [deg]']);
-                  Sep.push(p['Sep. [Mpc]']);
-                  deltaCZ.push(p['Δcz [km/s]']);
-             });
-             var arrayLength = hms.length;
-             var x;
-             var seconds = [];
-             var i;
-
-             //filters out the strings and makes time into three section array
-              for(var i = 0; i < arrayLength; i++)
-              {
-                 hms[i] = hms[i].replace("s",""); //removes s
-                 hms[i] = hms[i].split(/[hm]/); //separates based off "h" and "m"
-              }
-
-             //Pulls array and calculates the seconds
-             for(var i = 0; i < arrayLength; i++){
-               var secCalc = 15 * ((+hms[i][0]) + (+hms[i][1]) / 60 + (+hms[i][2]) / 3600);
-                 seconds.push(-secCalc);//flip xaxis
-               secCalc = 0;
-             }
-
-             // Converter Dec(right acension) to seconds
-             // 00d00m00s to 00sec
-             var arrayLength = hmsa.length;
-             var arcseconds = [];
-
-
-             //filters out the strings and makes time into three section array
-              for(i = 0; i < arrayLength; i++)
-              {
-                 hmsa[i] = hmsa[i].replace("s",""); //removes s
-                 hmsa[i] = hmsa[i].replace("+",""); //removes s
-                 hmsa[i] = hmsa[i].split(/[dm]/); //separates based off "h" and "m"
-              }
-
-             //Pulls array and calculates the seconds
-             for(i = 0; i < arrayLength; i++){
-               var secCalc = (+hmsa[i][0]) + (+hmsa[i][1]) / 60 + (+hmsa[i][2]) / 3600;
-                 arcseconds.push(-secCalc);
-               secCalc = 0;
-             }
-
-
-
-        var arrayLength = pn.length;
-             //changes the color of the points to red and blue depending on positive or negative
-
-             for(i = 0; i < arrayLength; i++)
-             {
-               if (pn[i] > 0){
-                 pn[i] = 'rgb(178,34,34)';
-               }
-               else{
-               pn[i] = 'rgb(0,0,139)';
-               }
-             }
-        x = seconds;
-
-        // Gives number to every point
-
-         var number = [];
-            for(i = 0; i <= arrayLength; i++)
-            {
-              number[i] = i;
-            }
-
+            var GxCoor = [];
             var xCoor = [];
             var yCoor = [];
             var zCoor = [];
+
+            var m;
+            var xaxistemp;
+            var yminslope;
             var RaToPolar = function(ra,dec,cz){
-              // ra = ra * Math.PI/180;
-              // dec = dec * Math.PI/180;
+              ra = ra * Math.PI/180;
+              dec = dec * Math.PI/180;
               var r = cz / HO;
               var sgx = r*Math.cos(ra)*Math.cos(dec);
               var sgy = r*Math.sin(dec)*Math.cos(ra);
@@ -1578,37 +1451,46 @@ var GxCoor = [];
               return [sgx,sgz,sgy]
             };
 
-            for(i = 0; i < arrayLength; i++){
-
-              var sgc = RaToPolar(-seconds[i],arcseconds[i],cz[i]);
+            for(var i = 0; i < hms.length; i++){
+              var sgc = RaToPolar(seconds[i],arcseconds[i],cz[i]);
               xCoor.push(sgc[0]);
               GxCoor.push(sgc[0]);
               yCoor.push(sgc[1]);
               zCoor.push(sgc[2]);
+              xCoorFinal[i] = xCoor[0] - xCoor[i];
+            }
+            var index = 0;
+            var value = deltaCZ[0];
+            for (var i = 1; i < deltaCZ.length; i++) {
+              if (parseInt(deltaCZ[i]) < value) {
+                value = deltaCZ[i];
+                index = i;
+              }
             }
 
-            var arcseconds = [];
+            m = (deltaCZ[index] - deltaCZ[0])/(xCoorFinal[index] - xCoorFinal[0]);
+            for(var i = 0; i < hms.length; i++){
+              xaxistemp = deltaCZ[i]/m;
+              xCoorFinal[i] = xaxistemp - xCoorFinal[i];
+              xCoorFinal[i] = -xCoorFinal[i];
+            }
+
+
             var colorvar = [];
             var hold;
             //filters out the strings and makes time into three section array
-             for(i = 0; i < arrayLength; i++)
+             for(i = 0; i < color2.length; i++)
              {
                 color2[i] = color2[i].replace("s",""); //removes s
                 color2[i] = color2[i].replace("+",""); //removes s
                 color2[i] = color2[i].split(/[dm]/); //separates based off "h" and "m"
              }
-            //Pulls array and calculates the seconds
-            for(i = 0; i < arrayLength; i++){
-              var secCalc = (+color2[i][0]) + (+color2[i][1]) / 60 + (+color2[i][2]) / 3600;
-                arcseconds.push(secCalc);
-              secCalc = 0;
-            }
 
             // Finding the center point for anotation
             var cmax = Math.max.apply(Math, arcseconds);
             var cmin = Math.min.apply(Math, arcseconds);
             var ccenter = (cmax + cmin)/2;
-            for(i = 0; i <= arrayLength; i++)
+            for(i = 0; i <= arcseconds.length; i++)
             {
               if(arcseconds[i] < ccenter){
                 hold = '#601DC7';
@@ -1625,9 +1507,10 @@ var GxCoor = [];
               type: "scatter",
               text: number,
               name: 'this',
-              marker: {color: pn},
-              x: xCoor,
-              y: y}
+              marker: {color: pn,
+              shape: pShape},
+              x: xCoorFinal,
+              y: deltaCZ}
           ];
 
         //Graph axis related things
@@ -1642,7 +1525,6 @@ var GxCoor = [];
             ticklen: 10,
             tickwidth: 2,
             color: 'rgb(200, 200, 200)',
-            // rangeslider:{},
           },
           yaxis: {
             title: 'Δ<sub>cz</sub> [km/s]',
@@ -1798,7 +1680,8 @@ var GxCoor = [];
                   Plotly.restyle('my-graph', data_update);
                   var data_update = {
                   marker: {
-                    color: colorvar
+                    color: colorvar,
+                    symbol: pShape,
                   }
                 };
 
@@ -1817,7 +1700,8 @@ var GxCoor = [];
                   Plotly.restyle('my-graph', data_update);
                   var data_update = {
                     marker: {
-                      color: pn
+                      color: pn,
+                      symbol: pShape,
                     }
                   };
                     Plotly.restyle('my-graph1', data_update);
@@ -1857,7 +1741,6 @@ var GxCoor = [];
                   pts = data.points[i].text;
               }
               var pCounter = pts;
-              console.log(pCounter);
 
           //Display the Point number
            var numbertext = data.points.map(function(d){return (pts);});
@@ -1904,13 +1787,205 @@ var GxCoor = [];
 
 
 
-
         });
-
-        });
-
+}
 
 
+
+      function WhiteLayout(graph, XAxisCurrent, YAxisCurrent, ZAxisCurrent, margin, dimension){
+        if(dimension === 0){
+            var layout_update = {
+            // title: 'ARP 220',
+            titlefont: {
+              color: 'black',
+            },
+            xaxis: {
+              title: XAxisCurrent,
+              autorange: true,
+              linecolor: 'black',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: '#444'
+              },
+            yaxis: {
+              title: YAxisCurrent,
+              autorange: true,
+              linecolor: 'black',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: '#444'
+              },
+            margin: margin,
+            hovermode: false,
+            plot_bgcolor: '#fff',
+            paper_bgcolor: '#fff',
+          };
+        }else{
+            var layout_update = {
+            // title: 'ARP 220',
+            titlefont: {
+              color: 'black',
+            },
+            scene: {
+              xaxis: {
+              title: XAxisCurrent,
+              autorange: true,
+              linecolor: 'black',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: '#444',
+            },
+            yaxis: {
+              title: YAxisCurrent,
+              autorange: true,
+              linecolor: 'black',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: '#444',
+            },
+            zaxis: {
+              title: ZAxisCurrent,
+              autorange: true,
+              linecolor: 'black',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: '#444',
+            }
+          },
+            margin: margin,
+            hovermode: false,
+            plot_bgcolor: '#fff',
+            paper_bgcolor: '#fff',
+          };
+          }
+
+          $('body').removeClass('dark-mode');
+          Plotly.relayout(graph, layout_update);
+
+        }
+
+        function DarkLayout(graph, XAxisCurrent, YAxisCurrent, ZAxisCurrent, margin, dimension){
+          if(dimension === 0){
+            var layout_update = {
+            // title: 'ARP 220',
+            titlefont: {
+              color: 'white',
+            },
+            xaxis: {
+              title: XAxisCurrent,
+              autorange: true,
+              linecolor: 'white',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: 'rgb(255,255,255)'
+              },
+            yaxis: {
+              title: YAxisCurrent,
+              autorange: true,
+              linecolor: 'white',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: 'rgb(255,255,255)'
+              },
+            margin: margin,
+            hovermode: false,
+            plot_bgcolor: '#151515',
+            paper_bgcolor: '#151515',
+          };
+          }else{
+            var layout_update = {
+            // title: 'ARP 220',
+            titlefont: {
+              color: 'white',
+            },
+            scene: {
+              xaxis: {
+              title: XAxisCurrent,
+              autorange: true,
+              gridcolor: 'rgba(200, 200, 200, 1)',
+              linecolor: 'white',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: 'rgba(200, 200, 200, 1)',
+            },
+            yaxis: {
+              title: YAxisCurrent,
+              autorange: true,
+              gridcolor: 'rgba(200, 200, 200, 1)',
+              linecolor: 'white',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: 'rgba(200, 200, 200, 1)',
+            },
+            zaxis: {
+              title: ZAxisCurrent,
+              autorange: true,
+              gridcolor: 'rgba(200, 200, 200, 1)',
+              linecolor: 'white',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: 'rgba(200, 200, 200, 1)',
+            }
+          },
+            margin: margin,
+            hovermode: false,
+            plot_bgcolor: '#151515',
+            paper_bgcolor: '#151515',
+          };
+          }
+
+
+          $('body').addClass('dark-mode');
+          Plotly.relayout(graph, layout_update);
+        }
+
+
+function CheckDarkMode(){
+  if ($("input[name=onoffswitch12]").is(':checked')){
+    DarkLayout('my-graph1','RA<sub>(sec)</sub>','', 'Dec<sub>(arcsec)</sub>',{t: 20}, 0);
+    DarkLayout('my-graph2','RA<sub>(sec)</sub>','', 'Δ<sub>cz</sub> [km/s]', {t: 20}, 0);
+    DarkLayout('my-graph','sgX Mpc', 'sgY Mpc','sgZ Mpc', {l: 0, r: 0, b: 0, t: 0}, 1);
+  }
+  else {
+    WhiteLayout('my-graph1','RA<sub>(sec)</sub>','', 'Dec<sub>(arcsec)</sub>', {t: 20}, 0);
+    WhiteLayout('my-graph2','RA<sub>(sec)</sub>','', 'Δ<sub>cz</sub> [km/s]', {t: 20}, 0);
+    WhiteLayout('my-graph','sgX Mpc', 'sgY Mpc','sgZ Mpc', {l: 0, r: 0, b: 0, t: 0}, 1);
+  }
+}
+
+document.querySelector("input[name=onoffswitch12]").onchange  = function() {
+CheckDarkMode();
+}
 </script>
 
 

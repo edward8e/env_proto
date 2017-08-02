@@ -1,10 +1,11 @@
 body{
-	background-color: #060606;
-	font-family: 'Raleway',space_and_astronomy,rajdhani,Segoe, Segoe UI, DejaVu Sans, Trebuchet MS, Verdana," sans-serif";
+	background-color: #F5F5F5;
+	font-family: 'Source Sans Pro','Raleway',space_and_astronomy,rajdhani,Segoe, Segoe UI, DejaVu Sans, Trebuchet MS, Verdana," sans-serif";
 	/*font-family: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial, sans-serif;*/
+	font-weight: 300 !important;
 }
 .main-body{
-	color: white;
+	/*color: white;*/
 }
 
 
@@ -18,11 +19,15 @@ nav{
 	border-radius: 0;
 	border: 0px;
 	margin-bottom: 0px;
+	background-color: rgb(23,154,248);
+}
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand, .navbar-default{
+	color: black;
 }
 
 .light-dark{
 	/*background-color: rgb(61,64,72);*/
-	background-color: #151515;
+	background-color: rgba(255,255,255,1.00);
 }
 .blue-title{
 	background-color: rgb(23,154,248);
@@ -82,6 +87,46 @@ nav{
 	height: 100%;
 }
 
+/*Dark Mode Settings*/
+body.dark-mode{
+	background-color: #060606;
+}
+.dark-mode .light-dark{
+	background-color: #151515;
+}
+.dark-mode .main-body{
+	color: white;
+}
+.dark-mode .table{
+	color: white;
+}
+.table{
+	color: black;
+}
+.dark-mode .input-box{
+	color: black;
+}
+.dark-mode .navbar-default .navbar-nav > li > a,
+.dark-mode .navbar-default .navbar-brand,
+.dark-mode .navbar-default{
+	color: white;
+}
+.drop-constraint div{
+	/*width: 100% !important;*/
+}
+.drop-constraint{
+	display: inline-block;
+	/*width: 70%;*/
+}
+.drop-constraint div button{
+	padding: 5px;
+}
+.dark-mode .bg-popout{
+	background-color: #151515;
+}
+.dark-mode .bg-popin{
+	background-color: #252525;
+}
 
 
 
