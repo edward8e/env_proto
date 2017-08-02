@@ -15,7 +15,7 @@
 
 /* ---- .grid-item ---- */
 
-.grid-item {
+.grid-item {box-shadow: 0 0px 8px rgba(0,0,0,0.2);
   float: left;
   width: 300px;
   height: 100px;
@@ -48,6 +48,9 @@
 /*.grid-item--height--table { height: 300px;}*/
 .grid-item--width--table { width: 69%; }
 
+#slider-box{
+  background-color: white;
+}
 
 
 /*.grid-item:hover {

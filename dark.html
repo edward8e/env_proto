@@ -55,8 +55,10 @@
          <div class="blue-title text-center setting-title"><h4>SETTINGS</h4></div>
 
          <div class="setting-inner">
-           <h4>Galaxy Environment Options:</h4>
-           <hr />
+           <div class="bg-popin">
+             <h4>Galaxy Environment Options:</h4>
+           </div>
+           <div class="bg-popout">
           <h5>Hover on and off</h5>
           <div class="onoffswitch">
               <input type="checkbox" name="onoffswitch1" class="onoffswitch-checkbox" id="myonoffswitch1">
@@ -81,17 +83,22 @@
                   <span class="onoffswitch-switch"></span>
               </label>
           </div>
-          <h5>Change color mode</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch10" class="onoffswitch-checkbox" id="myonoffswitch10" >
-              <label class="onoffswitch-label" for="myonoffswitch10">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
+          <h5>Toggle color mode</h5>
+          <div class="main-box">
+            <!-- <div class="toggle-name"><span> Δcz [km/s]</span><span>Dec</span></div> -->
+            <div class="onoffswitch10 text-center">
+              <input type="checkbox" name="onoffswitch10" class="onoffswitch-checkbox10" id="myonoffswitch10" >
+              <label class="onoffswitch-label10" for="myonoffswitch10">
+                  <span class="onoffswitch-inner10"></span>
+                  <span class="onoffswitch-switch10"></span>
               </label>
+            </div>
           </div>
-          <br />
+        </div>
+        <div class="bg-popin">
           <h4>Toggle Graphs ON/OFF:</h4>
-          <hr />
+        </div>
+        <div class="bg-popout">
           <h5>3D Galaxy Environment</h5>
           <div class="onoffswitch">
               <input type="checkbox" name="onoffswitch7" class="onoffswitch-checkbox" id="myonoffswitch7" checked>
@@ -116,8 +123,11 @@
                   <span class="onoffswitch-switch"></span>
               </label>
           </div>
-          <br />
-          <button id="button-download" class="btn btn-default">Download Graph</button>
+        </div>
+
+          <div class="bg-popin">
+            <button id="button-download" class="btn btn-default">Download Graph</button>
+          </div>
         </div>
           </div>
           </div>
@@ -127,7 +137,7 @@
 
 
 
-      <div class="col-sm-10">
+      <div class="col-sm-10 main-section">
         <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
@@ -206,7 +216,7 @@
           </div>
 
 
-      <div class="grid-item grid-item--width--graphSettings">
+      <div class="grid-item grid-item--width--graphSettings" id="slider-box">
         <div>
           <h5 class="text-center">Set slider Δcz [km/s] range</h5>
           <div id="slider"></div>
@@ -361,6 +371,7 @@ function xmlParser(xml){
     AddPlot2();
     AddPlot3();
     CheckDarkMode();
+    console.log(names);
 }
 function loadArrays(){
   hms = Ra.slice();
@@ -1387,7 +1398,7 @@ function AddPlot2(){
                var numbertext = data.points.map(function(d){return (pts);});
                hoverInfoNum.innerHTML = numbertext.join('');
               //Display the Point number
-               var nametext = data.points.map(function(d){return (name[pCounter]);});
+               var nametext = data.points.map(function(d){return (names[pCounter]);});
                hoverInfoName.innerHTML = nametext.join('');
               //Display the Point number
                var ratext = data.points.map(function(d){return (Ra[pCounter]);});
@@ -1746,7 +1757,7 @@ function AddPlot3(){
            var numbertext = data.points.map(function(d){return (pts);});
            hoverInfoNum.innerHTML = numbertext.join('');
           //Display the Point number
-           var nametext = data.points.map(function(d){return (name[pCounter]);});
+           var nametext = data.points.map(function(d){return (names[pCounter]);});
            hoverInfoName.innerHTML = nametext.join('');
           //Display the Point number
            var ratext = data.points.map(function(d){return (Ra[pCounter]);});
@@ -1972,14 +1983,14 @@ function AddPlot3(){
 
 function CheckDarkMode(){
   if ($("input[name=onoffswitch12]").is(':checked')){
-    DarkLayout('my-graph1','RA<sub>(sec)</sub>','', 'Dec<sub>(arcsec)</sub>',{t: 20}, 0);
-    DarkLayout('my-graph2','RA<sub>(sec)</sub>','', 'Δ<sub>cz</sub> [km/s]', {t: 20}, 0);
-    DarkLayout('my-graph','sgX Mpc', 'sgY Mpc','sgZ Mpc', {l: 0, r: 0, b: 0, t: 0}, 1);
+    DarkLayout('my-graph1','RA<sub>(sec)</sub>', 'Dec<sub>(arcsec)</sub>','',{t: 20}, 0);
+    DarkLayout('my-graph2','RA<sub>(sec)</sub>', 'Δ<sub>cz</sub> [km/s]','', {t: 20}, 0);
+    DarkLayout('my-graph','sgX (Mpc)', 'sgY (Mpc)','sgZ (Mpc)', {l: 0, r: 0, b: 0, t: 0}, 1);
   }
   else {
-    WhiteLayout('my-graph1','RA<sub>(sec)</sub>','', 'Dec<sub>(arcsec)</sub>', {t: 20}, 0);
-    WhiteLayout('my-graph2','RA<sub>(sec)</sub>','', 'Δ<sub>cz</sub> [km/s]', {t: 20}, 0);
-    WhiteLayout('my-graph','sgX Mpc', 'sgY Mpc','sgZ Mpc', {l: 0, r: 0, b: 0, t: 0}, 1);
+    WhiteLayout('my-graph1','RA<sub>(sec)</sub>', 'Dec<sub>(arcsec)</sub>','', {t: 20}, 0);
+    WhiteLayout('my-graph2','RA<sub>(sec)</sub>', 'Δ<sub>cz</sub> [km/s]','', {t: 20}, 0);
+    WhiteLayout('my-graph','sgX (Mpc)', 'sgY (Mpc)','sgZ (Mpc)', {l: 0, r: 0, b: 0, t: 0}, 1);
   }
 }
 
