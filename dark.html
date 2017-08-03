@@ -12,6 +12,7 @@
 
 
 
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -37,7 +38,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
       integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
       crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
 
 
     <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
@@ -95,35 +95,63 @@
             </div>
           </div>
         </div>
-        <div class="bg-popin">
-          <h4>Toggle Graphs ON/OFF:</h4>
+
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  <div class="bg-popin">
+                    <div class="drop-title">
+
+                        <h4>Toggle Graphs ON/OFF:</h4>
+
+
+                        <i class="fa fa-plus-circle fa-lg"></i>
+
+                    </div>
+                  </div>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+              <div class="panel-body">
+                <div class="bg-popout">
+                  <h5>3D Galaxy Environment</h5>
+                  <div class="onoffswitch">
+                      <input type="checkbox" name="onoffswitch7" class="onoffswitch-checkbox" id="myonoffswitch7" checked>
+                      <label class="onoffswitch-label" for="myonoffswitch7">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                      </label>
+                  </div>
+                  <h5>Dec vs. RA</h5>
+                  <div class="onoffswitch">
+                      <input type="checkbox" name="onoffswitch8" class="onoffswitch-checkbox" id="myonoffswitch8" checked>
+                      <label class="onoffswitch-label" for="myonoffswitch8">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                      </label>
+                  </div>
+                  <h5>Δcz vs. RA</h5>
+                  <div class="onoffswitch">
+                      <input type="checkbox" name="onoffswitch9" class="onoffswitch-checkbox" id="myonoffswitch9" checked>
+                      <label class="onoffswitch-label" for="myonoffswitch9">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                      </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="bg-popout">
-          <h5>3D Galaxy Environment</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch7" class="onoffswitch-checkbox" id="myonoffswitch7" checked>
-              <label class="onoffswitch-label" for="myonoffswitch7">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
-          <h5>Dec vs. RA</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch8" class="onoffswitch-checkbox" id="myonoffswitch8" checked>
-              <label class="onoffswitch-label" for="myonoffswitch8">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
-          <h5>Δcz vs. RA</h5>
-          <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch9" class="onoffswitch-checkbox" id="myonoffswitch9" checked>
-              <label class="onoffswitch-label" for="myonoffswitch9">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-              </label>
-          </div>
-        </div>
+
+
+
+
+
+
 
           <div class="bg-popin">
             <button id="button-download" class="btn btn-default">Download Graph</button>
@@ -2044,5 +2072,9 @@ CheckDarkMode();
     <script src="js/astro.dates.js"></script>
     <!-- Compiled and minified JavaScript -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
+    <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/6d2387fc38.js"></script>
+
   </body>
 </html>

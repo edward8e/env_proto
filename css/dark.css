@@ -156,8 +156,14 @@ body.dark-mode{
 }*/
 
 
-
-
+.panel-heading, .panel-body{
+	padding: 0;
+}
+.drop-title{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 
 
 
