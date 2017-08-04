@@ -155,6 +155,43 @@
              </div>
 
              <div class="panel">
+               <div class="panel-heading" role="tab" id="headingTwo">
+                 <h4 class="panel-title">
+                   <a class="collapsed" onclick="DropDown(2)" role="button" data-toggle="collapse" data-target="#collapseTwo" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                     <div class="bg-popout">
+                       <div class="drop-title">
+                           <h4>3D Galaxy Environment Options:</h4>
+                           <i class="fa fa-plus-circle fa-lg" id="toggle-icon2"></i>
+                       </div>
+                     </div>
+                   </a>
+                 </h4>
+               </div>
+               <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                 <div class="panel-body">
+                   <div class="bg-popin">
+                   <h5>Coordinate System:</h5>
+                   <div class="drop-constraint input-box">
+                     <select id ="ddl" name="ddl" onmousedown="this.value='';" onchange="jsFunction(this.value);">
+                       <option value="1">SuperGalactic Coordinates</option>
+                       <option value="2">Equatorial Coordinates</option>
+                       <option value="3">Equatorial Coordinates Test</option>
+                     </select>
+                   </div>
+                   <h5>Velocity Options:</h5>
+                   <div class="drop-constraint input-box">
+                     <select id ="ddl2" name="ddl2" onmousedown="this.value='';" onchange="jsFunction1(this.value);">
+                       <option value="1">SuperGalactic(Mpc)</option>
+                       <option value="2">CZ</option>
+                       <option value="3">Δ<sub>cz</sub> [km/s]</option>
+                     </select>
+                   </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+             <div class="panel">
                <div class="panel-heading" role="tab" id="headingThree">
                  <h4 class="panel-title">
                    <a class="collapsed" onclick="DropDown(3)" role="button" data-toggle="collapse" data-target="#collapseThree" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -385,6 +422,7 @@ var pShape = [];
  var HO = 73.8;
  var color2 = [];
  var xCoorFinal = [];
+ var Speedlight = 299792458;// (m/s)
 
 $.ajax({
   type: "GET",
@@ -616,7 +654,6 @@ for(var i = 0; i < x.length; i++){
 
 
 var SuperGalacticXYZ = function(sgl,sgb,cz){
-
   var r = cz / HO;
   var sgx = r*Math.cos(sgl)*Math.cos(sgb);
   var sgy = r*Math.sin(sgl)*Math.cos(sgb);
@@ -631,18 +668,31 @@ var SuperGalacticXYZ = function(sgl,sgb,cz){
 var sgX = [];
 var sgY = [];
 var sgZ = [];
+var light = [];
+
+function SGVelocity(velocity){
+   sgX = [];
+   sgY = [];
+   sgZ = [];
+   GsgX = [];
+   GsgY = [];
+   GsgZ = [];
 for(var i = 0; i < x.length; i++){
-var sgxyz = SuperGalacticXYZ(sgl[i],sgb[i],cz[i])
-sgX.push(sgxyz[0]);
-sgY.push(sgxyz[1]);
-sgZ.push(sgxyz[2]);
-GsgX.push(sgxyz[0]);
-GsgY.push(sgxyz[1]);
-GsgZ.push(sgxyz[2]);
+    var sgxyz = SuperGalacticXYZ(sgl[i],sgb[i],velocity[i]);
+  sgX.push(sgxyz[0]);
+  sgY.push(sgxyz[1]);
+  sgZ.push(sgxyz[2]);
+  GsgX.push(sgxyz[0]);
+  GsgY.push(sgxyz[1]);
+  GsgZ.push(sgxyz[2]);
 }
-// console.log(sgX);
-// console.log(sgY);
-// console.log(sgZ);
+}
+
+
+SGVelocity(cz);
+for(var i = 0; i < x.length; i++){
+  light[i] = cz[i]/Speedlight;
+}
 
 
 
@@ -662,6 +712,27 @@ function bprecess(ra,dec){
 
 
 }
+var eqx = [];
+var eqy = [];
+var eqz = [];
+
+var RaToPolar = function(ra,dec,cz){
+  ra = ra * Math.PI/180;
+  dec = dec * Math.PI/180;
+  var r = cz / HO;
+  var sgx = r*Math.cos(ra)*Math.cos(dec);
+  var sgy = r*Math.sin(ra)*Math.cos(dec);
+  var sgz = r*Math.sin(dec);
+  return [sgx,sgz,sgy]
+};
+for(var i = 0; i < hms.length; i++){
+  var eqc = RaToPolar(seconds[i],arcseconds[i],cz[i]);
+  eqx.push(eqc[0]);
+  eqy.push(eqc[1]);
+  eqz.push(eqc[2]);
+}
+
+
 
 
 
@@ -809,7 +880,105 @@ gb[i] = coord.b;
       }
     }
 
+    //---------------------Change the X-Axis Dropdown----------------------//
+    var xaxis_update = jsFunction = function(value){
+      if(value == 1){
+        var data_update = {
+          x: [sgX],
+          y: [sgY],
+          z: [sgZ],
+        };
+        Plotly.restyle(gd, data_update);
+        var layout_update = {
+          'scene.xaxis.title': 'sgX Mpc',
+          'scene.yaxis.title': 'sgY Mpc',
+          'scene.zaxis.title': 'sgZ Mpc',
 
+        };
+        Plotly.relayout(gd, layout_update);
+        Plotly.redraw('my-graph');
+      }
+      else if(value == 2){
+        var data_update = {
+          x: [eqx],
+          y: [eqy],
+          z: [eqz],
+        };
+        Plotly.restyle(gd, data_update);
+        var layout_update = {
+          'scene.xaxis.title': 'Ra(sec)',
+          'scene.yaxis.title': 'Dec(arcsec)',
+          'scene.zaxis.title': 'deltaCZ',
+        };
+        Plotly.relayout(gd, layout_update);
+      }else{
+          var data_update = {
+            x: [seconds],
+            y: [arcseconds],
+            z: [cz],
+          };
+          Plotly.restyle(gd, data_update);
+          var layout_update = {
+            'scene.xaxis.title': 'Ra(sec)',
+            'scene.yaxis.title': 'Dec(arcsec)',
+            'scene.zaxis.title': 'deltaCZ',
+          };
+          Plotly.relayout(gd, layout_update);
+      }
+    }
+    //---------------------END of X-Axis----------------------//
+// console.log(light);
+    //---------------------Change the X-Axis Dropdown----------------------//
+    var xaxis_update = jsFunction1 = function(value){
+      if(value == 1){
+        SGVelocity(cz);
+        var data_update = {
+          x: [sgX],
+          y: [sgY],
+          z: [sgZ],
+        };
+        Plotly.restyle(gd, data_update);
+        var layout_update = {
+          'scene.xaxis.title': 'sgX Mpc',
+          'scene.yaxis.title': 'sgY Mpc',
+          'scene.zaxis.title': 'sgZ Mpc',
+
+        };
+        Plotly.relayout(gd, layout_update);
+      }
+      else if(value == 2){
+          SGVelocity(light);
+        var data_update = {
+          x: [sgX],
+          y: [sgY],
+          z: [sgZ],
+        };
+        Plotly.restyle(gd, data_update);
+        var layout_update = {
+          'scene.xaxis.title': 'sgX Mpc',
+          'scene.yaxis.title': 'sgY Mpc',
+          'scene.zaxis.title': 'sgZ Mpc',
+
+        };
+        Plotly.relayout(gd, layout_update);
+      }else{
+        SGVelocity(deltaCZ);
+        var data_update = {
+          x: [sgX],
+          y: [sgY],
+          z: [sgZ],
+        };
+        Plotly.restyle(gd, data_update);
+        var layout_update = {
+          'scene.xaxis.title': 'sgX Mpc',
+          'scene.yaxis.title': 'sgY Mpc',
+          'scene.zaxis.title': 'sgZ Mpc',
+
+        };
+        Plotly.relayout(gd, layout_update);
+      }
+    }
+    //---------------------END of X-Axis----------------------//
 
     var scalescreenSize = $(window).height();
     var topHeight = scalescreenSize - scalescreenSize*0.4;
@@ -1561,8 +1730,8 @@ function AddPlot3(){
               dec = dec * Math.PI/180;
               var r = cz / HO;
               var sgx = r*Math.cos(ra)*Math.cos(dec);
-              var sgy = r*Math.sin(dec)*Math.cos(ra);
-              var sgz = r*Math.sin(ra);
+              var sgy = r*Math.cos(ra)*Math.sin(dec);
+              var sgz = r*Math.sin(dec);
               return [sgx,sgz,sgy]
             };
 
