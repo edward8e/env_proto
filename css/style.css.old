@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face{
+	font-family: "rajdhani";
+	src: url(../fonts/Rajdhani-Regular.ttf) format('truetype');
+}
+@font-face{
+	font-family: "rajdhani";
+	src: url(../fonts/Rajdhani-Bold.ttf) format('truetype');
+	font-weight: bold;
+}
+@font-face{
+	font-family: "space_and_astronomy";
+	src: url(../fonts/space_and_astronomy.ttf) format('truetype');
+}
+body{
+	font-family: space_and_astronomy,rajdhani,Segoe, Segoe UI, DejaVu Sans, Trebuchet MS, Verdana," sans-serif";
+}
+
+body{
+	/*background-color: white;*/
+	/*background-image: url(NEDBkg.jpg);*/
+
+}
+/*#my-graph{
+	width: 80%;
+}*/
