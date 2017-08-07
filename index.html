@@ -424,6 +424,31 @@ var pShape = [];
  var xCoorFinal = [];
  var Speedlight = 299792458;// (m/s)
 
+
+ $.getJSON('goals_env/ARP220.json', function (json) {
+ var array = [];
+ for (var key in json) {
+     if (json.hasOwnProperty(key)) {
+         var item = json[key];
+         array.push({
+             name: item.Name,
+             surname: item.Surname,
+             mobile: item.mobile,
+             email: item.email
+         });
+     }
+ }
+ });
+
+
+
+
+
+
+
+
+
+
 $.ajax({
   type: "GET",
   url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'https%3A%2F%2Fedward8e.github.io%2Fenv_proto%2Farp220XML.xml'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",
