@@ -209,7 +209,7 @@ body.dark-mode{
 
 
 /*Initialize not showing plots*/
-#togglegraph1, #togglegraph2, #togglegraph3{
+#togglegraph1, #togglegraph2, #togglegraph3, #data-window, #slider-box, #bottomtable{
 	display: none;
 }
 

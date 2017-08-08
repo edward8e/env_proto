@@ -267,7 +267,6 @@
 
           <div class="bg-popout">
             <button id="button-download" class="btn btn-default">Download Graph</button>
-            <button onclick="refresh()">refresh layout</button>
           </div>
         </div>
           </div>
@@ -298,8 +297,8 @@
     <br />
     <h2>Radial Velocity Constrained Cone Searches</h2>
     <h2>Direction of Search:</h2>
-    <input type="text" name="initalgalaxy" class="dark-mode input-box" value="ARP220">
-    <button onclick="InitialPlot()" class="btn btn-primary">Submit</button>
+  <input type="text" name="initalgalaxy" class="dark-mode input-box" value="ARP220" id="tags">
+    <button onclick="InitialPlot()" id="initalplot" class="btn btn-primary">Submit</button>
     <h5>Example: ARP220, NGC6240, UCG5991,etc.</h5>
 
   </div>
@@ -372,7 +371,7 @@
 
 
 
-      <div class="grid-item grid-item--width--table">
+      <div class="grid-item grid-item--width--table" id="bottomtable">
             <div class="row table-responsive " >
     					<div class="col-sm-12 bottom-table" >
     						<div class="light-dark ">
@@ -450,12 +449,9 @@ function DropDown(num){
                     var parsedCSV = d3.csvParseRows(data);
 
                     var container = d3.select("#test")
-    //                    .append("table")
-
                         .selectAll("tr")
                             .data(parsedCSV).enter()
                             .append("tr")
-
                         .selectAll("td")
                             .data(function(d) { return d; }).enter()
                             .append("td")
@@ -489,23 +485,49 @@ var pShape = [];
  var Speedlight = 299792458;// (m/s)
 var data = [];
 var xplot2 = [];
-// $(document).ready(
-//   $("#togglegraph1").fadeOut();
-// );
+
+
+$( function() {
+  var availableTags = [
+    "ARP220",
+    "ARP240"
+  ];
+  $( "#tags" ).autocomplete({
+    source: availableTags
+  });
+} );
+
+
+$.getJSON( "test.js", { name: "John", time: "2pm" } )
+  .done(function( json ) {
+    console.log( "JSON Data: " + json.users[ 3 ].name );
+  })
+  .fail(function( jqxhr, textStatus, error ) {
+    var err = textStatus + ", " + error;
+    console.log( "Request Failed: " + err );
+});
+
+
 function InitialPlot(){
-  $("#togglegraph1").fadeIn();
-  $("#togglegraph2").fadeIn();
-  $("#togglegraph3").fadeIn();
-  $("#searchbox").fadeOut();
-  $("#loading").fadeIn();
   LoadData();
 
 }
 
 function LoadData(){
-  var galaxy = "NGC6052";
+  var galaxy = $('input[name=initalgalaxy]').val().toUpperCase().replace(/\s/g, '');
+  console.log(galaxy);
    $.getJSON('https://raw.githubusercontent.com/edward8e/env_proto/gh-pages/goals_env/'+ galaxy + '.json', function (json) {
   data = json.data_table;
+  names = [];
+  Ra = [];
+  Dec = [];
+  OType = [];
+  cz = [];
+  zFlag = [];
+  RShift = [];
+  Pa = [];
+  Sep = [];
+  deltaCZ = [];
   for(var i = 0; i < json.data_table.length; i++){
     names.push(data[i][0]);
     Ra.push(data[i][1]);
@@ -518,17 +540,35 @@ function LoadData(){
     Sep.push(data[i][8]);
     deltaCZ.push(data[i][9]);
   }
-  step3();
- });
+ }).done(function( json ) {
+     $("#request-box").fadeOut();
+  $("#loading").fadeIn(function(){
+    setTimeout(step3, 1000);
+  });
+  }).fail(function() {
+   alert("Invalid input position or input name not recognized by NED");
+});
 }
 
 function step3() {
   loadArrays();
-  AddPlot1();
-  AddPlot2();
-  AddPlot3();
-  CheckDarkMode();
-  $("#loading").fadeOut();
+  $("#slider-box").fadeIn();
+  $("#bottomtable").fadeIn();
+  $("#togglegraph1").fadeIn(function(){
+    AddPlot1();
+  });
+  $("#togglegraph2").fadeIn(function(){
+    AddPlot2();
+  });
+  $("#togglegraph3").fadeIn(function(){
+    AddPlot3();
+    CheckDarkMode();
+    $("#loading").fadeOut();
+    $("#searchbox").fadeOut(function(){
+    $grid.packery('layout');
+  });
+  });
+
 }
 
 
@@ -690,6 +730,17 @@ function DecParse(){
     //
     //-----------------------------------------------------------
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1215,20 +1266,20 @@ gb[i] = coord.b;
     if(this.checked) {
       //When switch is on
       $( "#data-window" ).toggle();
+      var dataheight = $(".data-box").css("height");
+      dataheight = dataheight.replace("px","");
+      dataheight = parseInt(dataheight);
+      $("#data-window").css({"height": dataheight});
       $(".grid-item--width--main").css({"width": "73%"});
       $("#myonoffswitch1").prop("checked", true);
       checkboxDataON();
-      Plotly.Plots.resize(gd);
-      $grid.packery('layout');
       } else {
         //when switch is off
         $( "#data-window" ).toggle();
         $(".grid-item--width--main").css({"width": "31.3333%"});
-        // $("#myonoffswitch1").prop("checked", false);
-        // checkboxDataOFF();
-        Plotly.Plots.resize(gd);
-        $grid.packery('layout');
       }
+      Plotly.Plots.resize(gd);
+      $grid.packery('layout');
     }
     document.querySelector("input[name=onoffswitch5]").addEventListener('change', function(){
       Plotly.Plots.resize(gd);
@@ -1236,7 +1287,7 @@ gb[i] = coord.b;
     });
 
 
-      $( "#data-window" ).toggle();
+
       // $(".grid-item--width--main").css({"width": "31.3333%"});
       Plotly.Plots.resize(gd);
       $grid.packery('layout');
@@ -1277,6 +1328,9 @@ var Graph1Cases = function(){
     topItemWidth1 = parseInt(topItemWidth1);
     topItemWidth1 = topItemWidth1 - topItemWidth1 * 0.18;
     $(".grid-item--width--graph1").css("height", topItemWidth1);
+    $(".grid-item--width--graphSettings").css({"width": "98%"});
+    $(".grid-item--width--table").css({"width": "98%"});
+    $(".grid-item--width--data").css({"width": "98%"});
     $grid.packery('layout');
     Plotly.Plots.resize(gd);
   }
@@ -1301,7 +1355,6 @@ var Graph1Cases = function(){
         document.querySelector("input[name=onoffswitch9]").addEventListener('change', function(){
           Graph1Cases();
         });
-
           //---------------------END of controls----------------------//
           //Resize after sidebar click
           $("#menu-toggle").click(function(e) {
@@ -1662,7 +1715,7 @@ function AddPlot2(){
               var xCoorTemp = xCoorFinal.slice(0);
 
               var sliderValues = slider.noUiSlider.get();
-              var xslider = x.slice(0);
+              var xslider = xplot2.slice(0);
               var yslider = y.slice(0);
               var yLongSlider = deltaCZ.slice(0);
 
