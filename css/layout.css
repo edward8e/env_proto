@@ -72,3 +72,7 @@
   -webkit-transition: -webkit-transform 0.2s;
           transition: transform 0.2s;
 }
+#searchbox{
+  width: 98%;
+  height: 500px;
+}

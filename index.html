@@ -34,6 +34,24 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- In <body> -->
+    <script src="js/nouislider.min.js"></script>
+    <!-- In <body> -->
+    <script src="js/wNumb.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.coords.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.constants.js"></script>
+    <!-- In <body> -->
+    <script src="js/astro.dates.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
+    <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/6d2387fc38.js"></script>
+
     <script src="https://unpkg.com/packery@2/dist/packery.pkgd.min.js"></script>
     <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
@@ -249,6 +267,7 @@
 
           <div class="bg-popout">
             <button id="button-download" class="btn btn-default">Download Graph</button>
+            <button onclick="refresh()">refresh layout</button>
           </div>
         </div>
           </div>
@@ -273,6 +292,27 @@
   <!-- Page content -->
 
       <div class="grid">
+
+<div class="grid-item" id="searchbox">
+  <div class="text-center" id="request-box">
+    <br />
+    <h2>Radial Velocity Constrained Cone Searches</h2>
+    <h2>Direction of Search:</h2>
+    <input type="text" name="initalgalaxy" class="dark-mode input-box" value="ARP220">
+    <button onclick="InitialPlot()" class="btn btn-primary">Submit</button>
+    <h5>Example: ARP220, NGC6240, UCG5991,etc.</h5>
+
+  </div>
+  <div class="lds-css ng-scope" id="loading">
+  <div class="loading-box">
+    <div class="lds-facebook" align="center">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+</div>
 
       <div class="grid-item grid-item--width--graph1" id="togglegraph1">
         <div id="my-graph"></div>
@@ -381,6 +421,30 @@ function DropDown(num){
 }
     </script>
 
+
+
+        <script>
+        // external js: packery.pkgd.js, draggabilly.pkgd.js
+
+        var $grid = $('.grid').packery({
+          itemSelector: '.grid-item',
+          columnWidth: 1,
+          // set positions with percent values
+        percentPosition: true,
+        fitWidth: true
+        });
+
+
+        // external js: packery.pkgd.js, jquery-ui-draggable.js
+
+
+
+
+
+        </script>
+
+
+
     <script>
                 d3.text("https://edward8e.github.io/env_proto/e_search_arp_220.csv", function(data) {
                     var parsedCSV = d3.csvParseRows(data);
@@ -423,26 +487,49 @@ var pShape = [];
  var color2 = [];
  var xCoorFinal = [];
  var Speedlight = 299792458;// (m/s)
+var data = [];
+var xplot2 = [];
+// $(document).ready(
+//   $("#togglegraph1").fadeOut();
+// );
+function InitialPlot(){
+  $("#togglegraph1").fadeIn();
+  $("#togglegraph2").fadeIn();
+  $("#togglegraph3").fadeIn();
+  $("#searchbox").fadeOut();
+  $("#loading").fadeIn();
+  LoadData();
 
+}
 
- $.getJSON('goals_env/ARP220.json', function (json) {
- var array = [];
- for (var key in json) {
-     if (json.hasOwnProperty(key)) {
-         var item = json[key];
-         array.push({
-             name: item.Name,
-             surname: item.Surname,
-             mobile: item.mobile,
-             email: item.email
-         });
-     }
- }
+function LoadData(){
+  var galaxy = "NGC6052";
+   $.getJSON('https://raw.githubusercontent.com/edward8e/env_proto/gh-pages/goals_env/'+ galaxy + '.json', function (json) {
+  data = json.data_table;
+  for(var i = 0; i < json.data_table.length; i++){
+    names.push(data[i][0]);
+    Ra.push(data[i][1]);
+    Dec.push(data[i][2]);
+    OType.push(data[i][3]);
+    cz.push(data[i][4]);
+    zFlag.push(data[i][5]);
+    RShift.push(data[i][6]);
+    Pa.push(data[i][7]);
+    Sep.push(data[i][8]);
+    deltaCZ.push(data[i][9]);
+  }
+  step3();
  });
+}
 
-
-
-
+function step3() {
+  loadArrays();
+  AddPlot1();
+  AddPlot2();
+  AddPlot3();
+  CheckDarkMode();
+  $("#loading").fadeOut();
+}
 
 
 
@@ -458,59 +545,77 @@ $.ajax({
 
 
 function xmlParser(xml){
-  var data = [];
-    $(xml).find("row").each(function(idx, v) {
-        data[idx] = [];
-        $(v).find("FIELD1").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD2").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD3").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD4").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD5").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD6").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD7").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD8").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD9").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-        $(v).find("FIELD10").each(function( i , vi) {
-            data[idx].push( $(vi).text() );
-        });
-    });
-    for(var i = 1; i < data.length; i++){
-      //Table Data
-      names.push(data[i][0]);
-      Ra.push(data[i][1]);
-      Dec.push(data[i][2]);
-      OType.push(data[i][3]);
-      cz.push(data[i][4]);
-      zFlag.push(data[i][5]);
-      RShift.push(data[i][6]);
-      Pa.push(data[i][7]);
-      Sep.push(data[i][8]);
-      deltaCZ.push(data[i][9]);
-    }
-    loadArrays();
-    AddPlot1();
-    AddPlot2();
-    AddPlot3();
-    CheckDarkMode();
+
+    // $(xml).find("row").each(function(idx, v) {
+    //     data[idx] = [];
+    //     $(v).find("FIELD1").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD2").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD3").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD4").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD5").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD6").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD7").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD8").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD9").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    //     $(v).find("FIELD10").each(function( i , vi) {
+    //         data[idx].push( $(vi).text() );
+    //     });
+    // });
+    // for(var i = 1; i < data.length; i++){
+    //   //Table Data
+    //   names.push(data[i][0]);
+    //   Ra.push(data[i][1]);
+    //   Dec.push(data[i][2]);
+    //   OType.push(data[i][3]);
+    //   cz.push(data[i][4]);
+    //   zFlag.push(data[i][5]);
+    //   RShift.push(data[i][6]);
+    //   Pa.push(data[i][7]);
+    //   Sep.push(data[i][8]);
+    //   deltaCZ.push(data[i][9]);
+    // }
+
+    // $.getJSON('https://raw.githubusercontent.com/edward8e/env_proto/gh-pages/goals_env/ARP220.json', function (json) {
+    //  data = json.data_table;
+    //  for(var i = 0; i < json.data_table.length; i++){
+    //    names.push(data[i][0]);
+    //    Ra.push(data[i][1]);
+    //    Dec.push(data[i][2]);
+    //    OType.push(data[i][3]);
+    //    cz.push(data[i][4]);
+    //    zFlag.push(data[i][5]);
+    //    RShift.push(data[i][6]);
+    //    Pa.push(data[i][7]);
+    //    Sep.push(data[i][8]);
+    //    deltaCZ.push(data[i][9]);
+    //  }
+    // });
+    // loadArrays();
+    // AddPlot1();
+    // AddPlot2();
+    // AddPlot3();
+    // CheckDarkMode();
 }
+
+
 function loadArrays(){
   hms = Ra.slice();
   hmsa = Dec.slice();
@@ -518,6 +623,8 @@ function loadArrays(){
   z = deltaCZ.slice();
   pShape = OType.slice();
   color2 = Dec.slice();
+  seconds = Ra.slice();
+  arcseconds = Dec.slice();
 }
 
 function resizeplot1(graph){
@@ -544,12 +651,10 @@ function resizeplot2(graph) {
 
 
 function AddPlot1(){
-
     var HO = 73.8;
     //-----------------------------------------------------------
-    var arrayLength = hms.length;
-
-    //filters out the strings and makes time into three section array
+function RaParse(){
+      //filters out the strings and makes time into three section array
      for(var i = 0; i < hms.length; i++)
      {
         hms[i] = hms[i].replace("s",""); //removes s
@@ -557,20 +662,19 @@ function AddPlot1(){
      }
 
     //Pulls array and calculates the seconds
-    for(i = 0; i < arrayLength; i++){
+    for(i = 0; i < hms.length; i++){
         var secCalc = 15 * ((+hms[i][0]) + (+hms[i][1]) / 60 + (+hms[i][2]) / 3600);
         seconds.push(secCalc);//flip xaxis
       secCalc = 0;
     }
-
+}
+function DecParse(){
     //-----------------------------------------------------------
     // Converter Dec(right acension) to seconds
     // 00d00m00s to 00sec
-    var arrayLength = hmsa.length;
-
 
     //filters out the strings and makes time into three section array
-     for(var i = 0; i < arrayLength; i++)
+     for(var i = 0; i < hmsa.length; i++)
      {
         hmsa[i] = hmsa[i].replace("s",""); //removes s
         hmsa[i] = hmsa[i].replace("+",""); //removes s
@@ -578,22 +682,23 @@ function AddPlot1(){
      }
 
     //Pulls array and calculates the seconds
-    for(var i = 0; i < arrayLength; i++){
+    for(var i = 0; i < hmsa.length; i++){
         var secCalc = (+hmsa[i][0]) + (+hmsa[i][1]) / 60 + (+hmsa[i][2]) / 3600;
         arcseconds.push(secCalc);
       secCalc = 0;
     }
     //
     //-----------------------------------------------------------
+}
+
+
 
     //changes the color of the points to red and blue depending on positive or negative
 
-    for(var i = 0; i < arrayLength; i++)
-    {
+    for(var i = 0; i < hmsa.length; i++){
       if (pn[i] > 0){
         pn[i] = 'rgb(178,34,34)';
-      }
-      else{
+      }else{
       pn[i] = 'rgb(10, 97, 194)';
       }
     }
@@ -601,16 +706,19 @@ function AddPlot1(){
 
 // Gives number to every point
 
-    for(i = 0; i <= arrayLength; i++)
+    for(i = 0; i <= hmsa.length; i++)
     {
       number[i] = i;
     }
 
+console.log(Ra.length);
+var testing = [];
+    x = Ra.slice(0);
+    y = Dec.slice(0);
+    testing = Ra.slice(0);
+    console.log(testing);
 
 
-    x = seconds;
-    y = arcseconds;
-    // console.log(x);
     d = [1,2,3,4,5];
     var xmax = Math.max(d);
 
@@ -663,7 +771,6 @@ var SuperGalactic = function(ra,dec){
 
 var sgb = [];
 var sgl = [];
-
 for(var i = 0; i < x.length; i++){
   var sgc = SuperGalactic(x[i],y[i]);
   sgb.push(sgc[0]);
@@ -1278,7 +1385,6 @@ var Graph1Cases = function(){
 
 
 
-
 }
 
 
@@ -1290,22 +1396,20 @@ function AddPlot2(){
             var arrayLength = hms.length;
             //flips x axis
 
-            for(var i = 0; i < seconds.length; i++)
+            for(var i = 0; i < x.length; i++)
             {
-              seconds[i] = -seconds[i];
+              xplot2[i] = -x[i];
             }
 
 
-            x = seconds;
-            y = arcseconds;
 
             //Finding the center point for anotation
-            var xmax = Math.max.apply(Math, seconds);
-            var xmin = Math.min.apply(Math, seconds);
+            var xmax = Math.max.apply(Math, xplot2);
+            var xmin = Math.min.apply(Math, xplot2);
             var xcenter = (xmax + xmin)/2;
 
-            var ymax = Math.max.apply(Math, arcseconds);
-            var ymin = Math.min.apply(Math, arcseconds);
+            var ymax = Math.max.apply(Math, y);
+            var ymin = Math.min.apply(Math, y);
             var ycenter = (ymax + ymin)/2;
 
             var ylength = ymax - ymin;
@@ -1351,7 +1455,7 @@ function AddPlot2(){
             var ytop4 = ycenter + ylength/32;
 
             //adds shape to the ponts
-            for(i = 0; i < arrayLength; i++){
+            for(i = 0; i < x.length; i++){
               if (pShape[i] === "G") {
                 pShape[i] = "circle-open";
               }
@@ -1381,7 +1485,7 @@ function AddPlot2(){
                     color: pn,
                     symbol: pShape,
                   },
-                  x: x,
+                  x: xplot2,
                   y: y}
               ];
 
@@ -1787,13 +1891,14 @@ function AddPlot3(){
 
             var colorvar = [];
             var hold;
+            console.log(color2);
             //filters out the strings and makes time into three section array
-             for(i = 0; i < color2.length; i++)
-             {
-                color2[i] = color2[i].replace("s",""); //removes s
-                color2[i] = color2[i].replace("+",""); //removes s
-                color2[i] = color2[i].split(/[dm]/); //separates based off "h" and "m"
-             }
+            //  for(i = 0; i < color2.length; i++)
+            //  {
+            //     color2[i] = color2[i].replace("s",""); //removes s
+            //     color2[i] = color2[i].replace("+",""); //removes s
+            //     color2[i] = color2[i].split(/[dm]/); //separates based off "h" and "m"
+            //  }
 
             // Finding the center point for anotation
             var cmax = Math.max.apply(Math, arcseconds);
@@ -2100,6 +2205,7 @@ function AddPlot3(){
 
 
         });
+
 }
 
 
@@ -2297,6 +2403,8 @@ function CheckDarkMode(){
 
 document.querySelector("input[name=onoffswitch12]").onchange  = function() {
 CheckDarkMode();
+
+
 }
 </script>
 
@@ -2312,42 +2420,6 @@ CheckDarkMode();
 
 
 
-    <script>
-    // external js: packery.pkgd.js, draggabilly.pkgd.js
-
-    var $grid = $('.grid').packery({
-      itemSelector: '.grid-item',
-      columnWidth: 1,
-      // set positions with percent values
-    percentPosition: true,
-    fitWidth: true
-    });
-
-
-    // external js: packery.pkgd.js, jquery-ui-draggable.js
-
-
-
-
-
-    </script>
-    <!-- In <body> -->
-    <script src="js/nouislider.min.js"></script>
-    <!-- In <body> -->
-    <script src="js/wNumb.js"></script>
-    <!-- In <body> -->
-    <script src="js/astro.js"></script>
-    <!-- In <body> -->
-    <script src="js/astro.coords.js"></script>
-    <!-- In <body> -->
-    <script src="js/astro.constants.js"></script>
-    <!-- In <body> -->
-    <script src="js/astro.dates.js"></script>
-    <!-- Compiled and minified JavaScript -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
-    <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://use.fontawesome.com/6d2387fc38.js"></script>
 
   </body>
 </html>
