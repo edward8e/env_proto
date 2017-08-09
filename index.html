@@ -485,6 +485,7 @@ var pShape = [];
  var Speedlight = 299792458;// (m/s)
 var data = [];
 var xplot2 = [];
+var xnew = [];
 
 
 $( function() {
@@ -497,15 +498,6 @@ $( function() {
   });
 } );
 
-
-$.getJSON( "test.js", { name: "John", time: "2pm" } )
-  .done(function( json ) {
-    console.log( "JSON Data: " + json.users[ 3 ].name );
-  })
-  .fail(function( jqxhr, textStatus, error ) {
-    var err = textStatus + ", " + error;
-    console.log( "Request Failed: " + err );
-});
 
 
 function InitialPlot(){
@@ -762,12 +754,11 @@ function DecParse(){
       number[i] = i;
     }
 
-console.log(Ra.length);
 var testing = [];
     x = Ra.slice(0);
     y = Dec.slice(0);
     testing = Ra.slice(0);
-    console.log(testing);
+
 
 
     d = [1,2,3,4,5];
@@ -1712,7 +1703,7 @@ function AddPlot2(){
               var sgxTemp = GsgX.slice(0);
               var sgyTemp = GsgY.slice(0);
               var sgzTemp = GsgZ.slice(0);
-              var xCoorTemp = xCoorFinal.slice(0);
+              var xCoorTemp = xnew.slice(0);
 
               var sliderValues = slider.noUiSlider.get();
               var xslider = xplot2.slice(0);
@@ -1944,14 +1935,6 @@ function AddPlot3(){
 
             var colorvar = [];
             var hold;
-            console.log(color2);
-            //filters out the strings and makes time into three section array
-            //  for(i = 0; i < color2.length; i++)
-            //  {
-            //     color2[i] = color2[i].replace("s",""); //removes s
-            //     color2[i] = color2[i].replace("+",""); //removes s
-            //     color2[i] = color2[i].split(/[dm]/); //separates based off "h" and "m"
-            //  }
 
             // Finding the center point for anotation
             var cmax = Math.max.apply(Math, arcseconds);
@@ -1969,6 +1952,20 @@ function AddPlot3(){
             }
 
 
+
+
+            for(var i = 0; i < Ra.length; i++){
+              var thetaVal = 90 - Pa[i];
+              if(thetaVal > 0){
+                thetaVal += 360;
+              }
+            thetaVal = (thetaVal * Math.PI)/ 180;
+              xnew[i] = (-1 * Sep[i] * Math.cos(thetaVal)/5 * cz[i]) / (5000 + cz[0]);
+            };
+            var xbottomTaper = (5000) / (5000 + cz[0]);
+            console.log(xbottomTaper);
+
+
         var data = [
               {mode: 'markers',
               type: "scatter",
@@ -1976,7 +1973,7 @@ function AddPlot3(){
               name: 'this',
               marker: {color: pn,
               shape: pShape},
-              x: xCoorFinal,
+              x: xnew,
               y: deltaCZ}
           ];
 
@@ -1984,19 +1981,15 @@ function AddPlot3(){
         var layout = {
           xaxis: {
             title: 'RA<sub>(sec)</sub>',
-            autorange: true,
-            linecolor: 'rgb(200, 200, 200)',
-            linewidth: 2,
-            mirror: true,
-            ticks: 'inside',
-            ticklen: 10,
-            tickwidth: 2,
-            color: 'rgb(200, 200, 200)',
+            visable: false,
+            showline: false,
+            showgrid: false,
+            showticklabels: false,
           },
           yaxis: {
             title: 'Δ<sub>cz</sub> [km/s]',
             autorange: true,
-            linecolor: 'rgb(200, 200, 200)',
+            linecolor: 'rgba(0,0,0,0)',
             linewidth: 2,
             mirror: true,
             ticks: 'inside',
@@ -2011,6 +2004,19 @@ function AddPlot3(){
           hovermode: false,
           plot_bgcolor: '#151515',
           paper_bgcolor: '#151515',
+          shapes: [
+
+            // Unfilled Circle
+
+            {
+              type: 'path',
+              path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
+              line: {
+                color: 'rgba(100, 100, 100, 1)'
+              }
+            },
+
+          ]
         };
 
         //Edits made to the toolbar
@@ -2075,7 +2081,7 @@ function AddPlot3(){
             $(".grid-item--width--graph3").css("height", topItemWidth1);
             $(".grid-item--width--table").css("width", "48%");
             $(".grid-item--width--graphSettings").css("width", "48%");
-
+            console.log($(".grid-item--width--table").css("width"));
             var scalescreenSize = $(window).height();
             var topHeight = scalescreenSize - scalescreenSize*0.04;
             $(".grid-item--width--graph3").css("height", topHeight);
@@ -2297,6 +2303,35 @@ function AddPlot3(){
             plot_bgcolor: '#fff',
             paper_bgcolor: '#fff',
           };
+        }else if(dimension === 1){
+            var layout_update = {
+            // title: 'ARP 220',
+            titlefont: {
+              color: 'black',
+            },
+            xaxis: {
+              title: XAxisCurrent,
+              visable: false,
+              showline: false,
+              showgrid: false,
+              showticklabels: false,
+              },
+            yaxis: {
+              title: YAxisCurrent,
+              autorange: true,
+              linecolor: 'rgba(0,0,0,0)',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: '#444'
+              },
+            margin: margin,
+            hovermode: false,
+            plot_bgcolor: '#fff',
+            paper_bgcolor: '#fff',
+          };
         }else{
             var layout_update = {
             // title: 'ARP 220',
@@ -2384,7 +2419,39 @@ function AddPlot3(){
             plot_bgcolor: '#151515',
             paper_bgcolor: '#151515',
           };
-          }else{
+        }else if(dimension === 1){
+          var layout_update = {
+          // title: 'ARP 220',
+          titlefont: {
+            color: 'white',
+          },
+          xaxis: {
+            title: XAxisCurrent,
+            autorange: true,
+            linecolor: 'rgba(0,0,0,0)',
+            linewidth: 2,
+            mirror: true,
+            ticks: '',
+            color: 'rgb(255,255,255)',
+            visable: false,
+            },
+          yaxis: {
+            title: YAxisCurrent,
+            autorange: true,
+            linecolor: 'rgba(0,0,0,0)',
+            linewidth: 2,
+            mirror: true,
+            ticks: 'inside',
+            ticklen: 10,
+            tickwidth: 2,
+            color: 'rgb(255,255,255)'
+            },
+          margin: margin,
+          hovermode: false,
+          plot_bgcolor: '#151515',
+          paper_bgcolor: '#151515',
+        };
+        }else{
             var layout_update = {
             // title: 'ARP 220',
             titlefont: {
@@ -2444,13 +2511,13 @@ function AddPlot3(){
 function CheckDarkMode(){
   if ($("input[name=onoffswitch12]").is(':checked')){
     DarkLayout('my-graph1','RA<sub>(sec)</sub>', 'Dec<sub>(arcsec)</sub>','',{t: 20}, 0);
-    DarkLayout('my-graph2','RA<sub>(sec)</sub>', 'Δ<sub>cz</sub> [km/s]','', {t: 20}, 0);
-    DarkLayout('my-graph','sgX (Mpc)', 'sgY (Mpc)','sgZ (Mpc)', {l: 0, r: 0, b: 0, t: 0}, 1);
+    DarkLayout('my-graph2',"", 'Δ<sub>cz</sub> [km/s]','', {t: 20}, 1);
+    DarkLayout('my-graph','sgX (Mpc)', 'sgY (Mpc)','sgZ (Mpc)', {l: 0, r: 0, b: 0, t: 0}, 2);
   }
   else {
     WhiteLayout('my-graph1','RA<sub>(sec)</sub>', 'Dec<sub>(arcsec)</sub>','', {t: 20}, 0);
-    WhiteLayout('my-graph2','RA<sub>(sec)</sub>', 'Δ<sub>cz</sub> [km/s]','', {t: 20}, 0);
-    WhiteLayout('my-graph','sgX (Mpc)', 'sgY (Mpc)','sgZ (Mpc)', {l: 0, r: 0, b: 0, t: 0}, 1);
+    WhiteLayout('my-graph2',"", 'Δ<sub>cz</sub> [km/s]','', {t: 20}, 1);
+    WhiteLayout('my-graph','sgX (Mpc)', 'sgY (Mpc)','sgZ (Mpc)', {l: 0, r: 0, b: 0, t: 0}, 2);
   }
 }
 
