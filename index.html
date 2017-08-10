@@ -46,6 +46,11 @@
     <script src="js/astro.constants.js"></script>
     <!-- In <body> -->
     <script src="js/astro.dates.js"></script>
+    <!-- In <body> -->
+    <script src="js/gif.js"></script>
+    <!-- In <body> -->
+    <script src="js/gif.worker.js"></script>
+
     <!-- Compiled and minified JavaScript -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script> -->
     <!-- Latest compiled and minified JavaScript -->
@@ -269,6 +274,10 @@
           <div class="bg-popout">
             <button id="button-download" class="btn btn-default">Download Graph</button>
             <button class="btn btn-default" id="GraphAnimation" >Animation</button>
+            <button class="btn btn-default" id="GraphGIF" >GraphGIF</button>
+            <div id="testing">
+
+            </div>
           </div>
         </div>
           </div>
@@ -1381,14 +1390,52 @@ var Graph1Cases = function(){
     //---------------------END OF TABLE----------------------//
 
 
-
-
-
-
     });
+
+    $("#GraphGIF").click(function(){
+console.log("yes");
+    var images = [];
+var imgtest = Plotly.toImage(gd);
+       var imgtest = Plotly.toImage(gd).then((img) => {
+        images.push(img)
+      })
+console.log(images);
+
+
+  var gif = new GIF({
+      workers: 2,
+      quality: 10,
+      width: 200,
+      height: 200
+    });
+
+    var c=document.getElementById("my-graph");
+    // or a canvas element
+    gif.addFrame(c, {delay: 200,});
+
+    gif.on('finished', function(blob) {
+      window.open(URL.createObjectURL(blob));
+    });
+
+    gif.render();
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $("#GraphAnimation").click(function(){
   var i = 0;
-  var cameraRotation = setInterval(function(){GraphAnimation(100);}, 10);
+  var cameraRotation = setInterval(function(){GraphAnimation(100);}, 1);
 
 function GraphAnimation(value){
   if(i < value){
