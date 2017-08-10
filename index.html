@@ -194,6 +194,7 @@
                        <option value="1">SuperGalactic Coordinates</option>
                        <option value="2">Equatorial Coordinates</option>
                        <option value="3">Equatorial Coordinates Test</option>
+                       <option value="4">Axis at Origin</option>
                      </select>
                    </div>
                    <h5>Velocity Options:</h5>
@@ -267,6 +268,7 @@
 
           <div class="bg-popout">
             <button id="button-download" class="btn btn-default">Download Graph</button>
+            <button class="btn btn-default" id="GraphAnimation" >Animation</button>
           </div>
         </div>
           </div>
@@ -566,88 +568,6 @@ function step3() {
 
 
 
-
-
-$.ajax({
-  type: "GET",
-  url: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'https%3A%2F%2Fedward8e.github.io%2Fenv_proto%2Farp220XML.xml'&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",
-  dataType: "xml",
-  success: xmlParser,
-});
-
-
-function xmlParser(xml){
-
-    // $(xml).find("row").each(function(idx, v) {
-    //     data[idx] = [];
-    //     $(v).find("FIELD1").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD2").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD3").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD4").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD5").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD6").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD7").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD8").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD9").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    //     $(v).find("FIELD10").each(function( i , vi) {
-    //         data[idx].push( $(vi).text() );
-    //     });
-    // });
-    // for(var i = 1; i < data.length; i++){
-    //   //Table Data
-    //   names.push(data[i][0]);
-    //   Ra.push(data[i][1]);
-    //   Dec.push(data[i][2]);
-    //   OType.push(data[i][3]);
-    //   cz.push(data[i][4]);
-    //   zFlag.push(data[i][5]);
-    //   RShift.push(data[i][6]);
-    //   Pa.push(data[i][7]);
-    //   Sep.push(data[i][8]);
-    //   deltaCZ.push(data[i][9]);
-    // }
-
-    // $.getJSON('https://raw.githubusercontent.com/edward8e/env_proto/gh-pages/goals_env/ARP220.json', function (json) {
-    //  data = json.data_table;
-    //  for(var i = 0; i < json.data_table.length; i++){
-    //    names.push(data[i][0]);
-    //    Ra.push(data[i][1]);
-    //    Dec.push(data[i][2]);
-    //    OType.push(data[i][3]);
-    //    cz.push(data[i][4]);
-    //    zFlag.push(data[i][5]);
-    //    RShift.push(data[i][6]);
-    //    Pa.push(data[i][7]);
-    //    Sep.push(data[i][8]);
-    //    deltaCZ.push(data[i][9]);
-    //  }
-    // });
-    // loadArrays();
-    // AddPlot1();
-    // AddPlot2();
-    // AddPlot3();
-    // CheckDarkMode();
-}
-
-
 function loadArrays(){
   hms = Ra.slice();
   hmsa = Dec.slice();
@@ -838,6 +758,9 @@ var SuperGalacticXYZ = function(sgl,sgb,cz){
 
 
 
+var xAxisCenter = [];
+var yAxisCenter = [];
+var zAxisCenter = [];
 
 var sgX = [];
 var sgY = [];
@@ -860,7 +783,20 @@ for(var i = 0; i < x.length; i++){
   GsgY.push(sgxyz[1]);
   GsgZ.push(sgxyz[2]);
 }
+for(var i = 0; i < sgX.length; i++){
+  xAxisCenter[i] = sgX[i] - sgX[0];
+  yAxisCenter[i] = sgY[i] - sgY[0];
+  zAxisCenter[i] = sgZ[i] - sgZ[0];
+
 }
+}
+
+
+
+
+
+
+
 
 
 SGVelocity(cz);
@@ -977,6 +913,18 @@ gb[i] = coord.b;
         ticklen: 10,
         tickwidth: 2,
         color: 'rgba(200, 200, 200, 1)',
+      },
+      camera: {
+        up:{
+          x: 10,
+          y: 10,
+          z: 10,
+        },
+        eye: {
+          x: 0.1,
+          y: 0.1,
+          z: 0.1,
+        }
       }
     },
       margin: {l: 0, r: 0, b: 0, t: 0},
@@ -1085,7 +1033,7 @@ gb[i] = coord.b;
           'scene.zaxis.title': 'deltaCZ',
         };
         Plotly.relayout(gd, layout_update);
-      }else{
+      }else if(value == 3){
           var data_update = {
             x: [seconds],
             y: [arcseconds],
@@ -1098,6 +1046,20 @@ gb[i] = coord.b;
             'scene.zaxis.title': 'deltaCZ',
           };
           Plotly.relayout(gd, layout_update);
+      }else{
+        console.log(xAxisCenter);
+        var data_update = {
+          x: [xAxisCenter],
+          y: [yAxisCenter],
+          z: [zAxisCenter],
+        };
+        Plotly.restyle(gd, data_update);
+        var layout_update = {
+          'scene.xaxis.title': 'Ra(sec)',
+          'scene.yaxis.title': 'Dec(arcsec)',
+          'scene.zaxis.title': 'deltaCZ',
+        };
+        Plotly.relayout(gd, layout_update);
       }
     }
     //---------------------END of X-Axis----------------------//
@@ -1424,13 +1386,50 @@ var Graph1Cases = function(){
 
 
     });
+$("#GraphAnimation").click(function(){
+  var i = 0;
+  var cameraRotation = setInterval(function(){GraphAnimation(100);}, 10);
 
+function GraphAnimation(value){
+  if(i < value){
+    console.log(i);
+  var layout_update = {
+  scene: {
+  camera: {
+    // up:{
+    //   x: 0,
+    //   y: 0,
+    //   z: 0,
+    // },
+    eye: {
+      x: Math.cos(i)*2.5,
+      y: Math.sin(i)*2.5,
+      z: 0,
+    },
+    // center: {
+    //   x: 1,
+    //   y: 1,
+    //   z: 1,
+    // }
+  }
+},
+};
+    i = i + 0.005;
+Plotly.relayout(gd, layout_update);
+
+  }else{
+    clearInterval(cameraRotation);
+  }
 
 
 
 
 }
+});
 
+
+
+}
 
 
 function AddPlot2(){
@@ -1963,7 +1962,6 @@ function AddPlot3(){
               xnew[i] = (-1 * Sep[i] * Math.cos(thetaVal)/5 * cz[i]) / (5000 + cz[0]);
             };
             var xbottomTaper = (5000) / (5000 + cz[0]);
-            console.log(xbottomTaper);
 
 
         var data = [
@@ -2371,7 +2369,7 @@ function AddPlot3(){
               ticklen: 10,
               tickwidth: 2,
               color: '#444',
-            }
+            },
           },
             margin: margin,
             hovermode: false,
