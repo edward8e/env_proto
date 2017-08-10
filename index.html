@@ -1395,11 +1395,11 @@ var Graph1Cases = function(){
     $("#GraphGIF").click(function(){
 console.log("yes");
     var images = [];
-var imgtest = Plotly.toImage(gd);
-       var imgtest = Plotly.toImage(gd).then((img) => {
-        images.push(img)
-      })
-console.log(images);
+var imgtest = Plotly.toImage(gd, {format: 'png', width: 800, height: 600}).then(function(dataUrl) {
+  jQuery('<img/>', {
+    id: 'firstimage',
+  'src': dataUrl,
+}).appendTo('#testing');
 
 
   var gif = new GIF({
@@ -1408,16 +1408,21 @@ console.log(images);
       width: 200,
       height: 200
     });
-
-    var c=document.getElementById("my-graph");
+var gifready = document.getElementById('firstimage');
     // or a canvas element
-    gif.addFrame(c, {delay: 200,});
+    gif.addFrame(gifready, {delay: 200});
 
     gif.on('finished', function(blob) {
       window.open(URL.createObjectURL(blob));
     });
 
     gif.render();
+
+
+});
+
+
+
     });
 
 
