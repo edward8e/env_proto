@@ -274,7 +274,7 @@
           <div class="bg-popout">
             <button id="button-download" class="btn btn-default">Download Graph</button>
             <button class="btn btn-default" id="GraphAnimation" >Animation</button>
-            <button class="btn btn-default" id="GraphGIF" >GraphGIF</button>
+            <!-- <button class="btn btn-default" id="GraphGIF" >GraphGIF</button> -->
             <div id="testing">
 
             </div>
@@ -497,6 +497,7 @@ var pShape = [];
 var data = [];
 var xplot2 = [];
 var xnew = [];
+var buttonConstant = 0;
 
 
 $( function() {
@@ -559,6 +560,11 @@ function step3() {
   $("#bottomtable").fadeIn();
   $("#togglegraph1").fadeIn(function(){
     AddPlot1();
+      $( "#GraphAnimation" ).trigger( "click" );
+      $( "#GraphAnimation" ).trigger( "click" );
+      console.log(buttonConstant);
+
+
   });
   $("#togglegraph2").fadeIn(function(){
     AddPlot2();
@@ -1390,40 +1396,44 @@ var Graph1Cases = function(){
     //---------------------END OF TABLE----------------------//
 
 
+buttonConstant = 1;
     });
 
-    $("#GraphGIF").click(function(){
-console.log("yes");
-    var images = [];
-var imgtest = Plotly.toImage(gd, {format: 'png', width: 800, height: 600}).then(function(dataUrl) {
-  jQuery('<img/>', {
-    id: 'firstimage',
-  'src': dataUrl,
-}).appendTo('#testing');
 
+//
+//     $("#GraphGIF").click(function(){
+// console.log("yes");
+//     var images = [];
+// var imgtest = Plotly.toImage(gd, {format: 'png', width: 800, height: 600}).then(function(dataUrl) {
+//   jQuery('<img/>', {
+//     id: 'firstimage',
+//   'src': dataUrl,
+// }).appendTo('#testing');
+//
+//
+//   var gif = new GIF({
+//       workers: 2,
+//       quality: 10,
+//       width: 200,
+//       height: 200
+//     });
+// var gifready = document.getElementById('firstimage');
+//     // or a canvas element
+//     gif.addFrame(gifready, {delay: 200});
+//
+//     gif.on('finished', function(blob) {
+//       window.open(URL.createObjectURL(blob));
+//     });
+//
+//     gif.render();
+//
+//
+// });
+//
+//
+//
+//     });
 
-  var gif = new GIF({
-      workers: 2,
-      quality: 10,
-      width: 200,
-      height: 200
-    });
-var gifready = document.getElementById('firstimage');
-    // or a canvas element
-    gif.addFrame(gifready, {delay: 200});
-
-    gif.on('finished', function(blob) {
-      window.open(URL.createObjectURL(blob));
-    });
-
-    gif.render();
-
-
-});
-
-
-
-    });
 
 
 
@@ -1439,30 +1449,29 @@ var gifready = document.getElementById('firstimage');
 
 
 $("#GraphAnimation").click(function(){
-  var i = 0;
-  var cameraRotation = setInterval(function(){GraphAnimation(100);}, 1);
+CamerarotationFunction();
+});
 
+function CamerarotationFunction(){
+    var i = 0;
+var cameraRotation = setInterval(function(){GraphAnimation(1000);}, 1);
+if(buttonConstant === 0){
+  buttonConstant = 1;
+}
+else{
+  buttonConstant = 0;
+}
 function GraphAnimation(value){
-  if(i < value){
+  if(i < value && buttonConstant === 0){
     console.log(i);
   var layout_update = {
   scene: {
   camera: {
-    // up:{
-    //   x: 0,
-    //   y: 0,
-    //   z: 0,
-    // },
     eye: {
       x: Math.cos(i)*2.5,
       y: Math.sin(i)*2.5,
       z: 0,
     },
-    // center: {
-    //   x: 1,
-    //   y: 1,
-    //   z: 1,
-    // }
   }
 },
 };
@@ -1472,14 +1481,9 @@ Plotly.relayout(gd, layout_update);
   }else{
     clearInterval(cameraRotation);
   }
-
-
-
-
 }
-});
-
-
+}
+// setTimeout(CamerarotationFunction, 5000);
 
 }
 
