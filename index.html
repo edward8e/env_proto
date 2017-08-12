@@ -369,9 +369,23 @@
 
 
       <div class="grid-item grid-item--width--graphSettings" id="slider-box">
-        <div>
+        <div class="slider-box-height">
           <h5 class="text-center">Set slider Δcz [km/s] range</h5>
           <div id="slider"></div>
+          <br />
+          <br />
+          <br />
+          <br />
+
+          <div class="button-options">
+          <button type="button" class="btn btn-primary btn-sm" id="fifthMPC">± 200 km/s</button>
+          <button type="button" class="btn btn-primary btn-sm" id="halfMPC">± 250 km/s</button>
+          <button type="button" class="btn btn-primary btn-sm" id="oneMPC">± 500 km/s</button>
+          <button type="button" class="btn btn-primary btn-sm" id="twoMPC">± 1,000 km/s</button>
+          <button type="button" class="btn btn-primary btn-sm" id="fiveMPC">± 2,500 km/s</button>
+          <button type="button" class="btn btn-primary btn-sm" id="tenMPC">± 5,000 km/s</button>
+          <button type="button" class="btn btn-primary btn-sm" id="fixedMPC">Fixed Range</button>
+        </div>
         </div>
       </div>
 
@@ -498,7 +512,8 @@ var data = [];
 var xplot2 = [];
 var xnew = [];
 var buttonConstant = 0;
-
+var xbottomTaper;
+var pn3d = [];
 
 $( function() {
   var availableTags = [
@@ -562,7 +577,6 @@ function step3() {
     AddPlot1();
       $( "#GraphAnimation" ).trigger( "click" );
       $( "#GraphAnimation" ).trigger( "click" );
-      console.log(buttonConstant);
 
 
   });
@@ -868,22 +882,27 @@ gl[i] = coord.l;
 gb[i] = coord.b;
 });
 
+var sizeArray = new Array(pn.length);
+sizeArray.fill(10);
+sizeArray[0] = 20;
 
-
+pn3d = pn.slice(0);
+pn3d[0] = 'rgb(0, 0, 0)';
 
     var data = [
           {mode: 'markers',
           type: "scatter3d",
           text: number,
           marker: {
-            color: pn,
+            color: pn3d,
             symbol: 'circle',
-            // line: {
-          	// 	color: 'rgb(204, 204, 204)',
-          	// 	width: 1},
-            size: 5,
+            size: sizeArray,
+            opacity: 0.3,
+            line: {
+          		color: 'rgba(0, 0, 0,0)',
+          		width: 1},
           },
-          opacity: 0.3,
+
           x: sgX,
           y: sgY,
           z: sgZ}
@@ -1045,7 +1064,7 @@ gb[i] = coord.b;
         var layout_update = {
           'scene.xaxis.title': 'Ra(sec)',
           'scene.yaxis.title': 'Dec(arcsec)',
-          'scene.zaxis.title': 'deltaCZ',
+          'scene.zaxis.title': 'ΔCZ',
         };
         Plotly.relayout(gd, layout_update);
       }else if(value == 3){
@@ -1058,7 +1077,7 @@ gb[i] = coord.b;
           var layout_update = {
             'scene.xaxis.title': 'Ra(sec)',
             'scene.yaxis.title': 'Dec(arcsec)',
-            'scene.zaxis.title': 'deltaCZ',
+            'scene.zaxis.title': 'ΔCZ',
           };
           Plotly.relayout(gd, layout_update);
       }else{
@@ -1070,9 +1089,9 @@ gb[i] = coord.b;
         };
         Plotly.restyle(gd, data_update);
         var layout_update = {
-          'scene.xaxis.title': 'Ra(sec)',
-          'scene.yaxis.title': 'Dec(arcsec)',
-          'scene.zaxis.title': 'deltaCZ',
+          'scene.xaxis.title': 'ΔX (Mpc)',
+          'scene.yaxis.title': 'ΔY (Mpc)',
+          'scene.zaxis.title': 'ΔZ (Mpc)',
         };
         Plotly.relayout(gd, layout_update);
       }
@@ -1160,6 +1179,10 @@ gb[i] = coord.b;
     $(".bottom-table").css({"height":tableHeight});
     // $(".grid-item--width--settings").css("height", topItem1);
     $(".grid-item--width--data").css("height", topItem2);
+
+
+
+
     $grid.packery('layout');
 
     //---------------------Resizing graph1----------------------//
@@ -1454,7 +1477,7 @@ CamerarotationFunction();
 
 function CamerarotationFunction(){
     var i = 0;
-var cameraRotation = setInterval(function(){GraphAnimation(1000);}, 1);
+var cameraRotation = setInterval(function(){GraphAnimation(1000);}, 30);
 if(buttonConstant === 0){
   buttonConstant = 1;
 }
@@ -1463,19 +1486,13 @@ else{
 }
 function GraphAnimation(value){
   if(i < value && buttonConstant === 0){
-    console.log(i);
-  var layout_update = {
-  scene: {
-  camera: {
-    eye: {
-      x: Math.cos(i)*2.5,
-      y: Math.sin(i)*2.5,
-      z: 0,
-    },
-  }
-},
-};
-    i = i + 0.005;
+    var layout_update = {
+      'scene.camera.eye.x' : Math.cos(i)*2.5,
+      'scene.camera.eye.y' : Math.sin(i)*2.5,
+      'scene.camera.eye.z' : 0,
+
+    };
+    i = i + 0.002;
 Plotly.relayout(gd, layout_update);
 
   }else{
@@ -1554,20 +1571,26 @@ function AddPlot2(){
             var ytop4 = ycenter + ylength/32;
 
             //adds shape to the ponts
-            for(i = 0; i < x.length; i++){
-              if (pShape[i] === "G") {
+            for(i = 0; i < pShape.length; i++){
+              if (pShape[i] === "G     ") {
                 pShape[i] = "circle-open";
-              }
-              else if(pShape[i] === "GGroup"){
-                pShape[i] = "square-open";
-              }
-              else if(pShape[i] === "GTrpl"){
+              }else if(pShape[i] === "QSO   "){
+                pShape[i] = "star-open";
+              }else if(pShape[i] === "AbLS  "){
+                pShape[i] = "cross-open";
+              }else if(pShape[i] === "G_Lens"){
+                pShape[i] = "cross-open";
+              }else if(pShape[i] === "Q_lens"){
+                pShape[i] = "cross-open";
+              }else if(pShape[i] === "GPair "){
+                pShape[i] = "x-open-dot";
+              }else if(pShape[i] === "GTrpl "){
                 pShape[i] = "triangle-up-open";
-              }
-              else if(pShape[i] === "Gclstr"){
-                pShape[i] = "diamond-cross-open";
-              }
-              else {
+              }else if(pShape[i] === "GGroup"){
+                pShape[i] = "square-open";
+              }else if(pShape[i] === "GClstr"){
+                pShape[i] = "diamond-open";
+              }else {
                 pShape[i] = "circle";
               }
             }
@@ -1797,6 +1820,40 @@ function AddPlot2(){
 
             });
 
+            $("#tenMPC").click(function(){
+              slider.noUiSlider.set([deltaMin,deltaMax]);
+            });
+            $("#fiveMPC").click(function(){
+              slider.noUiSlider.set([-2500,2500]);
+            });
+            $("#twoMPC").click(function(){
+              slider.noUiSlider.set([-1000,1000]);
+            });
+            $("#oneMPC").click(function(){
+              slider.noUiSlider.set([-500,500]);
+            });
+            $("#halfMPC").click(function(){
+              slider.noUiSlider.set([-250,250]);
+            });
+            $("#fifthMPC").click(function(){
+              slider.noUiSlider.set([-200,200]);
+            });
+            $("#fixedMPC").click(function(){
+              slider.noUiSlider.updateOptions({
+            		behaviour: 'drag-fixed'
+            	});
+              console.log("worked");
+            });
+
+  // 'behaviour': 'drag-fixed'
+
+
+                //resize slider box
+                var sliderheight = $(".slider-box-height").css("height");
+                sliderheight = sliderheight.replace("px","");
+                sliderheight = parseInt(sliderheight);
+                $("#slider-box").css("height", sliderheight);
+
             var Graph2Cases = function(){
               if(document.querySelector("input[name=onoffswitch7]").checked == false && document.querySelector("input[name=onoffswitch9]").checked == true){
                 $(".grid-item--width--graph2").css({"width": "70%"});
@@ -2017,16 +2074,16 @@ function AddPlot3(){
             thetaVal = (thetaVal * Math.PI)/ 180;
               xnew[i] = (-1 * Sep[i] * Math.cos(thetaVal)/5 * cz[i]) / (5000 + cz[0]);
             };
-            var xbottomTaper = (5000) / (5000 + cz[0]);
-
+            xbottomTaper = (5000) / (5000 + cz[0]);
 
         var data = [
               {mode: 'markers',
               type: "scatter",
               text: number,
               name: 'this',
-              marker: {color: pn,
-              shape: pShape},
+              marker: {
+                color: pn,
+                symbol: pShape},
               x: xnew,
               y: deltaCZ}
           ];
@@ -2056,17 +2113,18 @@ function AddPlot3(){
             // r: 20,
           },
           hovermode: false,
-          plot_bgcolor: '#151515',
-          paper_bgcolor: '#151515',
+          plot_bgcolor: '#fff',
+          paper_bgcolor: '#fff',
           shapes: [
 
             // Unfilled Circle
 
             {
               type: 'path',
+              layer: 'below',
               path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
               line: {
-                color: 'rgba(100, 100, 100, 1)'
+                color: 'rgb(50, 50, 50)'
               }
             },
 
@@ -2385,6 +2443,16 @@ function AddPlot3(){
             hovermode: false,
             plot_bgcolor: '#fff',
             paper_bgcolor: '#fff',
+            shapes: [
+              {
+                type: 'path',
+                layer: 'below',
+                path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
+                line: {
+                  color: 'rgb(50, 50, 50)'
+                }
+              },
+            ]
           };
         }else{
             var layout_update = {
@@ -2474,37 +2542,44 @@ function AddPlot3(){
             paper_bgcolor: '#151515',
           };
         }else if(dimension === 1){
-          var layout_update = {
-          // title: 'ARP 220',
-          titlefont: {
-            color: 'white',
-          },
-          xaxis: {
-            title: XAxisCurrent,
-            autorange: true,
-            linecolor: 'rgba(0,0,0,0)',
-            linewidth: 2,
-            mirror: true,
-            ticks: '',
-            color: 'rgb(255,255,255)',
-            visable: false,
+            var layout_update = {
+            // title: 'ARP 220',
+            titlefont: {
+              color: 'black',
             },
-          yaxis: {
-            title: YAxisCurrent,
-            autorange: true,
-            linecolor: 'rgba(0,0,0,0)',
-            linewidth: 2,
-            mirror: true,
-            ticks: 'inside',
-            ticklen: 10,
-            tickwidth: 2,
-            color: 'rgb(255,255,255)'
-            },
-          margin: margin,
-          hovermode: false,
-          plot_bgcolor: '#151515',
-          paper_bgcolor: '#151515',
-        };
+            xaxis: {
+              title: XAxisCurrent,
+              visable: false,
+              showline: false,
+              showgrid: false,
+              showticklabels: false,
+              },
+            yaxis: {
+              title: YAxisCurrent,
+              autorange: true,
+              linecolor: 'rgba(0,0,0,0)',
+              linewidth: 2,
+              mirror: true,
+              ticks: 'inside',
+              ticklen: 10,
+              tickwidth: 2,
+              color: 'rgb(255,255,255)'
+              },
+            margin: margin,
+            hovermode: false,
+            plot_bgcolor: '#151515',
+            paper_bgcolor: '#151515',
+            shapes: [
+              {
+                type: 'path',
+                layer: 'below',
+                path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
+                line: {
+                  color: 'rgb(200, 200, 200)'
+                }
+              },
+            ]
+          };
         }else{
             var layout_update = {
             // title: 'ARP 220',

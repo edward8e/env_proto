@@ -156,7 +156,9 @@ body.dark-mode{
 .dark-mode #slider-box{
 	background-color: #151515;
 }
-
+.dark-mode .grid-item{
+	background-color: #151515;
+}
 /*.main-section{
 	padding:0px 10px ;
 }*/
@@ -212,8 +214,15 @@ body.dark-mode{
 #togglegraph1, #togglegraph2, #togglegraph3, #data-window, #slider-box, #bottomtable{
 	display: none;
 }
-
-
+.slider-box-height{
+	padding: 10px;
+}
+.button-options{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
 
 
 
@@ -402,7 +411,9 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
+/*.noUi-pips,.noUi-pips-horizontal{
+	z-index: 0;
+}*/
 
 
 
