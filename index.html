@@ -216,6 +216,77 @@
              </div>
 
              <div class="panel">
+               <div class="panel-heading" role="tab" id="headingFour">
+                 <h4 class="panel-title">
+                   <a class="collapsed" onclick="DropDown(4)" role="button" data-toggle="collapse" data-target="#collapseFour" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                     <div class="bg-popout">
+                       <div class="drop-title">
+                           <h4>Camera Controls:</h4>
+                           <i class="fa fa-plus-circle fa-lg" id="toggle-icon4"></i>
+                       </div>
+                     </div>
+                   </a>
+                 </h4>
+               </div>
+               <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                 <div class="panel-body">
+                   <div class="bg-popin">
+
+                     <h5>Eye:</h5>
+                     <span>x:</span><div id="sliderEyeX"></div><br />
+                     <span>y:</span><div id="sliderEyeY"></div><br />
+                     <span>z:</span><div id="sliderEyeZ"></div><br />
+                       x:<input type="text" name="X3deye" class="dark-mode input-box" value="1.25" id="X3deye"><br />
+                       y:<input type="text" name="Y3deye" class="dark-mode input-box" value="1.25" id="Y3deye"><br />
+                       z:<input type="text" name="Z3deye" class="dark-mode input-box" value="1.25" id="Z3deye"><br />
+                       <button id="eye3dPlot" class="btn btn-primary btn-sm">Submit Eye</button>
+                     <h5>UP:</h5>
+                     <span>x:</span><div id="sliderUpX"></div><br />
+                     <span>y:</span><div id="sliderUpY"></div><br />
+                     <span>z:</span><div id="sliderUpZ"></div><br />
+                       x:<input type="text" name="X3dup" class="dark-mode input-box" value="0" id="X3dup"><br />
+                       y:<input type="text" name="Y3dup" class="dark-mode input-box" value="0" id="Y3dup"><br />
+                       z:<input type="text" name="Z3dup" class="dark-mode input-box" value="1" id="Z3dup"><br />
+                       <button id="up3dPlot" class="btn btn-primary btn-sm">Submit UP</button>
+                     <h5>Center:</h5>
+                     <span>x:</span><div id="sliderCenterX"></div><br />
+                     <span>y:</span><div id="sliderCenterY"></div><br />
+                     <span>z:</span><div id="sliderCenterZ"></div><br />
+                       x:<input type="text" name="X3dcenter" class="dark-mode input-box" value="0" id="X3dcenter"><br />
+                       y:<input type="text" name="Y3center" class="dark-mode input-box" value="0" id="Y3dcenter"><br />
+                       z:<input type="text" name="Z3dcenter" class="dark-mode input-box" value="0" id="Z3dcenter"><br />
+                       <button id="center3dPlot" class="btn btn-primary btn-sm">Submit Center</button>
+
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+             <div class="panel">
+               <div class="panel-heading" role="tab" id="headingFive">
+                 <h4 class="panel-title">
+                   <a class="collapsed" onclick="DropDown(5)" role="button" data-toggle="collapse" data-target="#collapseFive" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                     <div class="bg-popout">
+                       <div class="drop-title">
+                           <h4>Animation Controls:</h4>
+                           <i class="fa fa-minus-circle fa-lg" id="toggle-icon5"></i>
+                       </div>
+                     </div>
+                   </a>
+                 </h4>
+               </div>
+               <div id="collapseFive" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFive">
+                 <div class="panel-body">
+                   <div class="bg-popin">
+                     Start/Stop: <button class="btn btn-default" id="GraphAnimation" >Toggle</button><br />
+                     <h5>Zoom:</h5>
+                     <div id="sliderAnimationZoom"></div><br />
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+             <div class="panel">
                <div class="panel-heading" role="tab" id="headingThree">
                  <h4 class="panel-title">
                    <a class="collapsed" onclick="DropDown(3)" role="button" data-toggle="collapse" data-target="#collapseThree" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -260,6 +331,9 @@
                </div>
              </div>
 
+
+
+
            </div>
 
 
@@ -273,7 +347,6 @@
 
           <div class="bg-popout">
             <button id="button-download" class="btn btn-default">Download Graph</button>
-            <button class="btn btn-default" id="GraphAnimation" >Animation</button>
             <!-- <button class="btn btn-default" id="GraphGIF" >GraphGIF</button> -->
             <div id="testing">
 
@@ -915,6 +988,7 @@ pn3d[0] = 'rgb(0, 0, 0)';
         title: 'sgX Mpc',
         autorange: true,
         linecolor: 'rgba(200, 200, 200, 1)',
+        gridcolor: 'rgba(200, 200, 200, 1)',
         linewidth: 2,
         mirror: true,
         ticks: 'inside',
@@ -926,8 +1000,6 @@ pn3d[0] = 'rgb(0, 0, 0)';
         title: 'sgY Mpc',
         autorange: true,
         gridcolor: 'rgba(200, 200, 200, 1)',
-        backgroundcolor: 'rgba(200, 200, 200, 1)',
-        zerolinecolor: 'rgba(200, 200, 200, 1)',
         linewidth: 2,
         mirror: true,
         ticks: 'inside',
@@ -938,9 +1010,7 @@ pn3d[0] = 'rgb(0, 0, 0)';
       zaxis: {
         title: 'sgZ Mpc',
         autorange: true,
-        gridcolor: 'rgb(255, 255, 255)',
-        backgroundcolor: 'rgba(200, 200, 200, 1)',
-        zerolinecolor: 'rgba(200, 200, 200, 1)',
+        gridcolor: 'rgba(200, 200, 200, 1)',
         linewidth: 2,
         mirror: true,
         ticks: 'inside',
@@ -948,18 +1018,6 @@ pn3d[0] = 'rgb(0, 0, 0)';
         tickwidth: 2,
         color: 'rgba(200, 200, 200, 1)',
       },
-      camera: {
-        up:{
-          x: 10,
-          y: 10,
-          z: 10,
-        },
-        eye: {
-          x: 0.1,
-          y: 0.1,
-          z: 0.1,
-        }
-      }
     },
       margin: {l: 0, r: 0, b: 0, t: 0},
       hovermode: false,
@@ -967,7 +1025,6 @@ pn3d[0] = 'rgb(0, 0, 0)';
       plot_bgcolor: '#151515',
       paper_bgcolor: '#151515',
     };
-
     //Edits made to the toolbar
     var toolbar = {
     	scrollZoom: true, // lets us scroll to zoom in and out - works
@@ -1010,7 +1067,7 @@ pn3d[0] = 'rgb(0, 0, 0)';
     //---------------------Hover on and off----------------------//
     var checkboxDataON = function(){
       var layout_update = {
-        hovermode: 'closest'
+        'hovermode': 'closest'
       };
       Plotly.relayout('my-graph', layout_update);
       Plotly.relayout('my-graph1', layout_update);
@@ -1018,7 +1075,7 @@ pn3d[0] = 'rgb(0, 0, 0)';
     };
     var checkboxDataOFF = function(){
       var layout_update = {
-        hovermode: false
+        'hovermode': false
       };
       Plotly.relayout('my-graph', layout_update);
       Plotly.relayout('my-graph1', layout_update);
@@ -1475,6 +1532,31 @@ $("#GraphAnimation").click(function(){
 CamerarotationFunction();
 });
 
+var sliderAnimationZoom = document.getElementById('sliderAnimationZoom');
+noUiSlider.create(sliderAnimationZoom, {
+  start: 2.5,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+var ZoomConstant = sliderAnimationZoom.noUiSlider.get();
+
+sliderAnimationZoom.noUiSlider.on('update', function(){
+  ZoomConstant = sliderAnimationZoom.noUiSlider.get();
+
+});
+
+
+
+
+
+
 function CamerarotationFunction(){
     var i = 0;
 var cameraRotation = setInterval(function(){GraphAnimation(1000);}, 30);
@@ -1487,8 +1569,8 @@ else{
 function GraphAnimation(value){
   if(i < value && buttonConstant === 0){
     var layout_update = {
-      'scene.camera.eye.x' : Math.cos(i)*2.5,
-      'scene.camera.eye.y' : Math.sin(i)*2.5,
+      'scene.camera.eye.x' : Math.cos(i)*ZoomConstant,
+      'scene.camera.eye.y' : Math.sin(i)*ZoomConstant,
       'scene.camera.eye.z' : 0,
 
     };
@@ -1501,6 +1583,254 @@ Plotly.relayout(gd, layout_update);
 }
 }
 // setTimeout(CamerarotationFunction, 5000);
+
+$("#eye3dPlot").click(function(){
+  var layout_update = {
+    'scene.camera.eye.x' : $("#X3deye").val(),
+    'scene.camera.eye.y' : $("#Y3deye").val(),
+    'scene.camera.eye.z' : $("#Z3deye").val(),
+
+  };
+Plotly.relayout(gd, layout_update);
+});
+$("#up3dPlot").click(function(){
+  var layout_update = {
+    'scene.camera.up.x' : $("#X3dup").val(),
+    'scene.camera.up.y' : $("#Y3dup").val(),
+    'scene.camera.up.z' : $("#Z3dup").val(),
+
+  };
+Plotly.relayout(gd, layout_update);
+});
+$("#center3dPlot").click(function(){
+  var layout_update = {
+    'scene.camera.center.x' : $("#X3dcenter").val(),
+    'scene.camera.center.y' : $("#Y3dcenter").val(),
+    'scene.camera.center.z' : $("#Z3dcenter").val(),
+
+  };
+Plotly.relayout(gd, layout_update);
+});
+
+var sliderEyeX = document.getElementById('sliderEyeX');
+var sliderEyeY = document.getElementById('sliderEyeY');
+var sliderEyeZ = document.getElementById('sliderEyeZ');
+
+noUiSlider.create(sliderEyeX, {
+  start: 2,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+noUiSlider.create(sliderEyeY, {
+  start: 2,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+noUiSlider.create(sliderEyeZ, {
+  start: 2,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+//teathered to the slider
+
+sliderEyeX.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderEyeX.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.eye.x' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+sliderEyeY.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderEyeY.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.eye.y' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+sliderEyeZ.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderEyeZ.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.eye.z' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+
+$("#eye3dPlot").click(function(){
+  sliderEyeX.noUiSlider.set($("#X3deye").val());
+  sliderEyeY.noUiSlider.set($("#Y3deye").val());
+  sliderEyeZ.noUiSlider.set($("#Z3deye").val());
+});
+
+
+
+
+var sliderUpX = document.getElementById('sliderUpX');
+var sliderUpY = document.getElementById('sliderUpY');
+var sliderUpZ = document.getElementById('sliderUpZ');
+
+noUiSlider.create(sliderUpX, {
+  start: 0,
+  step: 2,
+  connect: true,
+  range: {
+    'min': 0,
+    'max': 1
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 0
+    }),
+});
+noUiSlider.create(sliderUpY, {
+  start: 0,
+  step: 2,
+  connect: true,
+  range: {
+    'min': 0,
+    'max': 1
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 0
+    }),
+});
+noUiSlider.create(sliderUpZ, {
+  start: 1,
+  step: 2,
+  connect: true,
+  range: {
+    'min': 0,
+    'max': 1
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 0
+    }),
+});
+//teathered to the slider
+
+sliderUpX.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderUpX.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.up.x' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+sliderUpY.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderUpY.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.up.y' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+sliderUpZ.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderUpZ.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.up.z' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+
+$("#up3dPlot").click(function(){
+  sliderUpX.noUiSlider.set($("#X3dup").val());
+  sliderUpY.noUiSlider.set($("#Y3dup").val());
+  sliderUpZ.noUiSlider.set($("#Z3dup").val());
+});
+
+
+
+
+var sliderCenterX = document.getElementById('sliderCenterX');
+var sliderCenterY = document.getElementById('sliderCenterY');
+var sliderCenterZ = document.getElementById('sliderCenterZ');
+
+noUiSlider.create(sliderCenterX, {
+  start: 0,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+noUiSlider.create(sliderCenterY, {
+  start: 0,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+noUiSlider.create(sliderCenterZ, {
+  start: 0,
+  connect: true,
+  range: {
+    'min': -5,
+    'max': 5
+  },
+    tooltips: true,
+    format: wNumb({
+      decimals: 2
+    }),
+});
+//teathered to the slider
+
+sliderCenterX.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderCenterX.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.center.x' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+sliderCenterY.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderCenterY.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.center.y' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+sliderCenterZ.noUiSlider.on('update', function(){
+  var sliderValueZoom = sliderCenterZ.noUiSlider.get();
+  var layout_update = {
+    'scene.camera.center.z' : sliderValueZoom,
+  };
+Plotly.relayout(gd, layout_update);
+});
+
+$("#center3dPlot").click(function(){
+  sliderCenterX.noUiSlider.set($("#X3dcenter").val());
+  sliderCenterY.noUiSlider.set($("#Y3dcenter").val());
+  sliderCenterZ.noUiSlider.set($("#Z3dcenter").val());
+});
+
 
 }
 
@@ -2091,7 +2421,6 @@ function AddPlot3(){
         //Graph axis related things
         var layout = {
           xaxis: {
-            title: 'RA<sub>(sec)</sub>',
             visable: false,
             showline: false,
             showgrid: false,
@@ -2116,21 +2445,16 @@ function AddPlot3(){
           plot_bgcolor: '#fff',
           paper_bgcolor: '#fff',
           shapes: [
-
-            // Unfilled Circle
-
             {
               type: 'path',
               layer: 'below',
               path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
               line: {
-                color: 'rgb(50, 50, 50)'
+                color: 'rgb(50, 50, 50)',
               }
             },
-
           ]
         };
-
         //Edits made to the toolbar
         var toolbar = {
         	scrollZoom: true, // lets us scroll to zoom in and out - works
@@ -2384,121 +2708,43 @@ function AddPlot3(){
       function WhiteLayout(graph, XAxisCurrent, YAxisCurrent, ZAxisCurrent, margin, dimension){
         if(dimension === 0){
             var layout_update = {
-            // title: 'ARP 220',
-            titlefont: {
-              color: 'black',
-            },
-            xaxis: {
-              title: XAxisCurrent,
-              autorange: true,
-              linecolor: 'black',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: '#444'
-              },
-            yaxis: {
-              title: YAxisCurrent,
-              autorange: true,
-              linecolor: 'black',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: '#444'
-              },
-            margin: margin,
-            hovermode: false,
-            plot_bgcolor: '#fff',
-            paper_bgcolor: '#fff',
+              'xaxis.linecolor': 'black',
+              'xaxis.color': '#444',
+              'yaxis.linecolor': 'black',
+              'yaxis.color': '#444',
+              'plot_bgcolor': '#fff',
+              'paper_bgcolor': '#fff',
           };
         }else if(dimension === 1){
             var layout_update = {
-            // title: 'ARP 220',
-            titlefont: {
-              color: 'black',
-            },
-            xaxis: {
-              title: XAxisCurrent,
-              visable: false,
-              showline: false,
-              showgrid: false,
-              showticklabels: false,
-              },
-            yaxis: {
-              title: YAxisCurrent,
-              autorange: true,
-              linecolor: 'rgba(0,0,0,0)',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: '#444'
-              },
-            margin: margin,
-            hovermode: false,
-            plot_bgcolor: '#fff',
-            paper_bgcolor: '#fff',
-            shapes: [
-              {
-                type: 'path',
-                layer: 'below',
-                path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
-                line: {
-                  color: 'rgb(50, 50, 50)'
-                }
-              },
-            ]
+              'yaxis.color': '#444',
+              'plot_bgcolor': '#fff',
+              'paper_bgcolor': '#fff',
+              'layout.shapes[0].line.color': 'rgb(50, 50, 50)',
+            // shapes: [
+            //   {
+            //     type: 'path',
+            //     layer: 'below',
+            //     path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
+            //     line: {
+            //       color: 'rgb(50, 50, 50)'
+            //     }
+            //   },
+            // ]
           };
         }else{
             var layout_update = {
-            // title: 'ARP 220',
-            titlefont: {
-              color: 'black',
-            },
-            scene: {
-              xaxis: {
-              title: XAxisCurrent,
-              autorange: true,
-              linecolor: 'black',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: '#444',
-            },
-            yaxis: {
-              title: YAxisCurrent,
-              autorange: true,
-              linecolor: 'black',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: '#444',
-            },
-            zaxis: {
-              title: ZAxisCurrent,
-              autorange: true,
-              linecolor: 'black',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: '#444',
-            },
-          },
-            margin: margin,
-            hovermode: false,
-            plot_bgcolor: '#fff',
-            paper_bgcolor: '#fff',
+              'scene.xaxis.title': XAxisCurrent,
+              'scene.xaxis.linecolor': 'black',
+              'scene.xaxis.color': '#444',
+              'scene.yaxis.title': YAxisCurrent,
+              'scene.yaxis.linecolor': 'black',
+              'scene.yaxis.color': '#444',
+              'scene.zaxis.title': ZAxisCurrent,
+              'scene.zaxis.linecolor': 'black',
+              'scene.zaxis.color': '#444',
+              'plot_bgcolor': '#fff',
+              'paper_bgcolor': '#fff',
           };
           }
 
@@ -2510,128 +2756,35 @@ function AddPlot3(){
         function DarkLayout(graph, XAxisCurrent, YAxisCurrent, ZAxisCurrent, margin, dimension){
           if(dimension === 0){
             var layout_update = {
-            // title: 'ARP 220',
-            titlefont: {
-              color: 'white',
-            },
-            xaxis: {
-              title: XAxisCurrent,
-              autorange: true,
-              linecolor: 'white',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: 'rgb(255,255,255)'
-              },
-            yaxis: {
-              title: YAxisCurrent,
-              autorange: true,
-              linecolor: 'white',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: 'rgb(255,255,255)'
-              },
-            margin: margin,
-            hovermode: false,
-            plot_bgcolor: '#151515',
-            paper_bgcolor: '#151515',
+              'xaxis.linecolor': 'white',
+              'xaxis.color': 'rgb(255,255,255)',
+              'yaxis.linecolor': 'white',
+              'yaxis.color': 'rgb(255,255,255)',
+              'plot_bgcolor': '#151515',
+              'paper_bgcolor': '#151515',
           };
         }else if(dimension === 1){
             var layout_update = {
-            // title: 'ARP 220',
-            titlefont: {
-              color: 'black',
-            },
-            xaxis: {
-              title: XAxisCurrent,
-              visable: false,
-              showline: false,
-              showgrid: false,
-              showticklabels: false,
-              },
-            yaxis: {
-              title: YAxisCurrent,
-              autorange: true,
-              linecolor: 'rgba(0,0,0,0)',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: 'rgb(255,255,255)'
-              },
-            margin: margin,
-            hovermode: false,
-            plot_bgcolor: '#151515',
-            paper_bgcolor: '#151515',
-            shapes: [
-              {
-                type: 'path',
-                layer: 'below',
-                path: 'M -2,5000 L2,5000 L'+ xbottomTaper +',-5000 L' + -xbottomTaper + ',-5000, L-2,5000' ,
-                line: {
-                  color: 'rgb(200, 200, 200)'
-                }
-              },
-            ]
+              'yaxis.color': 'rgb(255,255,255)',
+              'plot_bgcolor': '#151515',
+              'paper_bgcolor': '#151515',
+              'layout.shapes[0].line.color': 'rgb(200, 200, 200)',
           };
         }else{
             var layout_update = {
-            // title: 'ARP 220',
-            titlefont: {
-              color: 'white',
-            },
-            scene: {
-              xaxis: {
-              title: XAxisCurrent,
-              autorange: true,
-              gridcolor: 'rgba(200, 200, 200, 1)',
-              linecolor: 'white',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: 'rgba(200, 200, 200, 1)',
-            },
-            yaxis: {
-              title: YAxisCurrent,
-              autorange: true,
-              gridcolor: 'rgba(200, 200, 200, 1)',
-              linecolor: 'white',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: 'rgba(200, 200, 200, 1)',
-            },
-            zaxis: {
-              title: ZAxisCurrent,
-              autorange: true,
-              gridcolor: 'rgba(200, 200, 200, 1)',
-              linecolor: 'white',
-              linewidth: 2,
-              mirror: true,
-              ticks: 'inside',
-              ticklen: 10,
-              tickwidth: 2,
-              color: 'rgba(200, 200, 200, 1)',
-            }
-          },
-            margin: margin,
-            hovermode: false,
-            plot_bgcolor: '#151515',
-            paper_bgcolor: '#151515',
+              'scene.xaxis.title': XAxisCurrent,
+              'scene.xaxis.linecolor': 'white',
+              'scene.xaxis.color': 'rgba(200, 200, 200, 1)',
+              'scene.yaxis.title': YAxisCurrent,
+              'scene.yaxis.linecolor': 'white',
+              'scene.yaxis.color': 'rgba(200, 200, 200, 1)',
+              'scene.zaxis.title': ZAxisCurrent,
+              'scene.zaxis.linecolor': 'white',
+              'scene.zaxis.color': 'rgba(200, 200, 200, 1)',
+              'plot_bgcolor': '#151515',
+              'paper_bgcolor': '#151515',
           };
           }
-
-
           $('body').addClass('dark-mode');
           Plotly.relayout(graph, layout_update);
         }
