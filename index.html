@@ -609,7 +609,9 @@ function LoadData(){
   var galaxy = $('input[name=initalgalaxy]').val().toUpperCase().replace(/\s/g, '');
   console.log(galaxy);
    $.getJSON('https://raw.githubusercontent.com/edward8e/env_proto/gh-pages/goals_env/'+ galaxy + '.json', function (json) {
-  data = json.data_table;
+     console.log(json.status);
+     if(json.status === 0){
+       data = json.data_table;
   names = [];
   Ra = [];
   Dec = [];
@@ -632,11 +634,16 @@ function LoadData(){
     Sep.push(data[i][8]);
     deltaCZ.push(data[i][9]);
   }
- }).done(function( json ) {
-     $("#request-box").fadeOut();
+}else{
+  alert(json.message);
+}}).done(function( json ) {
+  if(json.status === 0){
+         $("#request-box").fadeOut();
   $("#loading").fadeIn(function(){
     setTimeout(step3, 1000);
   });
+  }
+
   }).fail(function() {
    alert("Invalid input position or input name not recognized by NED");
 });
