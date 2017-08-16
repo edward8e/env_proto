@@ -642,9 +642,7 @@ function LoadData(){
   $("#loading").fadeIn(function(){
     setTimeout(step3, 1000);
   });
-  }
-
-  }).fail(function() {
+  }}).fail(function() {
    alert("Invalid input position or input name not recognized by NED");
 });
 }
@@ -2094,11 +2092,11 @@ function AddPlot2(){
             var slider = document.getElementById('slider');
 
             noUiSlider.create(slider, {
-            	start: [deltaMin, deltaMax],
+            	start: [-5000, 5000],
             	connect: true,
             	range: {
-            		'min': deltaMin,
-            		'max': deltaMax
+            		'min': -5000,
+            		'max': 5000
             	},
               pips: { // Show a scale with the slider
                   mode: 'steps',
@@ -2112,7 +2110,7 @@ function AddPlot2(){
                 // step: 1000,
             });
 
-
+            var sliderValues = [];
             //teathered to the slider
             slider.noUiSlider.on('set', function(){
               var sgxTemp = GsgX.slice(0);
@@ -2120,7 +2118,7 @@ function AddPlot2(){
               var sgzTemp = GsgZ.slice(0);
               var xCoorTemp = xnew.slice(0);
 
-              var sliderValues = slider.noUiSlider.get();
+              sliderValues = slider.noUiSlider.get();
               var xslider = xplot2.slice(0);
               var yslider = y.slice(0);
               var yLongSlider = deltaCZ.slice(0);
@@ -2157,8 +2155,18 @@ function AddPlot2(){
 
             });
 
+            //
+            // //teathered to the slider
+            // slider.noUiSlider.on('set', function(){
+            //   if(-sliderValues[0] > sliderValues[1]){
+            //     slider.noUiSlider.set([-sliderValues[1],sliderValues[1]]);
+            //   }else{
+            //     slider.noUiSlider.set([-sliderValues[0],sliderValues[0]]);
+            //   }
+            // });
+
             $("#tenMPC").click(function(){
-              slider.noUiSlider.set([deltaMin,deltaMax]);
+              slider.noUiSlider.set([-5000,5000]);
             });
             $("#fiveMPC").click(function(){
               slider.noUiSlider.set([-2500,2500]);
