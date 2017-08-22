@@ -215,6 +215,31 @@
                </div>
              </div>
 
+
+             <div class="panel">
+               <div class="panel-heading" role="tab" id="headingSix">
+                 <h4 class="panel-title">
+                   <a class="collapsed" onclick="DropDown(6)" role="button" data-toggle="collapse" data-target="#collapseSix" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                     <div class="bg-popout">
+                       <div class="drop-title">
+                           <h4>Filter Refcodes:</h4>
+                           <i class="fa fa-plus-circle fa-lg" id="toggle-icon6"></i>
+                       </div>
+                     </div>
+                   </a>
+                 </h4>
+               </div>
+               <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                 <div class="panel-body">
+                   <div class="bg-popin">
+                     <div id="refcode">
+
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
              <div class="panel">
                <div class="panel-heading" role="tab" id="headingFour">
                  <h4 class="panel-title">
@@ -1842,6 +1867,87 @@ $("#center3dPlot").click(function(){
 
 function AddPlot2(){
 
+          Array.prototype.contains = function(v) {
+              for(var i = 0; i < this.length; i++) {
+                  if(this[i] === v) return true;
+              }
+              return false;
+          };
+
+          Array.prototype.unique = function() {
+              var arr = [];
+              for(var i = 0; i < this.length; i++) {
+                  if(!arr.contains(this[i])) {
+                      arr.push(this[i]);
+                  }
+              }
+              return arr;
+          }
+          var uniques = RShift.unique();
+          console.log(uniques);
+
+
+          var refArray = [];
+          var refnumber = new Array(uniques.length);
+          var refcolor = new Array(uniques.length);
+          for (var i = 0; i < refnumber.length; i++) {
+            refnumber[i] = new Array;
+            refcolor[i] = new Array;
+          }
+          var reftemp =  RShift[0];
+
+function storeRef(){
+              for(var i = 0; i < RShift.length; i++){
+                for(var j = 0; j < uniques.length; j++){
+                  if(uniques[j] === RShift[i]){
+                    refnumber[j].push(number[i]);
+                    refcolor[j].push(pn[i]);
+                    j = uniques.length;
+                  }
+                }
+              }
+              console.log(refnumber);
+              console.log(refcolor);
+          }
+          storeRef();
+
+          refnumber.sort(function(a, b){
+            // ASC  -> a.length - b.length
+            // DESC -> b.length - a.length
+            return b.length - a.length;
+          });
+          console.log(refnumber);
+
+          for(var i = 0; i < uniques.length; i++){
+            $('<input />', { type: 'checkbox', id: uniques[i], value: uniques[i], name:  uniques[i]}).appendTo('#refcode');
+            $('<label />', { 'for': uniques[i], text: ' ('+refnumber[i].length +') ' +uniques[i]  }).appendTo('#refcode');
+            $('<br />').appendTo('#refcode');
+          }
+
+          //checks if checkboxes are checked in Refcode Filter
+          $('#refcode input[type=checkbox]').change(function(){
+                  if (this.checked) {
+                      var idval = $(this).attr('id');
+                      for(var i = 0; i < uniques.length; i++){
+                        if(idval ===uniques[i]){
+                          for(var j = 0; j < uniques[i].length; j++){
+                            delete xplot2[refnumber[i][j]];
+                            delete y[refnumber[i][j]];
+                          }
+                          i = uniques.length;
+                          var data_update = {
+                            x: [xplot2],
+                            y: [y]
+                          };
+
+                            Plotly.restyle(gd1, data_update);
+                        }
+                      }
+                  }
+              });
+
+
+
 
             var delta = deltaCZ.slice(0);
             var arrayLength = hms.length;
@@ -2042,6 +2148,93 @@ function AddPlot2(){
                   y1: ybottom4,
                   line: {
                     color: 'rgba(100, 100, 100, 0.5)'
+                  }
+                },
+              ],
+              annotations: [
+                {
+                  x: xcenter,
+                  y: ybottom,
+                  xref: 'x',
+                  yref: 'y',
+                  text: '10Mpc',
+                  showarrow: true,
+                  align: 'center',
+                  arrowhead: 2,
+                  arrowsize: 1,
+                  arrowwidth: 2,
+                  arrowcolor: 'rgba(100, 100, 100, 0.5)',
+                  font: {
+                    size: 15,
+                    color: 'rgba(100, 100, 100, 0.5)',
+                  }
+                },
+                {
+                  x: xcenter,
+                  y: ybottom1,
+                  xref: 'x',
+                  yref: 'y',
+                  text: '5Mpc',
+                  showarrow: true,
+                  align: 'center',
+                  arrowhead: 2,
+                  arrowsize: 1,
+                  arrowwidth: 2,
+                  arrowcolor: 'rgba(100, 100, 100, 0.5)',
+                  font: {
+                    size: 15,
+                    color: 'rgba(100, 100, 100, 0.5)',
+                  }
+                },
+                {
+                  x: xcenter,
+                  y: ybottom2,
+                  xref: 'x',
+                  yref: 'y',
+                  text: '2.5Mpc',
+                  showarrow: true,
+                  align: 'center',
+                  arrowhead: 2,
+                  arrowsize: 1,
+                  arrowwidth: 2,
+                  arrowcolor: 'rgba(100, 100, 100, 0.5)',
+                  font: {
+                    size: 15,
+                    color: 'rgba(100, 100, 100, 0.5)',
+                  }
+                },
+                {
+                  x: xcenter,
+                  y: ybottom3,
+                  xref: 'x',
+                  yref: 'y',
+                  text: '1.25Mpc',
+                  showarrow: true,
+                  align: 'center',
+                  arrowhead: 2,
+                  arrowsize: 1,
+                  arrowwidth: 2,
+                  arrowcolor: 'rgba(100, 100, 100, 0.5)',
+                  font: {
+                    size: 15,
+                    color: 'rgba(100, 100, 100, 0.5)',
+                  }
+                },
+                {
+                  x: xcenter,
+                  y: ytop4,
+                  xref: 'x',
+                  yref: 'y',
+                  text: '0.625Mpc',
+                  showarrow: true,
+                  align: 'center',
+                  arrowhead: 2,
+                  arrowsize: 1,
+                  arrowwidth: 2,
+                  arrowcolor: 'rgba(100, 100, 100, 0.5)',
+                  font: {
+                    size: 15,
+                    color: 'rgba(100, 100, 100, 0.5)',
                   }
                 },
               ]
