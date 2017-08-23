@@ -232,6 +232,10 @@
                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
                  <div class="panel-body">
                    <div class="bg-popin">
+                     <div>
+                       <button class="btn btn-primary btn-sm" id="selectnone">Select None</button>
+                       <button class="btn btn-primary btn-sm" id="selectall">Select All</button>
+                     </div>
                      <div id="refcode">
 
                      </div>
@@ -612,6 +616,19 @@ var xnew = [];
 var buttonConstant = 0;
 var xbottomTaper;
 var pn3d = [];
+var sgx = [], sgy = [], sgz = [];
+var sgX = [];
+var sgY = [];
+var sgZ = [];
+var plot1Xvalue;
+var plot1Yvalue;
+var plot1Zvalue;
+
+var plot2Xvalue;
+var plot2Yvalue;
+
+var plot3Xvalue;
+var plot3Yvalue;
 
 $( function() {
   var availableTags = [
@@ -817,7 +834,7 @@ var testing = [];
     var xmax = Math.max(d);
 
     var gl = [], gb = [];
-    var sgx = [], sgy = [], sgz = [];
+
     for(var i = 0; i < x.length; i++){
       astrojs.ready(function(e){
       var coord = astrojs.coords.equatorial2galactic(x[i],y[i]);
@@ -894,9 +911,7 @@ var xAxisCenter = [];
 var yAxisCenter = [];
 var zAxisCenter = [];
 
-var sgX = [];
-var sgY = [];
-var sgZ = [];
+
 var light = [];
 
 function SGVelocity(velocity){
@@ -992,6 +1007,9 @@ sizeArray[0] = 20;
 pn3d = pn.slice(0);
 pn3d[0] = 'rgb(0, 0, 0)';
 
+plot1Xvalue = sgX.slice(0);
+plot1Yvalue = sgY.slice(0);
+plot1Zvalue = sgZ.slice(0);
     var data = [
           {mode: 'markers',
           type: "scatter3d",
@@ -1867,6 +1885,17 @@ $("#center3dPlot").click(function(){
 
 function AddPlot2(){
 
+  var delta = deltaCZ.slice(0);
+  var arrayLength = hms.length;
+  //flips x axis
+
+  for(var i = 0; i < x.length; i++)
+  {
+    xplot2[i] = -x[i];
+  }
+
+
+
           Array.prototype.contains = function(v) {
               for(var i = 0; i < this.length; i++) {
                   if(this[i] === v) return true;
@@ -1884,7 +1913,6 @@ function AddPlot2(){
               return arr;
           }
           var uniques = RShift.unique();
-          console.log(uniques);
 
 
           var refArray = [];
@@ -1906,57 +1934,193 @@ function storeRef(){
                   }
                 }
               }
-              console.log(refnumber);
-              console.log(refcolor);
+              // console.log(refnumber);
+              // console.log(refcolor);
           }
           storeRef();
+          var galaxyInfo = [
+            // {refcode: }
+          ];
+          for (var i = 0; i < uniques.length; i++) {
+            var b = {
+              refcode: uniques[i],
+              number: refnumber[i],
 
-          refnumber.sort(function(a, b){
-            // ASC  -> a.length - b.length
-            // DESC -> b.length - a.length
-            return b.length - a.length;
+            };
+            galaxyInfo.push(b)
+          }
+
+
+          function compare(a,b) {
+            return b.age - a.age;
+          }
+
+          galaxyInfo.sort(function(a,b) {
+            return b.number.length - a.number.length;
           });
-          console.log(refnumber);
 
-          for(var i = 0; i < uniques.length; i++){
-            $('<input />', { type: 'checkbox', id: uniques[i], value: uniques[i], name:  uniques[i]}).appendTo('#refcode');
-            $('<label />', { 'for': uniques[i], text: ' ('+refnumber[i].length +') ' +uniques[i]  }).appendTo('#refcode');
+
+
+
+
+
+
+
+          for(var i = 0; i < galaxyInfo.length; i++){
+            $('<input />', { type: 'checkbox', id: galaxyInfo[i].refcode, value: galaxyInfo[i].refcode, name:  galaxyInfo[i].refcode,}).appendTo('#refcode').prop('checked', true);
+            $('<label />', { 'for': galaxyInfo[i].refcode, text: ' ('+galaxyInfo[i].number.length +') ' +galaxyInfo[i].refcode  }).appendTo('#refcode');
             $('<br />').appendTo('#refcode');
           }
 
+
+
+
+          $("#selectnone").click(function(){
+            plot1Xvalue = [];
+            plot1Yvalue = [];
+            plot1Zvalue = [];
+
+            plot2Xvalue = [];
+            plot2Yvalue = [];
+
+            plot3Xvalue = [];
+            plot3Yvalue = [];
+            var data_update = {
+              x: [plot1Xvalue],
+              y: [plot1Yvalue],
+              z: [plot1Zvalue]
+            };
+            var data_update1 = {
+              x: [plot2Xvalue],
+              y: [plot2Yvalue]
+            };
+            var data_update2 = {
+              x: [plot3Xvalue],
+              y: [plot3Yvalue]
+            };
+
+              Plotly.restyle('my-graph', data_update);
+              Plotly.restyle('my-graph1', data_update1);
+              Plotly.restyle('my-graph2', data_update2);
+              $('#refcode input[type=checkbox]').prop('checked', false);
+          });
+          $("#selectall").click(function(){
+            plot1Xvalue = sgX.slice(0);
+            plot1Yvalue = sgY.slice(0);
+            plot1Zvalue = sgZ.slice(0);
+
+            plot2Xvalue = xplot2.slice(0);
+            plot2Yvalue = y.slice(0);
+
+            plot3Xvalue = xnew.slice(0);
+            plot3Yvalue = deltaCZ.slice(0);
+            var data_update = {
+              x: [plot1Xvalue],
+              y: [plot1Yvalue],
+              z: [plot1Zvalue]
+            };
+            var data_update1 = {
+              x: [plot2Xvalue],
+              y: [plot2Yvalue]
+            };
+            var data_update2 = {
+              x: [plot3Xvalue],
+              y: [plot3Yvalue]
+            };
+
+              Plotly.restyle('my-graph', data_update);
+              Plotly.restyle('my-graph1', data_update1);
+              Plotly.restyle('my-graph2', data_update2);
+              $('#refcode input[type=checkbox]').prop('checked', true);
+          });
+
+
           //checks if checkboxes are checked in Refcode Filter
           $('#refcode input[type=checkbox]').change(function(){
-                  if (this.checked) {
-                      var idval = $(this).attr('id');
-                      for(var i = 0; i < uniques.length; i++){
-                        if(idval ===uniques[i]){
-                          for(var j = 0; j < uniques[i].length; j++){
-                            delete xplot2[refnumber[i][j]];
-                            delete y[refnumber[i][j]];
-                          }
-                          i = uniques.length;
-                          var data_update = {
-                            x: [xplot2],
-                            y: [y]
-                          };
 
-                            Plotly.restyle(gd1, data_update);
+                  if (this.checked) {
+                    var idval = $(this).attr('id');
+                    for(var i = 0; i < galaxyInfo.length; i++){
+                      if(idval ===galaxyInfo[i].refcode){
+                        for(var j = 0; j < galaxyInfo[i].number.length; j++){
+                          plot1Xvalue[galaxyInfo[i].number[j]] = sgX[galaxyInfo[i].number[j]];
+                          plot1Yvalue[galaxyInfo[i].number[j]] = sgY[galaxyInfo[i].number[j]];
+                          plot1Zvalue[galaxyInfo[i].number[j]] = sgZ[galaxyInfo[i].number[j]];
+
+                          plot2Xvalue[galaxyInfo[i].number[j]] = xplot2[galaxyInfo[i].number[j]];
+                          plot2Yvalue[galaxyInfo[i].number[j]] = y[galaxyInfo[i].number[j]];
+
+                          plot3Xvalue[galaxyInfo[i].number[j]] = xnew[galaxyInfo[i].number[j]];
+                          plot3Yvalue[galaxyInfo[i].number[j]] = deltaCZ[galaxyInfo[i].number[j]];
                         }
+                        i = uniques.length;
+                        var data_update = {
+                          x: [plot2Xvalue],
+                          y: [plot2Yvalue]
+                        };
+
+                        var data_update = {
+                          x: [plot1Xvalue],
+                          y: [plot1Yvalue],
+                          z: [plot1Zvalue]
+                        };
+                        var data_update1 = {
+                          x: [plot2Xvalue],
+                          y: [plot2Yvalue]
+                        };
+                        var data_update2 = {
+                          x: [plot3Xvalue],
+                          y: [plot3Yvalue]
+                        };
+
+                          Plotly.restyle('my-graph', data_update);
+                          Plotly.restyle('my-graph1', data_update1);
+                          Plotly.restyle('my-graph2', data_update2);
                       }
+                    }
+                  }else{
+                    var idval = $(this).attr('id');
+                    for(var i = 0; i < galaxyInfo.length; i++){
+                      if(idval ===galaxyInfo[i].refcode){
+                        for(var j = 0; j < galaxyInfo[i].number.length; j++){
+                          delete plot1Xvalue[galaxyInfo[i].number[j]];
+                          delete plot1Yvalue[galaxyInfo[i].number[j]];
+                          delete plot1Zvalue[galaxyInfo[i].number[j]];
+
+                          delete plot2Xvalue[galaxyInfo[i].number[j]];
+                          delete plot2Yvalue[galaxyInfo[i].number[j]];
+
+                          delete plot3Xvalue[galaxyInfo[i].number[j]];
+                          delete plot3Yvalue[galaxyInfo[i].number[j]];
+                        }
+                        i = uniques.length;
+
+                        var data_update = {
+                          x: [plot1Xvalue],
+                          y: [plot1Yvalue],
+                          z: [plot1Zvalue]
+                        };
+                        var data_update1 = {
+                          x: [plot2Xvalue],
+                          y: [plot2Yvalue]
+                        };
+                        var data_update2 = {
+                          x: [plot3Xvalue],
+                          y: [plot3Yvalue]
+                        };
+
+                          Plotly.restyle('my-graph', data_update);
+                          Plotly.restyle('my-graph1', data_update1);
+                          Plotly.restyle('my-graph2', data_update2);
+                      }
+                    }
                   }
               });
 
 
 
 
-            var delta = deltaCZ.slice(0);
-            var arrayLength = hms.length;
-            //flips x axis
 
-            for(var i = 0; i < x.length; i++)
-            {
-              xplot2[i] = -x[i];
-            }
 
 
 
@@ -2038,7 +2202,8 @@ function storeRef(){
 
 
 
-
+            plot2Xvalue = xplot2.slice(0);
+            plot2Yvalue = y.slice(0);
             var data = [
                   {mode: 'markers',
                   type: "scatter",
@@ -2614,6 +2779,9 @@ function AddPlot3(){
             };
             xbottomTaper = (5000) / (5000 + cz[0]);
 
+
+            plot3Xvalue = xnew.slice(0);
+            plot3Yvalue = deltaCZ.slice(0);
         var data = [
               {mode: 'markers',
               type: "scatter",
