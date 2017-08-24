@@ -222,7 +222,7 @@
                    <a class="collapsed" onclick="DropDown(6)" role="button" data-toggle="collapse" data-target="#collapseSix" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
                      <div class="bg-popout">
                        <div class="drop-title">
-                           <h4>Filter Refcodes:</h4>
+                           <h4>Filter Redsift Surveys:</h4>
                            <i class="fa fa-plus-circle fa-lg" id="toggle-icon6"></i>
                        </div>
                      </div>
@@ -236,6 +236,7 @@
                        <button class="btn btn-primary btn-sm" id="selectnone">Select None</button>
                        <button class="btn btn-primary btn-sm" id="selectall">Select All</button>
                      </div>
+                     <u><h5>No. of Redshift Surveys: <span id="redshiftNo"></span></h5></u>
                      <div id="refcode">
 
                      </div>
@@ -438,6 +439,20 @@
         <div id="my-graph2"></div>
       </div>
 
+      <div class="grid-item" id="">
+        <h4>Target Galaxy: <span id="targetGalaxy"></span></h4>
+        <h5>Galaxy Envrionment Key:</h5>
+        <h5><i class="fa fa-circle-thin"></i>G</h5>
+        <h5><i class="fa fa-star-o"></i>QSO</h5>
+        <h5><i class="fa fa-plus"></i>AbLS</h5>
+        <h5><i class="fa fa-plus"></i>G_Lens</h5>
+        <h5><i class="fa fa-plus"></i>Q_Lens</h5>
+        <h5><i class="fa fa-times"></i>GPair</h5>
+        <h5><i class="fa fa-caret-up"></i>GTrpl</h5>
+        <h5><i class="fa fa-square-o"></i>GGroup</h5>
+        <h5><i class="fa fa-circle-thin"></i>GClstr</h5>
+      </div>
+
       <div class="grid-item grid-item--height--data grid-item--width--data" id="data-window">
             <div class="row ">
               <div class="col-sm-12" id="data-right">
@@ -486,7 +501,6 @@
           <button type="button" class="btn btn-primary btn-sm" id="twoMPC">± 1,000 km/s</button>
           <button type="button" class="btn btn-primary btn-sm" id="fiveMPC">± 2,500 km/s</button>
           <button type="button" class="btn btn-primary btn-sm" id="tenMPC">± 5,000 km/s</button>
-          <button type="button" class="btn btn-primary btn-sm" id="fixedMPC">Fixed Range</button>
         </div>
         </div>
       </div>
@@ -695,8 +709,13 @@ function step3() {
   $("#bottomtable").fadeIn();
   $("#togglegraph1").fadeIn(function(){
     AddPlot1();
+    function wait(){
       $( "#GraphAnimation" ).trigger( "click" );
       $( "#GraphAnimation" ).trigger( "click" );
+      $( "#GraphAnimation" ).trigger( "click" );
+      $( "#GraphAnimation" ).trigger( "click" );
+    }
+    setTimeout(wait,1000);
 
 
   });
@@ -1924,6 +1943,9 @@ function AddPlot2(){
           }
           var reftemp =  RShift[0];
 
+          document.getElementById('redshiftNo').innerHTML = uniques.length;
+
+
 function storeRef(){
               for(var i = 0; i < RShift.length; i++){
                 for(var j = 0; j < uniques.length; j++){
@@ -2470,41 +2492,46 @@ function storeRef(){
 
             var sliderValues = [];
             //teathered to the slider
+
+
+
             slider.noUiSlider.on('set', function(){
-              var sgxTemp = GsgX.slice(0);
-              var sgyTemp = GsgY.slice(0);
-              var sgzTemp = GsgZ.slice(0);
-              var xCoorTemp = xnew.slice(0);
+              var plot1XvalueSlider = plot1Xvalue.slice(0);
+              var plot1YvalueSlider = plot1Yvalue.slice(0);
+              var plot1ZvalueSlider = plot1Zvalue.slice(0);
 
+              var plot2XvalueSlider = plot2Xvalue.slice(0);
+              var plot2YvalueSlider = plot2Yvalue.slice(0);
+
+              var plot3XvalueSlider = plot3Xvalue.slice(0);
+              var plot3YvalueSlider = plot3Yvalue.slice(0);
               sliderValues = slider.noUiSlider.get();
-              var xslider = xplot2.slice(0);
-              var yslider = y.slice(0);
-              var yLongSlider = deltaCZ.slice(0);
-
-              for(i = 0; i < xslider.length; i++){
+              for(i = 0; i < plot1XvalueSlider.length; i++){
                 if (delta[i] <= sliderValues[1] && delta[i] >= sliderValues[0]){
                 }else{
-                  delete xslider[i];
-                  delete yslider[i];
-                  delete yLongSlider[i];
-                  delete sgxTemp[i];
-                  delete sgyTemp[i];
-                  delete sgzTemp[i];
-                  delete xCoorTemp[i]
+                  delete plot1XvalueSlider[i];
+                  delete plot1YvalueSlider[i];
+                  delete plot1ZvalueSlider[i];
+
+                  delete plot2XvalueSlider[i];
+                  delete plot2YvalueSlider[i];
+
+                  delete plot3XvalueSlider[i];
+                  delete plot3YvalueSlider[i];
                 }
               }
               var data_update = {
-                x: [sgxTemp],
-                y: [sgyTemp],
-                // z: [sgzTemp],
+                x: [plot1XvalueSlider],
+                y: [plot1YvalueSlider],
+                z: [plot1ZvalueSlider],
               };
               var data_update1 = {
-                x: [xslider],
-                y: [yslider]
+                x: [plot2XvalueSlider],
+                y: [plot2YvalueSlider]
               };
               var data_update2 = {
-                x: [xCoorTemp],
-                y: [yLongSlider]
+                x: [plot3XvalueSlider],
+                y: [plot3YvalueSlider]
               };
 
                 Plotly.restyle('my-graph', data_update);
@@ -2513,6 +2540,60 @@ function storeRef(){
 
             });
 
+
+            function updateSlider(){
+                var plot1XvalueSlider = plot1Xvalue.slice(0);
+                var plot1YvalueSlider = plot1Yvalue.slice(0);
+                var plot1ZvalueSlider = plot1Zvalue.slice(0);
+
+                var plot2XvalueSlider = plot2Xvalue.slice(0);
+                var plot2YvalueSlider = plot2Yvalue.slice(0);
+
+                var plot3XvalueSlider = plot3Xvalue.slice(0);
+                var plot3YvalueSlider = plot3Yvalue.slice(0);
+                sliderValues = slider.noUiSlider.get();
+                for(i = 0; i < plot1XvalueSlider.length; i++){
+                  if (delta[i] <= sliderValues[1] && delta[i] >= sliderValues[0]){
+                  }else{
+                    delete plot1XvalueSlider[i];
+                    delete plot1YvalueSlider[i];
+                    delete plot1ZvalueSlider[i];
+
+                    delete plot2XvalueSlider[i];
+                    delete plot2YvalueSlider[i];
+
+                    delete plot3XvalueSlider[i];
+                    delete plot3YvalueSlider[i];
+                  }
+                }
+                var data_update = {
+                  x: [plot1XvalueSlider],
+                  y: [plot1YvalueSlider],
+                  z: [plot1ZvalueSlider],
+                };
+                var data_update1 = {
+                  x: [plot2XvalueSlider],
+                  y: [plot2YvalueSlider]
+                };
+                var data_update2 = {
+                  x: [plot3XvalueSlider],
+                  y: [plot3YvalueSlider]
+                };
+
+                  Plotly.restyle('my-graph', data_update);
+                  Plotly.restyle('my-graph1', data_update1);
+                  Plotly.restyle('my-graph2', data_update2);
+
+
+            }
+            $("#selectall").click(function(){
+              updateSlider();
+
+            });
+            $('#refcode input[type=checkbox]').change(function(){
+              updateSlider();
+
+            });
             //
             // //teathered to the slider
             // slider.noUiSlider.on('set', function(){
@@ -2541,12 +2622,7 @@ function storeRef(){
             $("#fifthMPC").click(function(){
               slider.noUiSlider.set([-200,200]);
             });
-            $("#fixedMPC").click(function(){
-              slider.noUiSlider.updateOptions({
-            		behaviour: 'drag-fixed'
-            	});
-              console.log("worked");
-            });
+
 
   // 'behaviour': 'drag-fixed'
 
